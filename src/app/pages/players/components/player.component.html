@@ -1,0 +1,85 @@
+<div class="p-6 bg-white rounded-lg shadow-lg">
+  <h1 class="text-2xl font-bold mb-6 text-blue-600">Gestion des joueurs</h1>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="playerFacade.error$ | async as error"
+       class="mb-4 p-3 bg-red-100 text-red-700 rounded-md flex justify-between items-center">
+    <span>{{ error }}</span>
+    <button (click)="dismissError()" class="text-red-700">&times;</button>
+  </div>
+
+  <!-- Formulaire du joueur -->
+  <form [formGroup]="playerForm" (ngSubmit)="onSubmit()" class="mb-6">
+    <div class="mb-4">
+      <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
+      <input type="text" id="firstName" formControlName="firstName"
+             class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+      <div *ngIf="playerForm.get('firstName')?.invalid && playerForm.get('firstName')?.touched"
+           class="text-red-500 text-sm mt-1">
+        Le prénom est requis
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="lastName" class="block text-sm font-medium text-gray-700">Nom</label>
+      <input type="text" id="lastName" formControlName="lastName"
+             class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+      <div *ngIf="playerForm.get('lastName')?.invalid && playerForm.get('lastName')?.touched"
+           class="text-red-500 text-sm mt-1">
+        Le nom est requis
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+      <input type="email" id="email" formControlName="email"
+             class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+      <div *ngIf="playerForm.get('email')?.errors?.['required'] && playerForm.get('email')?.touched"
+           class="text-red-500 text-sm mt-1">
+        L'email est requis
+      </div>
+      <div *ngIf="playerForm.get('email')?.errors?.['email'] && playerForm.get('email')?.touched"
+           class="text-red-500 text-sm mt-1">
+        Format d'email invalide
+      </div>
+    </div>
+
+    <div class="flex space-x-2">
+      <button type="submit" [disabled]="playerForm.invalid"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md disabled:bg-blue-300">
+        {{ isEditing ? 'Mettre à jour' : 'Créer' }}
+      </button>
+      <button type="button" *ngIf="isEditing" (click)="resetForm()"
+              class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-md">
+        Annuler
+      </button>
+    </div>
+  </form>
+
+  <!-- Loader -->
+  <div *ngIf="playerFacade.loading$ | async" class="flex justify-center my-4">
+    <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+
+  <!-- Liste des joueurs -->
+  <div class="mt-8">
+    <h2 class="text-xl font-semibold mb-4 text-gray-800">Liste des joueurs</h2>
+    <div *ngIf="(playerFacade.players$ | async)?.length === 0" class="text-gray-500">
+      Aucun joueur disponible
+    </div>
+    <ul class="space-y-3">
+      <li *ngFor="let player of playerFacade.players$ | async"
+          (click)="selectPlayer(player)"
+          class="p-4 bg-gray-50 hover:bg-gray-100 rounded-md cursor-pointer flex justify-between items-center">
+        <div>
+          <div class="font-medium">{{ player.firstName }} {{ player.lastName }}</div>
+          <div class="text-sm text-gray-600">{{ player.email }}</div>
+        </div>
+        <button (click)="deletePlayer(player.uuid, $event)"
+                class="text-red-500 hover:text-red-700">
+          Supprimer
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
