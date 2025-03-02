@@ -1,0 +1,51 @@
+<!-- src/app/pages/tournaments/components/tournament-detail/tournament-detail.component.html -->
+<div class="tournament-detail" *ngIf="tournament">
+  <div class="tournament-header">
+    <h1>{{ tournament.name }}</h1>
+    <span class="status-badge" [ngClass]="getStatusClass(tournament.status)">
+      {{ tournament.status }}
+    </span>
+  </div>
+
+  <div class="tournament-info">
+    <div class="info-section">
+      <h2>Détails</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">Début:</span>
+          <span class="value">{{ formatDate(tournament.startDate) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Fin:</span>
+          <span class="value">{{ formatDate(tournament.endDate) }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Lieu:</span>
+          <span class="value">{{ tournament.location }}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Participants max:</span>
+          <span class="value">{{ tournament.maxParticipants }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h2>Description</h2>
+      <div class="description">{{ tournament.description }}</div>
+    </div>
+
+    <div class="info-section" *ngIf="tournament.results">
+      <h2>Résultats</h2>
+      <div class="results">{{ tournament.results }}</div>
+    </div>
+  </div>
+
+  <div class="actions" *ngIf="canRegister()">
+    <button class="register-btn">S'inscrire</button>
+  </div>
+</div>
+
+<div class="no-tournament" *ngIf="!tournament">
+  Aucun tournoi sélectionné.
+</div>

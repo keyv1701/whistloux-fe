@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Tournament } from "../../../models/tournament.interface";
+import { Tournament } from '../../../models/tournament.interface';
 import { environment } from "../../../../environments/environment";
 
 @Injectable({

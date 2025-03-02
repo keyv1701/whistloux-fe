@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable, of, tap } from 'rxjs';
 import { TournamentService } from '../services/tournament.service';
 import { Tournament } from "../../../models/tournament.interface";
 
@@ -43,6 +43,19 @@ export class TournamentFacade {
       }),
       finalize(() => this.loadingSubject.next(false))
     ).subscribe();
+  }
+
+  getTournamentByUuid(uuid: string): Observable<Tournament | null> {
+    this.loadingSubject.next(true);
+    return this.tournamentService.getTournamentByUuid(uuid).pipe(
+      tap(tournament => this.selectedTournamentSubject.next(tournament)),
+      catchError(err => {
+        this.errorSubject.next('Erreur lors du chargement du tournoi');
+        console.error(err);
+        return of(null);
+      }),
+      finalize(() => this.loadingSubject.next(false))
+    );
   }
 
   createTournament(tournament: Tournament): void {
