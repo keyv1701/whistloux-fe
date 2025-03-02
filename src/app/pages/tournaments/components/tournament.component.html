@@ -1,0 +1,127 @@
+<div class="tournament-container">
+  <div class="tournament-header">
+    <h1>Gestion des Tournois</h1>
+    <button class="refresh-btn" (click)="tournamentFacade.loadTournaments()">
+      Rafraîchir
+    </button>
+  </div>
+
+  <div *ngIf="tournamentFacade.loading$ | async" class="loading">
+    Chargement...
+  </div>
+
+  <div *ngIf="tournamentFacade.error$ | async as error" class="error-message">
+    {{ error }}
+    <button (click)="dismissError()">✕</button>
+  </div>
+
+  <div class="tournament-form-container">
+    <h2>{{ isEditing ? 'Modifier un tournoi' : 'Ajouter un tournoi' }}</h2>
+    <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
+      <input type="hidden" formControlName="uuid">
+
+      <div class="form-group">
+        <label for="name">Nom *</label>
+        <input id="name" type="text" formControlName="name">
+        <div *ngIf="tournamentForm.get('name')?.invalid && tournamentForm.get('name')?.touched" class="error">
+          Le nom est requis
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description *</label>
+        <textarea id="description" formControlName="description" rows="3"></textarea>
+        <div *ngIf="tournamentForm.get('description')?.invalid && tournamentForm.get('description')?.touched" class="error">
+          La description est requise
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="startDate">Date de début *</label>
+          <input id="startDate" type="date" formControlName="startDate">
+          <div *ngIf="tournamentForm.get('startDate')?.invalid && tournamentForm.get('startDate')?.touched" class="error">
+            La date de début est requise
+          </div>
+        </div>
+
+        <div class="form-group half">
+          <label for="endDate">Date de fin *</label>
+          <input id="endDate" type="date" formControlName="endDate">
+          <div *ngIf="tournamentForm.get('endDate')?.invalid && tournamentForm.get('endDate')?.touched" class="error">
+            La date de fin est requise
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Lieu *</label>
+        <input id="location" type="text" formControlName="location">
+        <div *ngIf="tournamentForm.get('location')?.invalid && tournamentForm.get('location')?.touched" class="error">
+          Le lieu est requis
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="status">Statut *</label>
+          <select id="status" formControlName="status">
+            <option *ngFor="let status of tournamentStatuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group half">
+          <label for="maxParticipants">Participants max *</label>
+          <input id="maxParticipants" type="number" formControlName="maxParticipants" min="0">
+          <div *ngIf="tournamentForm.get('maxParticipants')?.invalid && tournamentForm.get('maxParticipants')?.touched" class="error">
+            Nombre de participants invalide
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="results">Résultats</label>
+        <textarea id="results" formControlName="results" rows="3"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="tournamentForm.invalid">
+          {{ isEditing ? 'Mettre à jour' : 'Ajouter' }}
+        </button>
+        <button type="button" (click)="resetForm()">Annuler</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="tournament-list-container">
+    <h2>Liste des tournois</h2>
+    <div *ngIf="(tournamentFacade.tournaments$ | async)?.length === 0" class="no-data">
+      Aucun tournoi disponible.
+    </div>
+
+    <div class="tournament-list">
+      <div *ngFor="let tournament of tournamentFacade.tournaments$ | async"
+           class="tournament-card"
+           (click)="selectTournament(tournament)">
+        <div class="tournament-card-header">
+          <h3>{{ tournament.name }}</h3>
+          <span class="status-badge" [ngClass]="getStatusClass(tournament.status)">{{ tournament.status }}</span>
+        </div>
+        <div class="tournament-card-body">
+          <p>{{ tournament.description | slice:0:100 }}{{ tournament.description.length > 100 ? '...' : '' }}</p>
+          <div class="tournament-details">
+            <div>Lieu: {{ tournament.location }}</div>
+            <div>Du: {{ tournament.startDate | date:'dd/MM/yyyy' }}</div>
+            <div>Au: {{ tournament.endDate | date:'dd/MM/yyyy' }}</div>
+            <div>Max participants: {{ tournament.maxParticipants }}</div>
+          </div>
+        </div>
+        <div class="tournament-card-actions">
+          <button class="delete-btn" (click)="deleteTournament(tournament.uuid!, $event)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
