@@ -1,0 +1,13 @@
+<!-- src/app/shared/components/header.component.html -->
+<div class="auth-container">
+  <ng-container *ngIf="(authFacade.isAuthenticated$ | async); else loginButton">
+    <button class="auth-button logout" (click)="logout()">
+      Déconnexion
+    </button>
+  </ng-container>
+  <ng-template #loginButton>
+    <a routerLink="/login" class="auth-button login">
+      Connexion
+    </a>
+  </ng-template>
+</div>
