@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, switchMap } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { LoginCredentials } from "../../../../models/security/login-credentials.interface";
@@ -68,7 +68,19 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {});
+    // Récupérer le token depuis le localStorage
+    const token = localStorage.getItem('auth_token');
+
+    // Définir les headers avec le token d'authentification
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    // Envoyer la requête avec les headers et éventuellement un corps si nécessaire
+    return this.http.post(`${this.apiUrl}/logout`, {}, httpOptions);
   }
 
   getCurrentUser(): Observable<any> {

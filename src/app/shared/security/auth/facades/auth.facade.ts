@@ -126,8 +126,17 @@ export class AuthFacade {
   }
 
   private getStoredUser(): any | null {
-    const user = localStorage.getItem(this.USER_KEY);
-    return user ? JSON.parse(user) : null;
+    const userString = localStorage.getItem(this.USER_KEY);
+    if (!userString) {
+      return null;
+    }
+    try {
+      return JSON.parse(userString);
+    } catch (error) {
+      console.error('Erreur lors du parsing du user stocké:', error);
+      localStorage.removeItem(this.USER_KEY); // Supprime l'entrée corrompue
+      return null;
+    }
   }
 
   private hasToken(): boolean {
