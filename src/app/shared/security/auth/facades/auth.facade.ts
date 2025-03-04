@@ -55,7 +55,8 @@ export class AuthFacade {
     this.isLoading$.next(true);
     this.error$.next(null);
 
-    return this.authService.login(credentials).pipe(
+    // Utiliser la nouvelle méthode secureLogin qui gère tout le processus
+    return this.authService.secureLogin(credentials).pipe(
       tap(response => {
         this.storeToken(response.token);
         this.storeUser(response.user);

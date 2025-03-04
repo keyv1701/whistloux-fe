@@ -5,13 +5,15 @@
       <li><a routerLink="/players" routerLinkActive="active">Joueurs</a></li>
       <li><a routerLink="/tournaments" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Tournois</a>
       </li>
-      <li><a routerLink="/tournaments/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Administration
-        Tournois</a></li>
+      <li *ngIf="headerComponent.authFacade.isAuthenticated$ | async">
+        <a routerLink="/tournaments/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Administration
+          Tournois</a>
+      </li>
     </ul>
   </nav>
 </header>
 
-<app-header></app-header>
+<app-header #headerComponent></app-header>
 <main class="main-content">
   <router-outlet></router-outlet>
 </main>
