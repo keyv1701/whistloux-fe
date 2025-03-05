@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { AuthState } from "../../../../models/security/auth-state.component";
@@ -55,10 +55,30 @@ export class AuthFacade {
     this.isLoading$.next(true);
     this.error$.next(null);
 
-    // Utiliser la nouvelle méthode secureLogin qui gère tout le processus
+    // Utiliser la méthode secureLogin qui gère tout le processus
     return this.authService.secureLogin(credentials).pipe(
-      tap(response => {
+      switchMap(response => {
+        // Stocke d'abord le token d'authentification
         this.storeToken(response.token);
+
+        // Puis effectue un appel à /me pour récupérer les informations utilisateur complètes
+        return this.authService.getCurrentUser().pipe(
+          map(user => {
+            // Combine la réponse et les informations utilisateur
+            return {
+              ...response,
+              user: user
+            };
+          }),
+          catchError(error => {
+            console.error('Erreur lors de la récupération des données utilisateur:', error);
+            // En cas d'erreur, continue avec les données utilisateur limitées de la réponse d'authentification
+            return of(response);
+          })
+        );
+      }),
+      tap(response => {
+        // Stocke les informations utilisateur complètes
         this.storeUser(response.user);
         this.updateAuthState({
           isAuthenticated: true,
@@ -126,11 +146,11 @@ export class AuthFacade {
   }
 
   private getStoredUser(): any | null {
-    const userString = localStorage.getItem(this.USER_KEY);
-    if (!userString) {
-      return null;
-    }
     try {
+      const userString = localStorage.getItem(this.USER_KEY);
+      if (!userString) {
+        return null;
+      }
       return JSON.parse(userString);
     } catch (error) {
       console.error('Erreur lors du parsing du user stocké:', error);

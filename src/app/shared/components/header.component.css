@@ -32,3 +32,28 @@
 .logout:hover {
   background-color: #5a6268;
 }
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+
+  .user-name {
+    font-weight: 500;
+
+    small {
+      opacity: 0.7;
+      margin-left: 4px;
+    }
+  }
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+.user-name small {
+  opacity: 0.7;
+  margin-left: 4px;
+}
