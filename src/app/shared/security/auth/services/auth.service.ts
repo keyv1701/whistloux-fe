@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of, switchMap } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { LoginCredentials } from "../../../../models/security/login-credentials.interface";
@@ -21,7 +21,6 @@ export class AuthService {
     return this.http.get<{ salt: string }>(`${this.apiUrl}/salt/${username}`).pipe(
       map(response => response.salt),
       catchError(error => {
-        // En cas d'erreur, on utilise un sel par défaut pour ne pas révéler si l'utilisateur existe
         console.error('Erreur lors de la récupération du sel', error);
         return of('default-salt-for-non-existent-users');
       })
@@ -35,7 +34,7 @@ export class AuthService {
       password: this.hashPassword(credentials.password, salt)
     };
 
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, secureCredentials);
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, secureCredentials, {withCredentials: true});
   }
 
   // Procédure complète de login
@@ -49,13 +48,12 @@ export class AuthService {
         };
       }),
       switchMap(secureCredentials => {
-        return this.http.post<AuthResponse>(`${this.apiUrl}/login`, secureCredentials);
+        return this.http.post<AuthResponse>(`${this.apiUrl}/login`, secureCredentials, {withCredentials: true});
       })
     );
   }
 
   private hashPassword(password: string, salt: string): string {
-    // PBKDF2 avec sel unique par utilisateur
     const iterations = 10000;
     const keySize = 256 / 32;
 
@@ -68,34 +66,10 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    // Récupérer le token depuis le localStorage
-    const token = localStorage.getItem('auth_token');
-
-    // Définir les headers avec le token d'authentification
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      })
-    };
-
-    // Envoyer la requête avec les headers et éventuellement un corps si nécessaire
-    return this.http.post(`${this.apiUrl}/logout`, {}, httpOptions);
+    return this.http.post(`${this.apiUrl}/logout`, {}, {withCredentials: true});
   }
 
   getCurrentUser(): Observable<any> {
-    // Récupérer le token depuis le localStorage
-    const token = localStorage.getItem('auth_token');
-
-    // Configurer les headers avec le token d'authentification
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      })
-    };
-
-    // Faire l'appel API avec les headers configurés
-    return this.http.get<any>(`${this.apiUrl}/me`, httpOptions);
+    return this.http.get<any>(`${this.apiUrl}/me`, {withCredentials: true});
   }
 }
