@@ -1,14 +1,14 @@
 // tournament-form.component.ts
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Tournament } from '../../../../models/tournament.interface';
 import { TournamentStatus } from '../../../../models/enums/tournament-status.enum';
 
 @Component({
   selector: 'app-tournament-form',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, CommonModule],
   templateUrl: './tournament-form.component.html',
   styleUrls: ['./tournament-form.component.css']
 })
@@ -21,7 +21,8 @@ export class TournamentFormComponent implements OnInit, OnChanges {
   tournamentStatuses = Object.values(TournamentStatus);
   isEditing = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.initForm();
