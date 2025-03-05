@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { AuthFacade } from "../security/auth/facades/auth.facade";
+import { AuthFacade } from "../../security/auth/facades/auth.facade";
 
 @Component({
   selector: 'app-header',

@@ -1,7 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-whist-light text-whist-dark;
+  }
+
+  h1 {
+    @apply text-3xl font-bold text-whist-primary mb-4;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold text-whist-primary mb-3;
+  }
+
+  h3 {
+    @apply text-xl font-medium text-whist-primary mb-2;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-whist-secondary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-whist-accent hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6 mb-4 transition-shadow hover:shadow-lg;
+  }
+}

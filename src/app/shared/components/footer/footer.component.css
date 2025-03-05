@@ -1,0 +1,23 @@
+.social-icon {
+  @apply h-8 w-8 text-gray-400 hover:text-white transition-colors duration-200;
+}
+
+.footer-link {
+  @apply text-gray-400 hover:text-white transition-colors duration-200;
+}
+
+.footer-section {
+  @apply mb-8 md:mb-0;
+}
+
+.contact-item {
+  @apply flex items-center text-gray-400;
+}
+
+.contact-icon {
+  @apply h-5 w-5 mr-2;
+}
+
+footer {
+  @apply mt-auto;
+}

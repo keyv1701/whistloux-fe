@@ -1,0 +1,59 @@
+.hero-section {
+  @apply relative bg-whist-primary text-white py-24 overflow-hidden;
+}
+
+.hero-overlay {
+  @apply absolute inset-0 z-0 opacity-20;
+}
+
+.hero-content {
+  @apply container mx-auto px-4 relative z-10;
+}
+
+.hero-title {
+  @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white;
+}
+
+.hero-description {
+  @apply text-xl mb-8;
+}
+
+.feature-icon {
+  @apply rounded-full p-4 inline-flex mb-4 text-white;
+}
+
+.feature-title {
+  @apply text-xl font-bold mb-2;
+}
+
+.feature-description {
+  @apply text-gray-600;
+}
+
+.event-date {
+  @apply bg-whist-primary text-white px-3 py-1 rounded-full text-sm;
+}
+
+.event-title {
+  @apply text-xl font-bold mb-2;
+}
+
+.event-description {
+  @apply text-gray-600 mb-4;
+}
+
+.event-link {
+  @apply text-whist-secondary hover:underline font-medium;
+}
+
+.section-title {
+  @apply text-3xl font-bold text-center mb-12;
+}
+
+.section {
+  @apply py-16;
+}
+
+.section-alternate {
+  @apply bg-gray-100 py-16;
+}
