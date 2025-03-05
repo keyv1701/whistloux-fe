@@ -46,16 +46,15 @@
       <span>&laquo;</span>
     </button>
 
-    <!-- Première page -->
-    <button *ngIf="totalPages > 3"
+    <!-- Première page - seulement si on n'est pas déjà sur les premières pages -->
+    <button *ngIf="totalPages > 5 && currentPage > 3"
             (click)="goToPage(1)"
-            class="px-3 py-1 mx-1 border rounded-md"
-            [ngClass]="{'bg-blue-500 text-white': currentPage === 1, 'bg-gray-100': currentPage !== 1}">
+            class="px-3 py-1 mx-1 border rounded-md bg-gray-100">
       1
     </button>
 
     <!-- Ellipsis gauche -->
-    <span *ngIf="currentPage > 3" class="px-2">...</span>
+    <span *ngIf="currentPage > 3 && totalPages > 5" class="px-2">...</span>
 
     <!-- Pages autour de la page courante -->
     <ng-container *ngFor="let page of visiblePages">
@@ -68,13 +67,12 @@
     </ng-container>
 
     <!-- Ellipsis droite -->
-    <span *ngIf="currentPage < totalPages - 2" class="px-2">...</span>
+    <span *ngIf="currentPage < totalPages - 2 && totalPages > 5" class="px-2">...</span>
 
-    <!-- Dernière page -->
-    <button *ngIf="totalPages > 3 && currentPage !== totalPages"
+    <!-- Dernière page - seulement si on n'est pas déjà sur les dernières pages -->
+    <button *ngIf="totalPages > 5 && currentPage < totalPages - 2"
             (click)="goToPage(totalPages)"
-            class="px-3 py-1 mx-1 border rounded-md"
-            [ngClass]="{'bg-blue-500 text-white': currentPage === totalPages, 'bg-gray-100': currentPage !== totalPages}">
+            class="px-3 py-1 mx-1 border rounded-md bg-gray-100">
       {{ totalPages }}
     </button>
 
