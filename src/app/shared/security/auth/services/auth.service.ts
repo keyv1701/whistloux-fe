@@ -84,6 +84,18 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/me`);
+    // Récupérer le token depuis le localStorage
+    const token = localStorage.getItem('auth_token');
+
+    // Configurer les headers avec le token d'authentification
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    // Faire l'appel API avec les headers configurés
+    return this.http.get<any>(`${this.apiUrl}/me`, httpOptions);
   }
 }
