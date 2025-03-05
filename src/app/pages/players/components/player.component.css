@@ -1,7 +1,6 @@
-/* src/app/components/player/player.component.css */
 :host {
   display: block;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
 }
@@ -26,4 +25,87 @@ input.ng-invalid.ng-touched {
 input:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.player-card {
+  @apply flex items-center p-4 bg-white rounded-lg border border-gray-200;
+  cursor: pointer;
+}
+
+.player-avatar {
+  @apply w-10 h-10 rounded-full bg-whist-primary flex items-center justify-center flex-shrink-0;
+}
+
+.player-initials {
+  @apply text-white font-medium text-sm;
+}
+
+.action-button {
+  @apply p-2 rounded-md transition-colors duration-200;
+}
+
+.loader {
+  @apply w-10 h-10 border-4 border-gray-300 border-t-whist-primary rounded-full;
+  animation: spin 1s linear infinite;
+}
+
+/* Transitions et animations pour la liste des joueurs */
+.player-card:hover {
+  @apply border-whist-primary;
+}
+
+.player-card .action-button {
+  opacity: 0.8;
+}
+
+.player-card:hover .action-button {
+  opacity: 1;
+}
+
+/* Styles pour les formulaires */
+.form-group {
+  @apply mb-4;
+}
+
+/* Notifications */
+.notification {
+  @apply p-4 mb-4 rounded-md;
+  transition: opacity 0.3s ease;
+}
+
+.notification-success {
+  @apply bg-green-100 text-green-700 border-l-4 border-green-500;
+}
+
+.notification-error {
+  @apply bg-red-100 text-red-700 border-l-4 border-red-500;
+}
+
+/* Animation pour le message de confirmation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.fadeOut {
+  animation: fadeOut 0.3s ease forwards;
 }

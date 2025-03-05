@@ -1,84 +1,167 @@
-<div class="p-6 bg-white rounded-lg shadow-lg">
-  <h1 class="text-2xl font-bold mb-6 text-blue-600">Gestion des joueurs</h1>
+<div class="p-6 bg-white rounded-lg shadow-md max-w-4xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6 text-whist-primary border-b pb-3">Gestion des joueurs</h1>
 
   <!-- Message d'erreur -->
   <div *ngIf="playerFacade.error$ | async as error"
-       class="mb-4 p-3 bg-red-100 text-red-700 rounded-md flex justify-between items-center">
-    <span>{{ error }}</span>
-    <button (click)="dismissError()" class="text-red-700">&times;</button>
+       class="mb-4 p-4 bg-red-100 text-red-700 rounded-md flex justify-between items-center border-l-4 border-red-500">
+    <div class="flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+           stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <span>{{ error }}</span>
+    </div>
+    <button (click)="dismissError()" class="text-red-700 hover:bg-red-200 p-1 rounded-full">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
   </div>
 
   <!-- Formulaire du joueur -->
-  <form [formGroup]="playerForm" (ngSubmit)="onSubmit()" class="mb-6">
-    <div class="mb-4">
-      <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
-      <input type="text" id="firstName" formControlName="firstName"
-             class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-      <div *ngIf="playerForm.get('firstName')?.invalid && playerForm.get('firstName')?.touched"
-           class="text-red-500 text-sm mt-1">
-        Le prénom est requis
-      </div>
-    </div>
+  <div class="bg-gray-50 p-5 rounded-lg mb-6 border border-gray-200">
+    <h2 class="text-lg font-medium mb-4 text-gray-700">{{ isEditing ? 'Modifier un joueur' : 'Ajouter un joueur' }}</h2>
+    <form [formGroup]="playerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+          <input type="text" id="firstName" formControlName="firstName"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-whist-primary focus:border-whist-primary">
+          <div *ngIf="playerForm.get('firstName')?.invalid && playerForm.get('firstName')?.touched"
+               class="text-red-500 text-sm mt-1 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            Le prénom est requis
+          </div>
+        </div>
 
-    <div class="mb-4">
-      <label for="lastName" class="block text-sm font-medium text-gray-700">Nom</label>
-      <input type="text" id="lastName" formControlName="lastName"
-             class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-      <div *ngIf="playerForm.get('lastName')?.invalid && playerForm.get('lastName')?.touched"
-           class="text-red-500 text-sm mt-1">
-        Le nom est requis
+        <div>
+          <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+          <input type="text" id="lastName" formControlName="lastName"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-whist-primary focus:border-whist-primary">
+          <div *ngIf="playerForm.get('lastName')?.invalid && playerForm.get('lastName')?.touched"
+               class="text-red-500 text-sm mt-1 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            Le nom est requis
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="mb-4">
-      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-      <input type="email" id="email" formControlName="email"
-             class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-      <div *ngIf="playerForm.get('email')?.errors?.['required'] && playerForm.get('email')?.touched"
-           class="text-red-500 text-sm mt-1">
-        L'email est requis
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input type="email" id="email" formControlName="email"
+               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-whist-primary focus:border-whist-primary">
+        <div *ngIf="playerForm.get('email')?.errors?.['required'] && playerForm.get('email')?.touched"
+             class="text-red-500 text-sm mt-1 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          L'email est requis
+        </div>
+        <div *ngIf="playerForm.get('email')?.errors?.['email'] && playerForm.get('email')?.touched"
+             class="text-red-500 text-sm mt-1 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          Format d'email invalide
+        </div>
       </div>
-      <div *ngIf="playerForm.get('email')?.errors?.['email'] && playerForm.get('email')?.touched"
-           class="text-red-500 text-sm mt-1">
-        Format d'email invalide
-      </div>
-    </div>
 
-    <div class="flex space-x-2">
-      <button type="submit" [disabled]="playerForm.invalid"
-              class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md disabled:bg-blue-300">
-        {{ isEditing ? 'Mettre à jour' : 'Créer' }}
-      </button>
-      <button type="button" *ngIf="isEditing" (click)="resetForm()"
-              class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-md">
-        Annuler
-      </button>
-    </div>
-  </form>
+      <div class="flex space-x-3 pt-2">
+        <button type="submit" [disabled]="playerForm.invalid"
+                class="bg-whist-primary hover:bg-whist-primary-dark text-white font-medium py-2 px-5 rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200">
+          {{ isEditing ? 'Mettre à jour' : 'Ajouter' }}
+          <svg *ngIf="!isEditing" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-1" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          <svg *ngIf="isEditing" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-1" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+          </svg>
+        </button>
+        <button type="button" *ngIf="isEditing" (click)="resetForm()"
+                class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-5 rounded-md border border-gray-300 transition-colors duration-200">
+          Annuler
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block ml-1" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
 
   <!-- Loader -->
-  <div *ngIf="playerFacade.loading$ | async" class="flex justify-center my-4">
-    <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+  <div *ngIf="playerFacade.loading$ | async" class="flex justify-center my-8">
+    <div class="loader"></div>
   </div>
 
   <!-- Liste des joueurs -->
   <div class="mt-8">
-    <h2 class="text-xl font-semibold mb-4 text-gray-800">Liste des joueurs</h2>
-    <div *ngIf="(playerFacade.players$ | async)?.length === 0" class="text-gray-500">
-      Aucun joueur disponible
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold text-gray-800">Liste des joueurs</h2>
+      <div class="text-gray-500 text-sm">
+        <span *ngIf="(playerFacade.players$ | async) as players">{{ players.length }} joueur(s)</span>
+      </div>
     </div>
-    <ul class="space-y-3">
+
+    <div *ngIf="(playerFacade.players$ | async)?.length === 0"
+         class="text-center p-8 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-3" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+      </svg>
+      <div class="text-gray-500">Aucun joueur disponible</div>
+      <div class="text-sm text-gray-400 mt-2">Ajoutez votre premier joueur en utilisant le formulaire ci-dessus</div>
+    </div>
+
+    <ul class="space-y-3" *ngIf="(playerFacade.players$ | async)?.length">
       <li *ngFor="let player of playerFacade.players$ | async"
-          (click)="selectPlayer(player)"
-          class="p-4 bg-gray-50 hover:bg-gray-100 rounded-md cursor-pointer flex justify-between items-center">
-        <div>
-          <div class="font-medium">{{ player.firstName }} {{ player.lastName }}</div>
-          <div class="text-sm text-gray-600">{{ player.email }}</div>
+          class="player-card hover:shadow-md transition-shadow duration-200">
+        <div class="flex justify-between items-center w-full">
+          <div class="flex items-center overflow-hidden" (click)="selectPlayer(player)">
+            <div class="player-avatar">
+              <div class="player-initials">{{ player.firstName.charAt(0) }}{{ player.lastName.charAt(0) }}</div>
+            </div>
+            <div class="ml-4 overflow-hidden">
+              <div class="font-medium text-gray-900">{{ player.firstName }} {{ player.lastName }}</div>
+              <div class="text-sm text-gray-600 truncate">{{ player.email }}</div>
+            </div>
+          </div>
+          <div class="flex space-x-2">
+            <button (click)="selectPlayer(player)"
+                    class="action-button bg-whist-secondary-light hover:bg-whist-secondary text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+            </button>
+            <button (click)="deletePlayer(player.uuid, $event)"
+                    class="action-button bg-red-100 hover:bg-red-200 text-red-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </div>
         </div>
-        <button (click)="deletePlayer(player.uuid, $event)"
-                class="text-red-500 hover:text-red-700">
-          Supprimer
-        </button>
       </li>
     </ul>
   </div>
