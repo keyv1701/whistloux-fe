@@ -1,0 +1,38 @@
+.player-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #3490dc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.player-initials {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.action-button {
+  padding: 0.5rem;
+  border-radius: 9999px;
+  transition: background-color 0.2s;
+}
+
+/* Styles spécifiques aux boutons d'action */
+.action-button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Animation au survol du card */
+:host {
+  display: block;
+  cursor: pointer;
+}
+
+:host:hover .player-avatar {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}

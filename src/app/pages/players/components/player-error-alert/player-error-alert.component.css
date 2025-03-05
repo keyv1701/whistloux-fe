@@ -1,0 +1,44 @@
+.error-container {
+  border-left: 4px solid #f56565;
+  transition: opacity 0.3s ease;
+}
+
+.error-icon {
+  color: #c53030;
+}
+
+.error-message {
+  color: #c53030;
+  font-weight: 500;
+}
+
+.dismiss-button {
+  transition: background-color 0.2s;
+}
+
+.dismiss-button:hover {
+  background-color: rgba(247, 250, 252, 0.8);
+}
+
+.dismiss-button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(197, 48, 48, 0.3);
+}
+
+/* Animation d'entrée */
+:host {
+  display: block;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

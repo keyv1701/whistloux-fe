@@ -1,0 +1,14 @@
+<div *ngIf="!players || players.length === 0" class="text-center py-8 text-gray-500">
+  Aucun joueur trouvé
+</div>
+
+<div *ngIf="!!players && players.length > 0" class="space-y-3">
+  <div *ngFor="let player of players"
+       class="p-3 bg-white rounded-md shadow-sm hover:shadow-md transition-shadow border border-gray-200">
+    <app-player-card
+      [player]="player"
+      (select)="selectPlayer.emit($event)"
+      (delete)="deletePlayer.emit($event)">
+    </app-player-card>
+  </div>
+</div>
