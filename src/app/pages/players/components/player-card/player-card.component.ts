@@ -13,10 +13,16 @@ export class PlayerCardComponent {
   @Input() player!: Player;
   @Output() select = new EventEmitter<Player>();
   @Output() delete = new EventEmitter<string>();
+  @Output() edit = new EventEmitter<Player>()
 
   deleteClick(event: Event): void {
     event.stopPropagation();
     this.delete.emit(this.player.uuid);
+  }
+
+  editClick(event: Event): void {
+    event.stopPropagation();  // Empêche l'event select de se déclencher
+    this.edit.emit(this.player);
   }
 
   formatDate(dateString: string | null | undefined): string {
@@ -53,4 +59,5 @@ export class PlayerCardComponent {
     const validDate = new Date(dateString);
     return validDate < new Date();
   }
+
 }

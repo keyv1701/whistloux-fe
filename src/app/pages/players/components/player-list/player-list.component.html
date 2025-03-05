@@ -31,7 +31,8 @@
       <app-player-card
         [player]="player"
         (select)="selectPlayer.emit($event)"
-        (delete)="deletePlayer.emit($event)">
+        (delete)="deletePlayer.emit($event)"
+        (edit)="onPlayerEdit(player)">
       </app-player-card>
     </div>
   </div>
@@ -91,3 +92,10 @@
     à {{ Math.min(currentPage * itemsPerPage, filteredPlayers.length) }} sur {{ filteredPlayers.length }} joueurs
   </div>
 </div>
+
+<app-player-edit
+  *ngIf="selectedPlayer"
+  [player]="selectedPlayer"
+  (close)="onCloseEdit()"
+  (saved)="onPlayerSaved($event)">
+</app-player-edit>

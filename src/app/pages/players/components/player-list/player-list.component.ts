@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Player } from '../../../../models/player.interface';
 import { PlayerCardComponent } from '../player-card/player-card.component';
+import { PlayerEditComponent } from "../player-edit/player-edit.component";
 
 @Component({
   selector: 'app-player-list',
   standalone: true,
-  imports: [CommonModule, PlayerCardComponent, FormsModule],
+  imports: [CommonModule, PlayerCardComponent, FormsModule, PlayerEditComponent],
   templateUrl: './player-list.component.html',
   styleUrls: ['./player-list.component.css']
 })
@@ -30,6 +31,8 @@ export class PlayerListComponent implements OnInit {
   // Données filtrées et paginées
   filteredPlayers: Player[] = [];
   displayedPlayers: Player[] = [];
+
+  selectedPlayer: Player | null = null;
 
   ngOnInit(): void {
     this.applyFiltersAndPagination();
@@ -132,5 +135,28 @@ export class PlayerListComponent implements OnInit {
     }
 
     return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
+  }
+
+  nSelectPlayer(player: Player): void {
+    this.selectedPlayer = player;
+  }
+
+  onCloseEdit(): void {
+    this.selectedPlayer = null;
+  }
+
+  onPlayerSaved(updatedPlayer: Player): void {
+    // Mise à jour de la liste des joueurs
+    this.players = this.players?.map(p =>
+      p.uuid === updatedPlayer.uuid ? updatedPlayer : p
+    ) || [];
+    this.selectedPlayer = null;
+    this.applyFiltersAndPagination();
+  }
+
+  onPlayerEdit(player: Player): void {
+    this.selectedPlayer = player;
+    console.log('Selected player for edit:', player);
+    // Logique supplémentaire si nécessaire
   }
 }

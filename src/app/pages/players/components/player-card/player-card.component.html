@@ -7,24 +7,26 @@
       <h3 class="name">{{ player.firstName }} {{ player.lastName }}</h3>
       <p class="email">{{ player.email }}</p>
     </div>
-    <button class="delete-btn" (click)="deleteClick($event)" title="Supprimer ce joueur">
-      <span>&times;</span>
-    </button>
+    <div class="actions">
+      <button class="edit-btn" (click)="editClick($event)" title="Modifier ce joueur">
+        <span>✏️</span>
+      </button>
+    </div>
   </div>
 
   <div class="card-body">
     <div class="info-grid">
-      <div class="info-item">
+      <div class="info-item" *ngIf="formatBirthDate()">
         <span class="label">Date de naissance</span>
         <span class="value">{{ formatBirthDate() }}</span>
       </div>
 
       <div class="info-item" *ngIf="player.gsm || player.phoneNumber">
         <span class="label">Contact</span>
-        <span class="value">
+        <div class="value">
           <div *ngIf="player.gsm">GSM: {{ player.gsm }}</div>
           <div *ngIf="player.phoneNumber">Tél: {{ player.phoneNumber }}</div>
-        </span>
+        </div>
       </div>
 
       <div class="info-item" *ngIf="player.address">
@@ -39,12 +41,12 @@
 
       <div class="info-item" *ngIf="player.validSince || player.validUntil">
         <span class="label">Validité</span>
-        <span class="value">
+        <div class="value">
           <div *ngIf="player.validSince">Depuis: {{ formatDate(player.validSince) }}</div>
           <div *ngIf="player.validUntil" [class.expired]="isExpired(player.validUntil)">
             Jusqu'au: {{ formatDate(player.validUntil) }}
           </div>
-        </span>
+        </div>
       </div>
     </div>
   </div>
