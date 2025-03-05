@@ -1,86 +1,48 @@
-/* src/app/auth/pages/login/login.component.css */
+/* login.component.css */
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
+  @apply flex justify-center items-center min-h-screen bg-gray-50;
 }
 
 .login-card {
-  width: 100%;
-  max-width: 400px;
-  padding: 2rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  @apply w-full max-w-md bg-white rounded-lg shadow-sm border border-gray-200 p-8;
 }
 
 .login-title {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
+  @apply text-2xl font-bold text-gray-800 text-center mb-6 pb-3 border-b border-gray-100;
 }
 
 .login-form {
-  display: flex;
-  flex-direction: column;
+  @apply space-y-6;
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  @apply flex flex-col;
 }
 
 label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
+  @apply block text-sm font-medium text-gray-700 mb-1;
 }
 
 input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-whist-primary focus:border-whist-primary transition-colors duration-200;
 }
 
 input:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  @apply bg-white;
 }
 
 .error {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+  @apply text-sm text-red-600 mt-1;
 }
 
 .error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 0.75rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  @apply bg-red-50 text-red-800 p-3 rounded-md mb-4 text-sm;
 }
 
 .login-button {
-  padding: 0.75rem 1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.login-button:hover:not(:disabled) {
-  background-color: #0069d9;
+  @apply w-full px-4 py-2 bg-whist-primary text-white rounded-md font-medium hover:bg-whist-primary/80 transition-colors duration-200;
 }
 
 .login-button:disabled {
-  background-color: #b3d7ff;
-  cursor: not-allowed;
+  @apply bg-gray-300 text-gray-500 cursor-not-allowed hover:bg-gray-300;
 }

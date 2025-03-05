@@ -1,59 +1,82 @@
-/* src/app/shared/components/header.component.css */
+/* header.component.css */
+.header-container {
+  @apply bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10;
+}
+
+.header-content {
+  @apply container mx-auto px-4 py-3 flex justify-between items-center;
+}
+
+.logo-container {
+  @apply flex items-center;
+}
+
+.logo {
+  @apply h-10 w-auto;
+}
+
+.app-title {
+  @apply text-xl font-bold text-whist-primary ml-2;
+}
+
+.nav-container {
+  @apply hidden md:flex space-x-1;
+}
+
+.nav-link {
+  @apply px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-whist-primary transition-colors duration-200;
+}
+
+.nav-link.active {
+  @apply bg-whist-primary/10 text-whist-primary font-medium;
+}
+
 .auth-container {
-  position: absolute;
-  top: 1rem;
-  right: 2rem;
-}
-
-.auth-button {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: 500;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.login {
-  background-color: #007bff;
-  color: white;
-}
-
-.logout {
-  background-color: #6c757d;
-  color: white;
-  border: none;
-}
-
-.login:hover {
-  background-color: #0069d9;
-}
-
-.logout:hover {
-  background-color: #5a6268;
+  @apply flex items-center;
 }
 
 .user-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-left: auto;
-
-  .user-name {
-    font-weight: 500;
-
-    small {
-      opacity: 0.7;
-      margin-left: 4px;
-    }
-  }
+  @apply flex items-center gap-3;
 }
 
 .user-name {
-  font-weight: 500;
+  @apply hidden lg:block text-sm text-gray-700;
 }
 
 .user-name small {
-  opacity: 0.7;
-  margin-left: 4px;
+  @apply text-gray-500;
+}
+
+.auth-button {
+  @apply px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200;
+}
+
+.login {
+  @apply bg-whist-primary text-white hover:bg-whist-primary/80;
+}
+
+.logout {
+  @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+}
+
+.mobile-menu-button {
+  @apply md:hidden p-2 rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-700;
+}
+
+.mobile-nav {
+  @apply md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-md;
+}
+
+.mobile-nav-link {
+  @apply block px-4 py-3 text-gray-700 hover:bg-gray-50 border-b border-gray-100 last:border-b-0;
+}
+
+.mobile-nav-link.active {
+  @apply bg-whist-primary/5 text-whist-primary font-medium border-l-4 border-l-whist-primary pl-3;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    @apply py-2;
+  }
 }

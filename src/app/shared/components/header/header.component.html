@@ -1,16 +1,130 @@
-<div class="auth-container">
-  <ng-container *ngIf="(authFacade.isAuthenticated$ | async); else loginButton">
-    <div class="user-info">
-      <span class="user-name" *ngIf="authFacade.currentUser$ | async as user">
-        {{ user.firstName }} {{ user.lastName }}
-        <small>({{ user.username }})</small>
-      </span>
-      <button class="auth-button logout" (click)="logout()">Déconnexion</button>
+<header class="header-container">
+  <div class="header-content">
+    <!-- Logo et nom de l'application -->
+    <div class="logo-container">
+      <a routerLink="/" class="flex items-center">
+        <img src="assets/whistLogo.png" alt="Whist Logo" class="logo"/>
+        <span class="app-title">Whist</span>
+      </a>
     </div>
-  </ng-container>
-  <ng-template #loginButton>
-    <a routerLink="/login" class="auth-button login">
-      Connexion
+
+    <!-- Navigation desktop -->
+    <nav class="nav-container">
+      <a
+        routerLink="/home"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Accueil
+      </a>
+      <a
+        routerLink="/players"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        Joueurs
+      </a>
+      <a
+        routerLink="/tournaments"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        class="nav-link"
+      >
+        Tournois
+      </a>
+      <a
+        routerLink="/tournaments/admin"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        class="nav-link"
+        *ngIf="authFacade.isAuthenticated$ | async"
+      >
+        Administration Tournois
+      </a>
+    </nav>
+
+    <!-- Authentification -->
+    <div class="auth-container">
+      <ng-container *ngIf="(authFacade.isAuthenticated$ | async); else loginButton">
+        <div class="user-info">
+          <span class="user-name" *ngIf="authFacade.currentUser$ | async as user">
+            {{ user.firstName }} {{ user.lastName }}
+            <small>({{ user.username }})</small>
+          </span>
+          <button class="auth-button logout" (click)="logout()">
+            Déconnexion
+          </button>
+        </div>
+      </ng-container>
+      <ng-template #loginButton>
+        <a routerLink="/login" class="auth-button login">
+          Connexion
+        </a>
+      </ng-template>
+    </div>
+
+    <!-- Bouton menu mobile -->
+    <button
+      class="mobile-menu-button"
+      (click)="toggleMobileMenu()"
+      *ngIf="!showMobileMenu"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    <button
+      class="mobile-menu-button"
+      (click)="toggleMobileMenu()"
+      *ngIf="showMobileMenu"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Navigation mobile -->
+  <nav class="mobile-nav" *ngIf="showMobileMenu">
+    <a
+      routerLink="/home"
+      routerLinkActive="active"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      Accueil
     </a>
-  </ng-template>
-</div>
+    <a
+      routerLink="/players"
+      routerLinkActive="active"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      Joueurs
+    </a>
+    <a
+      routerLink="/tournaments"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: true}"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      Tournois
+    </a>
+    <a
+      routerLink="/tournaments/admin"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: true}"
+      class="mobile-nav-link"
+      *ngIf="authFacade.isAuthenticated$ | async"
+      (click)="closeMobileMenu()"
+    >
+      Administration Tournois
+    </a>
+  </nav>
+</header>
