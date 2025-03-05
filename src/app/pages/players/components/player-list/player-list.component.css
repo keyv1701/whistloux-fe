@@ -1,0 +1,30 @@
+/* Styles pour les boutons de pagination */
+.pagination-button {
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.pagination-button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Style pour la recherche */
+input:focus, select:focus {
+  border-color: transparent;
+}
+
+/* Animation lors du filtrage */
+.space-y-3 > div {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
