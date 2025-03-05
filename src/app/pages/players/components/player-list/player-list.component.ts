@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Player } from '../../../../models/player.interface';
 import { PlayerCardComponent } from '../player-card/player-card.component';
 import { PlayerEditComponent } from "../player-edit/player-edit.component";
+import { PlayerCreateComponent } from "../player-create/player-create.component";
 
 @Component({
   selector: 'app-player-list',
   standalone: true,
-  imports: [CommonModule, PlayerCardComponent, FormsModule, PlayerEditComponent],
+  imports: [CommonModule, PlayerCardComponent, FormsModule, PlayerEditComponent, PlayerCreateComponent],
   templateUrl: './player-list.component.html',
   styleUrls: ['./player-list.component.css']
 })
@@ -158,5 +159,22 @@ export class PlayerListComponent implements OnInit {
     this.selectedPlayer = player;
     console.log('Selected player for edit:', player);
     // Logique supplémentaire si nécessaire
+  }
+
+  showCreateForm = false;
+
+  onCreatePlayer(): void {
+    this.showCreateForm = true;
+  }
+
+  onCloseCreate(): void {
+    this.showCreateForm = false;
+  }
+
+  onPlayerCreated(player: Player): void {
+    // Vous pourriez émettre un événement vers le parent ou gérer directement la mise à jour
+    this.showCreateForm = false;
+    // Émettre un événement de création si nécessaire
+    // this.playerCreated.emit(player);
   }
 }

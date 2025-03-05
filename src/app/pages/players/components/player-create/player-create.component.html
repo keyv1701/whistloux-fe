@@ -1,0 +1,20 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Ajouter un nouveau joueur</h2>
+      <button class="close-button" (click)="onClose()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Formulaire de création similaire à celui d'édition -->
+      <!-- Utiliser le même format que player-edit mais avec des valeurs vides -->
+    </div>
+
+    <div class="modal-footer">
+      <div class="form-actions">
+        <button type="button" (click)="onClose()">Annuler</button>
+        <button type="button" (click)="onSave()">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
