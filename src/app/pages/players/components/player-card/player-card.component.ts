@@ -18,4 +18,39 @@ export class PlayerCardComponent {
     event.stopPropagation();
     this.delete.emit(this.player.uuid);
   }
+
+  formatDate(dateString: string | null | undefined): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR');
+  }
+
+  formatBirthDate(): string {
+    const {dayOfBirth, monthOfBirth, yearOfBirth} = this.player;
+
+    if (!dayOfBirth && !monthOfBirth && !yearOfBirth) {
+      return '';
+    }
+
+    if (dayOfBirth && monthOfBirth && yearOfBirth) {
+      return `${this.padNumber(dayOfBirth)}/${this.padNumber(monthOfBirth)}/${yearOfBirth}`;
+    }
+
+    if (dayOfBirth && monthOfBirth) {
+      return `${this.padNumber(dayOfBirth)}/${this.padNumber(monthOfBirth)}`;
+    }
+
+    return '';
+  }
+
+  private padNumber(num?: number): string {
+    if (num === undefined) return '';
+    return num.toString().padStart(2, '0');
+  }
+
+  isExpired(dateString: string | null | undefined): boolean {
+    if (!dateString) return false;
+    const validDate = new Date(dateString);
+    return validDate < new Date();
+  }
 }
