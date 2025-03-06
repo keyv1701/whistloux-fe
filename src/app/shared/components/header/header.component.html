@@ -21,6 +21,7 @@
         routerLink="/players"
         routerLinkActive="active"
         class="nav-link"
+        *ngIf="authFacade.isAuthenticated$ | async"
       >
         Joueurs
       </a>
