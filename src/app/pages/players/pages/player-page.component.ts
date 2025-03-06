@@ -4,9 +4,9 @@ import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { PlayerFacade } from "../facades/player.facade";
 import { Player } from "../../../models/player.interface";
 import { Subject } from "rxjs";
-import { PlayerFormComponent } from './player-form/player-form.component';
-import { PlayerListComponent } from './player-list/player-list.component';
-import { PlayerErrorAlertComponent } from './player-error-alert/player-error-alert.component';
+import { PlayerFormComponent } from '../components/player-form/player-form.component';
+import { PlayerListComponent } from '../components/player-list/player-list.component';
+import { PlayerErrorAlertComponent } from '../components/player-error-alert/player-error-alert.component';
 import { LoaderComponent } from "../../../shared/components/loader/loader.component";
 import { ToastService } from "../../../shared/services/toast.service";
 
@@ -17,9 +17,9 @@ import { ToastService } from "../../../shared/services/toast.service";
     NgIf, NgFor, NgClass, ReactiveFormsModule, AsyncPipe,
     PlayerFormComponent, PlayerListComponent, PlayerErrorAlertComponent, LoaderComponent
   ],
-  templateUrl: './player.component.html',
+  templateUrl: './player-page.component.html',
 })
-export class PlayerComponent implements OnInit, OnDestroy {
+export class PlayerPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
