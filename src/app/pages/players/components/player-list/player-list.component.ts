@@ -5,6 +5,8 @@ import { Player } from '../../../../models/player.interface';
 import { PlayerCardComponent } from '../player-card/player-card.component';
 import { PlayerEditComponent } from "../player-edit/player-edit.component";
 import { PlayerCreateComponent } from "../player-create/player-create.component";
+import { PlayerFacade } from "../../facades/player.facade";
+import { ToastService } from "../../../../shared/services/toast.service";
 
 @Component({
   selector: 'app-player-list',
@@ -35,11 +37,13 @@ export class PlayerListComponent implements OnInit {
 
   selectedPlayer: Player | null = null;
 
-  ngOnInit(): void {
-    this.applyFiltersAndPagination();
+  constructor(
+    private playerFacade: PlayerFacade,
+    private toastService: ToastService
+  ) {
   }
 
-  ngOnChanges(): void {
+  ngOnInit(): void {
     this.applyFiltersAndPagination();
   }
 
@@ -170,9 +174,13 @@ export class PlayerListComponent implements OnInit {
   }
 
   onPlayerCreated(player: Player): void {
-    // Vous pourriez émettre un événement vers le parent ou gérer directement la mise à jour
+    this.playerFacade.createPlayer(player);
     this.showCreateForm = false;
-    // Émettre un événement de création si nécessaire
-    // this.playerCreated.emit(player);
+
+    // Afficher une notification de succès
+    this.toastService.success('Le joueur a été créé avec succès');
+
+    // Recharger la liste des joueurs
+    this.playerFacade.loadPlayers();
   }
 }

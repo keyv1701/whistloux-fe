@@ -1,5 +1,12 @@
 <app-header></app-header>
 <main class="main-content">
+  <app-toast
+    [visible]="(toast$ | async) !== null"
+    [type]="(toast$ | async)?.type || 'info'"
+    [message]="(toast$ | async)?.message || ''"
+    [duration]="(toast$ | async)?.duration || 5000"
+    (visibleChange)="onToastVisibilityChange($event)">
+  </app-toast>
   <router-outlet></router-outlet>
 </main>
 <app-footer></app-footer>
