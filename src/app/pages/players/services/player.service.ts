@@ -11,7 +11,8 @@ import { environment } from "../../../../environments/environment";
 export class PlayerService {
   private apiUrl = `${environment.apiBaseUrl}/players`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getPlayers(): Observable<Player[]> {
     return this.http.get<Player[]>(this.apiUrl);
@@ -31,5 +32,11 @@ export class PlayerService {
 
   deletePlayer(uuid: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${uuid}`);
+  }
+
+  exportPlayersToExcel(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/export/excel`, {
+      responseType: 'blob'
+    });
   }
 }

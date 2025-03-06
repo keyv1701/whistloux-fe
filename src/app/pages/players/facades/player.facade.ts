@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, finalize, map, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, of, tap } from 'rxjs';
 import { PlayerService } from '../services/player.service';
 import { Player } from "../../../models/player.interface";
 
@@ -17,7 +17,8 @@ export class PlayerFacade {
   public readonly loading$ = this.loadingSubject.asObservable();
   public readonly error$ = this.errorSubject.asObservable();
 
-  constructor(private playerService: PlayerService) {}
+  constructor(private playerService: PlayerService) {
+  }
 
   loadPlayers(): void {
     this.loadingSubject.next(true);
@@ -104,5 +105,27 @@ export class PlayerFacade {
 
   clearError(): void {
     this.errorSubject.next(undefined);
+  }
+
+  exportPlayersToExcel(): void {
+    this.loadingSubject.next(true);
+    this.playerService.exportPlayersToExcel().pipe(
+      tap(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `players_export_${new Date().toISOString().slice(0, 10)}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }),
+      catchError(err => {
+        this.errorSubject.next('Erreur lors de l\'export des joueurs');
+        console.error(err);
+        return of(undefined);
+      }),
+      finalize(() => this.loadingSubject.next(false))
+    ).subscribe();
   }
 }

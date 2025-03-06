@@ -8,6 +8,7 @@ import { PlayerFormComponent } from './player-form/player-form.component';
 import { PlayerListComponent } from './player-list/player-list.component';
 import { PlayerErrorAlertComponent } from './player-error-alert/player-error-alert.component';
 import { LoaderComponent } from "../../../shared/components/loader/loader.component";
+import { ToastService } from "../../../shared/services/toast.service";
 
 @Component({
   selector: 'app-player',
@@ -21,7 +22,10 @@ import { LoaderComponent } from "../../../shared/components/loader/loader.compon
 export class PlayerComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  constructor(public playerFacade: PlayerFacade) {
+  constructor(
+    public playerFacade: PlayerFacade,
+    private toastService: ToastService
+  ) {
   }
 
   ngOnInit(): void {
@@ -58,5 +62,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   onDismissError(): void {
     this.playerFacade.clearError();
+  }
+
+  onExportPlayers(): void {
+    this.playerFacade.exportPlayersToExcel();
+    this.toastService.info('L\'export Excel a été lancé');
   }
 }
