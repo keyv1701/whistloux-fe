@@ -36,8 +36,8 @@
 
       <div class="tournament-card-actions">
         <button class="preview-btn" (click)="onSelect(tournament)">En savoir plus</button>
-        <button *ngIf="!readOnly" class="delete-btn" (click)="onDelete(tournament.uuid!, $event)">
-          <i class="fas fa-trash"></i>
+        <button *ngIf="authFacade.isAuthenticated$ | async" class="edit-btn" (click)="onEdit(tournament, $event)">
+          <span>✏️</span>
         </button>
       </div>
     </div>

@@ -1,9 +1,9 @@
 // tournament-list.component.ts
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AsyncPipe, DatePipe, NgClass, NgFor, NgIf, SlicePipe } from '@angular/common';
-import { TournamentStatus } from '../../../../models/enums/tournament-status.enum';
 import { Tournament } from "../../../../models/tournament/tournament";
 import { TimeFormatPipe } from "../../../../shared/pipes/time-format.pipe";
+import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 
 @Component({
   selector: 'app-tournament-list',
@@ -18,44 +18,15 @@ export class TournamentListComponent {
   @Output() selectTournament = new EventEmitter<Tournament>();
   @Output() deleteTournamentEvent = new EventEmitter<string>();
 
-  getStatusClass(status: TournamentStatus): string {
-    switch (status) {
-      case TournamentStatus.REGISTRATION_OPEN:
-        return 'status-open';
-      case TournamentStatus.IN_PROGRESS:
-        return 'status-progress';
-      case TournamentStatus.COMPLETED:
-        return 'status-completed';
-      case TournamentStatus.CANCELLED:
-        return 'status-cancelled';
-      default:
-        return '';
-    }
+  constructor(public authFacade: AuthFacade) {
   }
 
   onSelect(tournament: Tournament): void {
     this.selectTournament.emit(tournament);
   }
 
-  onDelete(uuid: string, event: Event): void {
-    event.stopPropagation();
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce tournoi?')) {
-      this.deleteTournamentEvent.emit(uuid);
-    }
-  }
-
-  getStatusText(status: TournamentStatus): string {
-    switch (status) {
-      case TournamentStatus.REGISTRATION_OPEN:
-        return 'Inscriptions ouvertes';
-      case TournamentStatus.IN_PROGRESS:
-        return 'En cours';
-      case TournamentStatus.COMPLETED:
-        return 'Terminé';
-      case TournamentStatus.CANCELLED:
-        return 'Annulé';
-      default:
-        return 'Inconnu';
-    }
+  onEdit(tournament: any, event: Event): void {
+    event.stopPropagation(); // Pour éviter que l'événement ne se propage
+    this.selectTournament.emit(tournament);
   }
 }
