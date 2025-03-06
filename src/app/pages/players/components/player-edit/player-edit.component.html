@@ -1,103 +1,16 @@
-<!-- player-edit.component.html -->
-<div class="edit-overlay">
-  <div class="edit-modal">
-    <div class="edit-header">
-      <h2>Modifier les détails du joueur</h2>
-      <button class="close-btn" (click)="onCancel()">×</button>
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Modifier le joueur</h2>
+      <button class="close-button" (click)="onClose()">&times;</button>
     </div>
 
-    <form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
-      <div class="form-grid">
-        <!-- Informations personnelles -->
-        <div class="form-section">
-          <h3>Informations personnelles</h3>
-
-          <div class="form-group">
-            <label for="firstName">Prénom *</label>
-            <input id="firstName" type="text" formControlName="firstName" required>
-            <div *ngIf="playerForm.get('firstName')?.invalid && playerForm.get('firstName')?.touched" class="error">
-              Prénom requis
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="lastName">Nom *</label>
-            <input id="lastName" type="text" formControlName="lastName" required>
-            <div *ngIf="playerForm.get('lastName')?.invalid && playerForm.get('lastName')?.touched" class="error">
-              Nom requis
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email *</label>
-            <input id="email" type="email" formControlName="email" required>
-            <div *ngIf="playerForm.get('email')?.invalid && playerForm.get('email')?.touched" class="error">
-              Email valide requis
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Date de naissance</label>
-            <div class="date-inputs">
-              <input type="number" formControlName="dayOfBirth" min="1" max="31" placeholder="Jour">
-              <input type="number" formControlName="monthOfBirth" min="1" max="12" placeholder="Mois">
-              <input type="number" formControlName="yearOfBirth" min="1900" max="2100" placeholder="Année">
-            </div>
-          </div>
-        </div>
-
-        <!-- Contact -->
-        <div class="form-section">
-          <h3>Contact</h3>
-
-          <div class="form-group">
-            <label for="address">Adresse *</label>
-            <textarea id="address" formControlName="address" required></textarea>
-            <div *ngIf="playerForm.get('address')?.invalid && playerForm.get('address')?.touched" class="error">
-              Adresse requise
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="gsm">GSM</label>
-            <input id="gsm" type="text" formControlName="gsm">
-          </div>
-
-          <div class="form-group">
-            <label for="phoneNumber">Téléphone fixe</label>
-            <input id="phoneNumber" type="text" formControlName="phoneNumber">
-          </div>
-        </div>
-
-        <!-- Cotisation -->
-        <div class="form-section">
-          <h3>Cotisation</h3>
-
-          <div class="form-group">
-            <label for="pay">Montant</label>
-            <input id="pay" type="number" formControlName="pay" step="0.01">
-          </div>
-
-          <div class="form-group">
-            <label for="validSince">Valide depuis</label>
-            <input id="validSince" type="date" formControlName="validSince">
-          </div>
-
-          <div class="form-group">
-            <label for="validUntil">Valide jusqu'au</label>
-            <input id="validUntil" type="date" formControlName="validUntil">
-          </div>
-        </div>
-      </div>
-
-      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
-
-      <div class="form-actions">
-        <button type="button" (click)="onCancel()" [disabled]="isSubmitting">Annuler</button>
-        <button type="submit" [disabled]="playerForm.invalid || isSubmitting">
-          {{ isSubmitting ? 'Sauvegarde...' : 'Sauvegarder' }}
-        </button>
-      </div>
-    </form>
+    <div class="modal-body">
+      <app-player-form
+        [player]="player"
+        (formSubmit)="onPlayerSubmit($event)"
+        (formCancel)="onClose()">
+      </app-player-form>
+    </div>
   </div>
 </div>

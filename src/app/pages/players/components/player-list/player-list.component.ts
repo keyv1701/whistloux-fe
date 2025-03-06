@@ -157,8 +157,6 @@ export class PlayerListComponent implements OnInit {
 
   onPlayerEdit(player: Player): void {
     this.selectedPlayer = player;
-    console.log('Selected player for edit:', player);
-    // Logique supplémentaire si nécessaire
   }
 
   showCreateForm = false;

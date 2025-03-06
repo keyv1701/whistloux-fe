@@ -39,8 +39,7 @@
          class="p-3 bg-white rounded-md shadow-sm hover:shadow-md transition-shadow border border-gray-200">
       <app-player-card
         [player]="player"
-        (select)="selectPlayer.emit($event)"
-        (edit)="onPlayerEdit(player)">
+        (edit)="onPlayerEdit($event)">
       </app-player-card>
     </div>
   </div>

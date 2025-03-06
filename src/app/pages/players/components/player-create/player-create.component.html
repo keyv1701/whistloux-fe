@@ -6,15 +6,11 @@
     </div>
 
     <div class="modal-body">
-      <!-- Formulaire de création similaire à celui d'édition -->
-      <!-- Utiliser le même format que player-edit mais avec des valeurs vides -->
-    </div>
-
-    <div class="modal-footer">
-      <div class="form-actions">
-        <button type="button" (click)="onClose()">Annuler</button>
-        <button type="button" (click)="onSave()">Ajouter</button>
-      </div>
+      <app-player-form
+        [player]="null"
+        (formSubmit)="onPlayerSubmit($event)"
+        (formCancel)="onClose()">
+      </app-player-form>
     </div>
   </div>
 </div>

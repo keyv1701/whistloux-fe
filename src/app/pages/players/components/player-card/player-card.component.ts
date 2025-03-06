@@ -15,12 +15,7 @@ export class PlayerCardComponent {
   @Output() delete = new EventEmitter<string>();
   @Output() edit = new EventEmitter<Player>()
 
-  deleteClick(event: Event): void {
-    event.stopPropagation();
-    this.delete.emit(this.player.uuid);
-  }
-
-  editClick(event: Event): void {
+  onEditClick(event: Event): void {
     event.stopPropagation();  // Empêche l'event select de se déclencher
     this.edit.emit(this.player);
   }

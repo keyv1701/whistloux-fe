@@ -1,4 +1,4 @@
-<div class="player-card" (click)="select.emit(player)">
+<div class="player-card">
   <div class="card-header">
     <div class="avatar">
       {{ player.firstName.charAt(0) || '?' }}{{ player.lastName.charAt(0) || '?' }}
@@ -8,7 +8,7 @@
       <p class="email">{{ player.email }}</p>
     </div>
     <div class="actions">
-      <button class="edit-btn" (click)="editClick($event)" title="Modifier ce joueur">
+      <button class="edit-btn" (click)="onEditClick($event)" title="Modifier ce joueur">
         <span>✏️</span>
       </button>
     </div>
