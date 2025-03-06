@@ -1,13 +1,14 @@
 // tournament-list.component.ts
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AsyncPipe, DatePipe, NgClass, NgFor, NgIf, SlicePipe } from '@angular/common';
-import { Tournament } from '../../../../models/tournament.interface';
 import { TournamentStatus } from '../../../../models/enums/tournament-status.enum';
+import { Tournament } from "../../../../models/tournament/tournament";
+import { TimeFormatPipe } from "../../../../shared/pipes/time-format.pipe";
 
 @Component({
   selector: 'app-tournament-list',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, AsyncPipe, DatePipe, SlicePipe],
+  imports: [NgIf, NgFor, NgClass, AsyncPipe, DatePipe, SlicePipe, TimeFormatPipe],
   templateUrl: './tournament-list.component.html',
   styleUrls: ['./tournament-list.component.css']
 })
@@ -18,7 +19,7 @@ export class TournamentListComponent {
   @Output() deleteTournamentEvent = new EventEmitter<string>();
 
   getStatusClass(status: TournamentStatus): string {
-    switch(status) {
+    switch (status) {
       case TournamentStatus.REGISTRATION_OPEN:
         return 'status-open';
       case TournamentStatus.IN_PROGRESS:

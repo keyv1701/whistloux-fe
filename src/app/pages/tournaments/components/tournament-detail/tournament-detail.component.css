@@ -1,90 +1,192 @@
-/* tournament-detail.component.css */
-.tournament-detail {
-  @apply bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden;
+.tournament-detail-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .tournament-header {
-  @apply bg-gray-50 p-6 flex justify-between items-center border-b border-gray-200;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-.tournament-header h1 {
-  @apply text-2xl font-bold text-gray-800 m-0;
+.tournament-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1a237e;
 }
 
-.status-badge {
-  @apply px-3 py-1 rounded-full text-sm font-medium;
+.tournament-organization {
+  font-size: 1.2rem;
+  color: #555;
+  font-style: italic;
 }
 
-.status-open {
-  @apply bg-whist-primary text-white;
+.tournament-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 25px;
 }
 
-.status-progress {
-  @apply bg-amber-400 text-amber-900;
+.tournament-card h2 {
+  font-size: 1.5rem;
+  color: #303f9f;
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-.status-completed {
-  @apply bg-green-500 text-white;
+.info-row {
+  display: flex;
+  margin-bottom: 15px;
 }
 
-.status-cancelled {
-  @apply bg-red-500 text-white;
+.info-label {
+  flex: 0 0 150px;
+  font-weight: 500;
+  color: #555;
 }
 
-.tournament-info {
-  @apply p-6;
+.info-value {
+  flex: 1;
+  color: #212121;
 }
 
-.info-section {
-  @apply mb-8;
+.date-status {
+  color: #f57c00;
+  font-style: italic;
+  margin-left: 10px;
+  font-size: 0.9em;
 }
 
-.info-section h2 {
-  @apply text-xl font-semibold text-gray-700 pb-2 mb-4 border-b border-gray-200;
+.description-content,
+.prizes-content,
+.included-items-content,
+.parking-content {
+  line-height: 1.6;
+  white-space: pre-line;
 }
 
-.info-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.info-item {
-  @apply flex flex-col;
+.contact-item {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
-.label {
-  @apply text-sm text-gray-500 mb-1;
+.contact-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
 }
 
-.value {
-  @apply text-base font-medium text-gray-800;
+.contact-role {
+  color: #757575;
+  font-style: italic;
+  margin-bottom: 10px;
 }
 
-.description, .results {
-  @apply bg-gray-50 p-4 rounded-md text-gray-700 leading-relaxed;
+.contact-details div {
+  margin-bottom: 5px;
 }
 
-.actions {
-  @apply p-6 border-t border-gray-200 flex justify-center;
+.registrations-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
 }
 
-.register-btn {
-  @apply bg-whist-primary hover:bg-whist-primary/80 text-white font-medium px-6 py-2 rounded-md transition-colors duration-200;
+.registration-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.no-tournament {
-  @apply text-center p-10 bg-gray-50 rounded-lg text-gray-500 italic border border-dashed border-gray-300;
+.registration-item:last-child {
+  border-bottom: none;
+}
+
+.registration-name {
+  font-weight: 500;
+}
+
+.registration-date {
+  color: #757575;
+  font-size: 0.9rem;
+}
+
+.registration-count {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.available-spots {
+  margin-top: 5px;
+  color: #388e3c;
+  font-size: 0.9rem;
+}
+
+.available-spots.full {
+  color: #d32f2f;
+  font-weight: 500;
+}
+
+.tournament-actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.register-button {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.register-button:hover {
+  background-color: #1b5e20;
+}
+
+.register-button:disabled {
+  background-color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+.tournament-not-found {
+  text-align: center;
+  padding: 50px 20px;
+  color: #757575;
+  font-size: 1.2rem;
 }
 
 @media (max-width: 768px) {
-  .info-grid {
-    @apply grid-cols-1;
+  .info-row {
+    flex-direction: column;
   }
 
-  .tournament-header {
-    @apply flex-col items-start;
+  .info-label {
+    margin-bottom: 5px;
   }
 
-  .tournament-header .status-badge {
-    @apply mt-2;
+  .contact-list {
+    grid-template-columns: 1fr;
   }
 }

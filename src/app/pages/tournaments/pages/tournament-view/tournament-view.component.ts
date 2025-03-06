@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TournamentDetailComponent } from '../../components/tournament-detail/tournament-detail.component';
 import { TournamentListComponent } from '../../components/tournament-list/tournament-list.component';
-import { TournamentFacade } from '../../facades/tournament.facade';
-import { Tournament } from '../../../../models/tournament.interface';
-import { Observable, switchMap, of } from 'rxjs';
+import { Tournament } from '../../../../models/tournament/tournament';
+import { Observable, of, switchMap } from 'rxjs';
 import { NullToEmptyPipe } from "../../../../shared/pipes/null-to-empty.pipe";
+import { TournamentFacade } from "../../facades/tournament.facade";
 
 @Component({
   selector: 'app-tournament-view',
@@ -24,7 +24,8 @@ export class TournamentViewComponent implements OnInit {
     public tournamentFacade: TournamentFacade,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.tournamentFacade.loadTournaments();
@@ -35,7 +36,8 @@ export class TournamentViewComponent implements OnInit {
         this.selectedUuid = uuid;
 
         if (uuid) {
-          return this.tournamentFacade.getTournamentByUuid(uuid);
+          this.tournamentFacade.loadTournament(uuid);
+          return this.tournamentFacade.currentTournament$;
         }
         return of(null);
       })

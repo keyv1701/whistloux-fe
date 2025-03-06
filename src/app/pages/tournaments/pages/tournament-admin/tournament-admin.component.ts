@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { TournamentFormComponent } from '../../components/tournament-form/tournament-form.component';
 import { TournamentListComponent } from '../../components/tournament-list/tournament-list.component';
 import { TournamentFacade } from '../../facades/tournament.facade';
-import { Tournament } from '../../../../models/tournament.interface';
 import { NullToEmptyPipe } from "../../../../shared/pipes/null-to-empty.pipe";
+import { Tournament } from "../../../../models/tournament/tournament";
 
 @Component({
   selector: 'app-tournament-admin',
@@ -17,7 +17,8 @@ import { NullToEmptyPipe } from "../../../../shared/pipes/null-to-empty.pipe";
 export class TournamentAdminComponent implements OnInit {
   selectedTournament: Tournament | undefined;
 
-  constructor(public tournamentFacade: TournamentFacade) { }
+  constructor(public tournamentFacade: TournamentFacade) {
+  }
 
   ngOnInit(): void {
     this.tournamentFacade.loadTournaments();
@@ -33,7 +34,7 @@ export class TournamentAdminComponent implements OnInit {
   }
 
   onTournamentSelected(tournament: Tournament): void {
-    this.selectedTournament = { ...tournament };
+    this.selectedTournament = {...tournament};
   }
 
   onDeleteTournament(uuid: string): void {

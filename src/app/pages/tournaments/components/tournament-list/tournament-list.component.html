@@ -8,17 +8,13 @@
     <div *ngFor="let tournament of tournaments"
          class="tournament-card"
          (click)="onSelect(tournament)">
-      <div class="tournament-card-header">
-        <h3>{{ tournament.name }}</h3>
-        <span class="status-badge" [ngClass]="getStatusClass(tournament.status)">{{ tournament.status }}</span>
-      </div>
       <div class="tournament-card-body">
         <p>{{ tournament.description | slice:0:100 }}{{ tournament.description.length > 100 ? '...' : '' }}</p>
         <div class="tournament-details">
-          <div>Lieu: {{ tournament.location }}</div>
-          <div>Du: {{ tournament.startDate | date:'dd/MM/yyyy' }}</div>
-          <div>Au: {{ tournament.endDate | date:'dd/MM/yyyy' }}</div>
-          <div>Max participants: {{ tournament.maxParticipants }}</div>
+          <div>Lieu: {{ tournament.address }}</div>
+          <div>Du: {{ tournament.startTime | timeFormat }}</div>
+          <div>Au: {{ tournament.endTime | timeFormat }}</div>
+          <div>Max participants: {{ tournament.maxPlayers }}</div>
         </div>
       </div>
       <div *ngIf="!readOnly" class="tournament-card-actions">

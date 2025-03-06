@@ -1,50 +1,122 @@
-<div class="tournament-detail" *ngIf="tournament">
+<div class="tournament-detail-container" *ngIf="tournament">
   <div class="tournament-header">
-    <h1>{{ tournament.name }}</h1>
-    <span class="status-badge" [ngClass]="getStatusClass(tournament.status)">
-      {{ tournament.status }}
-    </span>
+    <h1 class="tournament-title">{{ tournament.name }}</h1>
+    <div class="tournament-organization">Organisé par: {{ tournament.organization }}</div>
   </div>
 
-  <div class="tournament-info">
-    <div class="info-section">
-      <h2>Détails</h2>
-      <div class="info-grid">
-        <div class="info-item">
-          <span class="label">Début:</span>
-          <span class="value">{{ formatDate(tournament.startDate) }}</span>
-        </div>
-        <div class="info-item">
-          <span class="label">Fin:</span>
-          <span class="value">{{ formatDate(tournament.endDate) }}</span>
-        </div>
-        <div class="info-item">
-          <span class="label">Lieu:</span>
-          <span class="value">{{ tournament.location }}</span>
-        </div>
-        <div class="info-item">
-          <span class="label">Participants max:</span>
-          <span class="value">{{ tournament.maxParticipants }}</span>
+  <div class="tournament-card main-info">
+    <h2>Informations générales</h2>
+    <div class="info-row">
+      <div class="info-label">Date</div>
+      <div class="info-value">
+        {{ formatDate(tournament.date) }}
+        <span class="date-status" *ngIf="!tournament.isDateConfirmed">(Date provisoire)</span>
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Horaire</div>
+      <div class="info-value">{{ formatTime(tournament.startTime) }} - {{ formatTime(tournament.endTime) }}</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Lieu</div>
+      <div class="info-value">
+        {{ tournament.venue }}<br>
+        {{ tournament.address }}<br>
+        {{ tournament.postalCode }} {{ tournament.city }}
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Participants</div>
+      <div class="info-value">
+        <div class="registration-count">{{ tournament.registrationsCount }} / {{ tournament.maxPlayers }}</div>
+        <div class="available-spots" [class.full]="tournament.registrationsCount >= tournament.maxPlayers">
+          {{ getAvailableSpotsText() }}
         </div>
       </div>
     </div>
-
-    <div class="info-section">
-      <h2>Description</h2>
-      <div class="description">{{ tournament.description }}</div>
+    <div class="info-row">
+      <div class="info-label">Tarif</div>
+      <div class="info-value">{{ tournament.entryFee }} €</div>
     </div>
-
-    <div class="info-section" *ngIf="tournament.results">
-      <h2>Résultats</h2>
-      <div class="results">{{ tournament.results }}</div>
+    <div class="info-row" *ngIf="tournament.registrationDeadline">
+      <div class="info-label">Inscription jusqu'au</div>
+      <div class="info-value">{{ formatDate(tournament.registrationDeadline) }}</div>
     </div>
   </div>
 
-  <div class="actions" *ngIf="canRegister()">
-    <button class="register-btn">S'inscrire</button>
+  <div class="tournament-card format-info">
+    <h2>Format du tournoi</h2>
+    <div class="info-row">
+      <div class="info-label">Nombre de rondes</div>
+      <div class="info-value">{{ tournament.rounds }}</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Mains par ronde</div>
+      <div class="info-value">{{ tournament.handsPerRound }}</div>
+    </div>
+  </div>
+
+  <div class="tournament-card description" *ngIf="tournament.description">
+    <h2>Description</h2>
+    <div class="description-content">{{ tournament.description }}</div>
+  </div>
+
+  <div class="tournament-card prizes" *ngIf="tournament.prizes">
+    <h2>Prix et récompenses</h2>
+    <div class="prizes-content">{{ tournament.prizes }}</div>
+  </div>
+
+  <div class="tournament-card included-items" *ngIf="tournament.includedItems">
+    <h2>Inclus dans l'inscription</h2>
+    <div class="included-items-content">{{ tournament.includedItems }}</div>
+  </div>
+
+  <div class="tournament-card parking-info" *ngIf="tournament.parkingInfo">
+    <h2>Informations de stationnement</h2>
+    <div class="parking-content">{{ tournament.parkingInfo }}</div>
+  </div>
+
+  <div class="tournament-card contacts" *ngIf="tournament.contacts && tournament.contacts.length > 0">
+    <h2>Contacts</h2>
+    <div class="contact-list">
+      <div class="contact-item" *ngFor="let contact of tournament.contacts">
+        <div class="contact-name">{{ contact.name }}</div>
+        <div class="contact-role" *ngIf="contact.role">{{ contact.role }}</div>
+        <div class="contact-details">
+          <div *ngIf="contact.email">Email: {{ contact.email }}</div>
+          <div *ngIf="contact.phone">Tél: {{ contact.phone }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tournament-card registration-info" *ngIf="tournament.registrationInfo">
+    <h2>Informations d'inscription</h2>
+    <div class="info-row" *ngIf="tournament.registrationInfo.email">
+      <div class="info-label">Email</div>
+      <div class="info-value">{{ tournament.registrationInfo.email }}</div>
+    </div>
+    <div class="info-row" *ngIf="tournament.registrationInfo.phone">
+      <div class="info-label">Téléphone</div>
+      <div class="info-value">{{ tournament.registrationInfo.phone }}</div>
+    </div>
+  </div>
+
+  <div class="tournament-card registrations" *ngIf="tournament.registrations && tournament.registrations.length > 0">
+    <h2>Liste des inscrits ({{ tournament.registrationsCount }})</h2>
+    <div class="registrations-list">
+      <div class="registration-item" *ngFor="let registration of tournament.registrations">
+        <div class="registration-name">{{ registration.firstName }} {{ registration.name }}</div>
+        <div class="registration-date">Inscrit le {{ formatDate(registration.registrationDate) }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tournament-actions">
+    <button class="register-button" *ngIf="isRegistrationAvailable()">S'inscrire</button>
   </div>
 </div>
 
-<div class="no-tournament" *ngIf="!tournament">
-  Aucun tournoi sélectionné.
+<div class="tournament-not-found" *ngIf="!tournament">
+  Aucun tournoi sélectionné ou le tournoi demandé n'existe pas.
 </div>

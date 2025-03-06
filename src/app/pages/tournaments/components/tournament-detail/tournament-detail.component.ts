@@ -1,8 +1,6 @@
-// src/app/pages/tournaments/components/tournament-detail/tournament-detail.component.ts
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Tournament } from '../../../../models/tournament.interface';
-import { TournamentStatus } from '../../../../models/enums/tournament-status.enum';
+import { Tournament } from '../../../../models/tournament/tournament';
 
 @Component({
   selector: 'app-tournament-detail',
@@ -14,43 +12,46 @@ import { TournamentStatus } from '../../../../models/enums/tournament-status.enu
 export class TournamentDetailComponent implements OnInit {
   @Input() tournament: Tournament | null = null;
 
-  TournamentStatus = TournamentStatus;
-
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
-  getStatusClass(status: TournamentStatus): string {
-    switch (status) {
-      case TournamentStatus.REGISTRATION_OPEN:
-        return 'status-open';
-      case TournamentStatus.IN_PROGRESS:
-        return 'status-progress';
-      case TournamentStatus.COMPLETED:
-        return 'status-completed';
-      case TournamentStatus.CANCELLED:
-        return 'status-cancelled';
-      default:
-        return '';
-    }
-  }
-
-  isRegistrationOpen(): boolean {
-    return this.tournament?.status === TournamentStatus.REGISTRATION_OPEN;
-  }
-
-  canRegister(): boolean {
-    return this.isRegistrationOpen();
-  }
-
-  formatDate(dateString: string): string {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', {
+  formatDate(date: Date | null | undefined): string {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString('fr-FR', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     });
+  }
+
+  formatTime(time: string | null | undefined): string {
+    if (!time) return '';
+    return time;
+  }
+
+  isRegistrationAvailable(): boolean {
+    if (!this.tournament) return false;
+
+    // Vérifier si les inscriptions sont ouvertes
+    const today = new Date();
+    const deadline = this.tournament.registrationDeadline ? new Date(this.tournament.registrationDeadline) : null;
+
+    // Si la date limite est passée ou le nombre maximum de joueurs est atteint
+    if (deadline && today > deadline) return false;
+    if (this.tournament.maxPlayers && this.tournament.registrationsCount >= this.tournament.maxPlayers) return false;
+
+    return true;
+  }
+
+  getAvailableSpotsText(): string {
+    if (!this.tournament || !this.tournament.maxPlayers) return '';
+
+    const availableSpots = this.tournament.maxPlayers - this.tournament.registrationsCount;
+    if (availableSpots <= 0) return 'Complet';
+
+    return `${availableSpots} place${availableSpots > 1 ? 's' : ''} disponible${availableSpots > 1 ? 's' : ''}`;
   }
 }

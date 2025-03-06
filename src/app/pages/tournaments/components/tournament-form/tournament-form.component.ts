@@ -2,7 +2,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, NgIf } from '@angular/common';
-import { Tournament } from '../../../../models/tournament.interface';
+import { Tournament } from '../../../../models/tournament/tournament';
 import { TournamentStatus } from '../../../../models/enums/tournament-status.enum';
 
 @Component({
