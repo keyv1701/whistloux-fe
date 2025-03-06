@@ -33,15 +33,6 @@
       >
         Tournois
       </a>
-      <a
-        routerLink="/tournaments/admin"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}"
-        class="nav-link"
-        *ngIf="authFacade.isAuthenticated$ | async"
-      >
-        Administration Tournois
-      </a>
     </nav>
 
     <!-- Authentification -->

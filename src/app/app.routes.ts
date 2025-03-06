@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { PlayerComponent } from './pages/players/components/player.component';
-import { TournamentViewComponent } from './pages/tournaments/pages/tournament-view/tournament-view.component';
-import { TournamentAdminComponent } from './pages/tournaments/pages/tournament-admin/tournament-admin.component';
+import { TournamentPageComponent } from './pages/tournaments/pages/tournament-page/tournament-page.component';
 import { LoginComponent } from "./pages/login/components/login.component";
-import { authGuard } from "./shared/security/auth/guards/auth.guard";
 import {
   TournamentDetailPageComponent
 } from "./pages/tournaments/pages/tournament-detail-page/tournament-detail-page.component";
@@ -16,9 +14,8 @@ export const routes: Routes = [
   {path: 'players', component: PlayerComponent},
   {
     path: 'tournaments', children: [
-      {path: '', component: TournamentViewComponent},
-      {path: ':uuid', component: TournamentDetailPageComponent},
-      {path: 'admin', component: TournamentAdminComponent, canActivate: [authGuard]}
+      {path: '', component: TournamentPageComponent},
+      {path: ':uuid', component: TournamentDetailPageComponent}
     ]
   },
   {path: '**', redirectTo: 'home'}

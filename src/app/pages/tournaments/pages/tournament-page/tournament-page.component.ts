@@ -1,4 +1,4 @@
-// src/app/pages/tournaments/pages/tournament-view/tournament-view.component.ts
+// src/app/pages/tournaments/pages/tournament-view/tournament-page.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -13,10 +13,10 @@ import { TournamentFacade } from "../../facades/tournament.facade";
   selector: 'app-tournament-view',
   standalone: true,
   imports: [CommonModule, RouterModule, TournamentDetailComponent, TournamentListComponent, NullToEmptyPipe],
-  templateUrl: './tournament-view.component.html',
-  styleUrls: ['./tournament-view.component.css']
+  templateUrl: './tournament-page.component.html',
+  styleUrls: ['./tournament-page.component.css']
 })
-export class TournamentViewComponent implements OnInit {
+export class TournamentPageComponent implements OnInit {
   selectedTournament$: Observable<Tournament | null> = of(null);
   selectedUuid: string | null = null;
 
