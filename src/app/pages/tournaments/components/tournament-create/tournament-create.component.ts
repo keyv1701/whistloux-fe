@@ -1,18 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Tournament } from '../../../../models/tournament/tournament';
 import { CommonModule } from '@angular/common';
 import { TournamentFormComponent } from "../tournament-form/tournament-form.component";
 
 @Component({
-  selector: 'app-tournament-edit',
+  selector: 'app-tournament-create',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TournamentFormComponent],
-  templateUrl: './tournament-edit.component.html',
-  styleUrls: ['./tournament-edit.component.css']
+  templateUrl: './tournament-create.component.html',
+  styleUrls: ['./tournament-create.component.css']
 })
-export class TournamentEditComponent {
-  @Input() tournament: Tournament | null = null;
+export class TournamentCreateComponent {
   @Output() close = new EventEmitter<void>();
   @Output() saved = new EventEmitter<Tournament>();
 

@@ -25,7 +25,7 @@ export interface Tournament {
   parkingInfo: string;
   rounds: number;
   handsPerRound: number;
-  registrationInfo: RegistrationInfoInterface;
+  registrationInfo?: RegistrationInfoInterface;
   registrations: TournamentRegistrationInterface[];
   registrationsCount: number;
 }

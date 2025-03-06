@@ -4,6 +4,9 @@ import { Tournament } from "../../../../models/tournament/tournament";
 import { TimeFormatPipe } from "../../../../shared/pipes/time-format.pipe";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { TournamentEditComponent } from '../tournament-edit/tournament-edit.component';
+import { TournamentCreateComponent } from "../tournament-create/tournament-create.component";
+import { TournamentFacade } from "../../facades/tournament.facade";
+import { ToastService } from "../../../../shared/services/toast.service";
 
 @Component({
   selector: 'app-tournament-list',
@@ -16,7 +19,8 @@ import { TournamentEditComponent } from '../tournament-edit/tournament-edit.comp
     DatePipe,
     SlicePipe,
     TimeFormatPipe,
-    TournamentEditComponent
+    TournamentEditComponent,
+    TournamentCreateComponent
   ],
   templateUrl: './tournament-list.component.html',
   styleUrls: ['./tournament-list.component.css']
@@ -30,7 +34,10 @@ export class TournamentListComponent {
 
   selectedTournament: Tournament | null = null;
 
-  constructor(public authFacade: AuthFacade) {
+  showCreateForm = false;
+
+  constructor(public authFacade: AuthFacade, public tournamentFacade: TournamentFacade,
+              private toastService: ToastService) {
   }
 
   onSelect(tournament: Tournament): void {
@@ -51,8 +58,31 @@ export class TournamentListComponent {
     this.selectedTournament = null;
   }
 
+  onCreateTournament(): void {
+    this.showCreateForm = true;
+  }
+
+  onCloseCreate(): void {
+    this.showCreateForm = false;
+  }
+
+  onPlayerCreated(tournament: Tournament): void {
+    this.showCreateForm = false;
+
+    // Afficher une notification de succès
+    this.toastService.success('Le tournoi a été créé avec succès');
+
+    // Recharger la liste des joueurs
+    this.tournamentFacade.loadTournaments();
+  }
+
   onTournamentSaved(updatedTournament: Tournament): void {
-    this.tournamentUpdated.emit(updatedTournament);
     this.selectedTournament = null;
+
+    // Afficher une notification de succès
+    this.toastService.success('Le tournoi a été mis à jour avec succès');
+
+    // Recharger la liste des joueurs
+    this.tournamentFacade.loadTournaments();
   }
 }

@@ -4,6 +4,13 @@
     Aucun tournoi disponible.
   </div>
 
+  <button
+    (click)="onCreateTournament()"
+    class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+    <span class="mr-1">+</span>
+    <span>Ajouter un tournoi</span>
+  </button>
+
   <div class="tournament-grid">
     <div *ngFor="let tournament of tournaments" class="tournament-card">
       <div class="tournament-header">
@@ -43,6 +50,12 @@
     </div>
   </div>
 </div>
+
+<app-tournament-create
+  *ngIf="showCreateForm"
+  (close)="onCloseEdit()"
+  (saved)="onPlayerCreated($event)">
+</app-tournament-create>
 
 <app-tournament-edit
   *ngIf="selectedTournament"
