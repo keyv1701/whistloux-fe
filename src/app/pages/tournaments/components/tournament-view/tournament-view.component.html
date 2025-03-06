@@ -1,4 +1,4 @@
-<!-- tournament-form.component.html -->
+<!-- tournament-view.component.html -->
 <div class="tournament-form-container">
   <h2>{{ isEditing ? 'Modifier un tournoi' : 'Ajouter un tournoi' }}</h2>
   <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
@@ -15,7 +15,8 @@
     <div class="form-group">
       <label for="description">Description *</label>
       <textarea id="description" formControlName="description" rows="3"></textarea>
-      <div *ngIf="tournamentForm.get('description')?.invalid && tournamentForm.get('description')?.touched" class="error">
+      <div *ngIf="tournamentForm.get('description')?.invalid && tournamentForm.get('description')?.touched"
+           class="error">
         La description est requise
       </div>
     </div>
@@ -59,7 +60,8 @@
       <div class="form-group half">
         <label for="maxParticipants">Participants max *</label>
         <input id="maxParticipants" type="number" formControlName="maxParticipants" min="0">
-        <div *ngIf="tournamentForm.get('maxParticipants')?.invalid && tournamentForm.get('maxParticipants')?.touched" class="error">
+        <div *ngIf="tournamentForm.get('maxParticipants')?.invalid && tournamentForm.get('maxParticipants')?.touched"
+             class="error">
           Nombre de participants invalide
         </div>
       </div>

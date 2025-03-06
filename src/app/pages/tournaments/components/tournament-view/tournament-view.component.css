@@ -1,4 +1,4 @@
-/* tournament-form.component.css */
+/* tournament-view.component.css */
 .tournament-form-container {
   @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6 max-w-3xl mx-auto;
 }

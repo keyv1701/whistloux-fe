@@ -1,4 +1,4 @@
-// tournament-form.component.ts
+// tournament-view.component.ts
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, NgIf } from '@angular/common';
@@ -6,13 +6,13 @@ import { Tournament } from '../../../../models/tournament/tournament';
 import { TournamentStatus } from '../../../../models/enums/tournament-status.enum';
 
 @Component({
-  selector: 'app-tournament-form',
+  selector: 'app-tournament-view',
   standalone: true,
   imports: [ReactiveFormsModule, NgIf, CommonModule],
-  templateUrl: './tournament-form.component.html',
-  styleUrls: ['./tournament-form.component.css']
+  templateUrl: './tournament-view.component.html',
+  styleUrls: ['./tournament-view.component.css']
 })
-export class TournamentFormComponent implements OnInit, OnChanges {
+export class TournamentViewComponent implements OnInit, OnChanges {
   @Input() tournament: Tournament | undefined;
   @Output() saveTournament = new EventEmitter<Tournament>();
   @Output() cancelEdit = new EventEmitter<void>();
