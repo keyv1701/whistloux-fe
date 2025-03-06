@@ -54,8 +54,8 @@
       <span>&laquo;</span>
     </button>
 
-    <!-- Première page -->
-    <button *ngIf="totalPages > 3"
+    <!-- Première page (seulement si elle n'est pas dans visiblePages) -->
+    <button *ngIf="totalPages > 3 && !visiblePages.includes(1)"
             (click)="goToPage(1)"
             class="px-3 py-1 mx-1 border rounded-md"
             [ngClass]="{'bg-blue-500 text-white': currentPage === 1, 'bg-gray-100': currentPage !== 1}">
@@ -63,7 +63,7 @@
     </button>
 
     <!-- Ellipsis gauche -->
-    <span *ngIf="currentPage > 3" class="px-2">...</span>
+    <span *ngIf="currentPage > 3 && !visiblePages.includes(1)" class="px-2">...</span>
 
     <!-- Pages autour de la page courante -->
     <ng-container *ngFor="let page of visiblePages">
@@ -76,10 +76,10 @@
     </ng-container>
 
     <!-- Ellipsis droite -->
-    <span *ngIf="currentPage < totalPages - 2" class="px-2">...</span>
+    <span *ngIf="currentPage < totalPages - 2 && !visiblePages.includes(totalPages)" class="px-2">...</span>
 
-    <!-- Dernière page -->
-    <button *ngIf="totalPages > 3 && currentPage !== totalPages"
+    <!-- Dernière page (seulement si elle n'est pas dans visiblePages) -->
+    <button *ngIf="totalPages > 3 && !visiblePages.includes(totalPages)"
             (click)="goToPage(totalPages)"
             class="px-3 py-1 mx-1 border rounded-md"
             [ngClass]="{'bg-blue-500 text-white': currentPage === totalPages, 'bg-gray-100': currentPage !== totalPages}">
