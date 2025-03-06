@@ -46,7 +46,53 @@
 
   <!-- Pagination -->
   <div *ngIf="totalPages > 1" class="flex justify-center items-center mt-6">
-    <!-- Code pagination inchangé -->
+    <button
+      (click)="prevPage()"
+      [disabled]="currentPage === 1"
+      class="px-3 py-1 mr-1 border rounded-md"
+      [ngClass]="{'bg-gray-100': currentPage !== 1, 'bg-gray-200 cursor-not-allowed': currentPage === 1}">
+      <span>&laquo;</span>
+    </button>
+
+    <!-- Première page -->
+    <button *ngIf="totalPages > 3"
+            (click)="goToPage(1)"
+            class="px-3 py-1 mx-1 border rounded-md"
+            [ngClass]="{'bg-blue-500 text-white': currentPage === 1, 'bg-gray-100': currentPage !== 1}">
+      1
+    </button>
+
+    <!-- Ellipsis gauche -->
+    <span *ngIf="currentPage > 3" class="px-2">...</span>
+
+    <!-- Pages autour de la page courante -->
+    <ng-container *ngFor="let page of visiblePages">
+      <button
+        (click)="goToPage(page)"
+        class="px-3 py-1 mx-1 border rounded-md"
+        [ngClass]="{'bg-blue-500 text-white': currentPage === page, 'bg-gray-100': currentPage !== page}">
+        {{ page }}
+      </button>
+    </ng-container>
+
+    <!-- Ellipsis droite -->
+    <span *ngIf="currentPage < totalPages - 2" class="px-2">...</span>
+
+    <!-- Dernière page -->
+    <button *ngIf="totalPages > 3 && currentPage !== totalPages"
+            (click)="goToPage(totalPages)"
+            class="px-3 py-1 mx-1 border rounded-md"
+            [ngClass]="{'bg-blue-500 text-white': currentPage === totalPages, 'bg-gray-100': currentPage !== totalPages}">
+      {{ totalPages }}
+    </button>
+
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+      class="px-3 py-1 ml-1 border rounded-md"
+      [ngClass]="{'bg-gray-100': currentPage !== totalPages, 'bg-gray-200 cursor-not-allowed': currentPage === totalPages}">
+      <span>&raquo;</span>
+    </button>
   </div>
 
   <!-- Information sur la pagination -->

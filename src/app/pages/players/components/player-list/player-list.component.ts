@@ -142,7 +142,7 @@ export class PlayerListComponent implements OnInit {
     return [this.currentPage - 1, this.currentPage, this.currentPage + 1];
   }
 
-  nSelectPlayer(player: Player): void {
+  onSelectPlayer(player: Player): void {
     this.selectedPlayer = player;
   }
 
