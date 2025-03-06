@@ -1,0 +1,13 @@
+/* Style minimal car la plupart est géré par Tailwind */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
+/* Pour assurer que la popup est au-dessus de tout */
+:host {
+  z-index: 1000;
+}

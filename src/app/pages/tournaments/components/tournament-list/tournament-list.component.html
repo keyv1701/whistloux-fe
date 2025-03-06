@@ -43,3 +43,10 @@
     </div>
   </div>
 </div>
+
+<app-tournament-edit
+  *ngIf="selectedTournament"
+  [tournament]="selectedTournament"
+  (close)="onCloseEdit()"
+  (saved)="onTournamentSaved($event)">
+</app-tournament-edit>
