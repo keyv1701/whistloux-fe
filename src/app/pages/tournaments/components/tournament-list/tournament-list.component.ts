@@ -43,4 +43,19 @@ export class TournamentListComponent {
       this.deleteTournamentEvent.emit(uuid);
     }
   }
+
+  getStatusText(status: TournamentStatus): string {
+    switch (status) {
+      case TournamentStatus.REGISTRATION_OPEN:
+        return 'Inscriptions ouvertes';
+      case TournamentStatus.IN_PROGRESS:
+        return 'En cours';
+      case TournamentStatus.COMPLETED:
+        return 'Terminé';
+      case TournamentStatus.CANCELLED:
+        return 'Annulé';
+      default:
+        return 'Inconnu';
+    }
+  }
 }

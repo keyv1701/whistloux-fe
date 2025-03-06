@@ -4,21 +4,41 @@
     Aucun tournoi disponible.
   </div>
 
-  <div class="tournament-list">
-    <div *ngFor="let tournament of tournaments"
-         class="tournament-card"
-         (click)="onSelect(tournament)">
+  <div class="tournament-grid">
+    <div *ngFor="let tournament of tournaments" class="tournament-card">
+      <div class="tournament-header">
+        <h3>{{ tournament.name || 'Tournoi' }}</h3>
+      </div>
+
       <div class="tournament-card-body">
-        <p>{{ tournament.description | slice:0:100 }}{{ tournament.description.length > 100 ? '...' : '' }}</p>
+        <p
+          class="tournament-description">{{ tournament.description | slice:0:100 }}{{ tournament.description.length > 100 ? '...' : '' }}</p>
+
         <div class="tournament-details">
-          <div>Lieu: {{ tournament.address }}</div>
-          <div>Du: {{ tournament.startTime | timeFormat }}</div>
-          <div>Au: {{ tournament.endTime | timeFormat }}</div>
-          <div>Max participants: {{ tournament.maxPlayers }}</div>
+          <div class="detail-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>{{ tournament.address }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Du {{ tournament.startTime | timeFormat }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <span>Au {{ tournament.endTime | timeFormat }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-users"></i>
+            <span>{{ tournament.registrationsCount || 0 }}/{{ tournament.maxPlayers }} participants</span>
+          </div>
         </div>
       </div>
-      <div *ngIf="!readOnly" class="tournament-card-actions">
-        <button class="delete-btn" (click)="onDelete(tournament.uuid!, $event)">Supprimer</button>
+
+      <div class="tournament-card-actions">
+        <button class="preview-btn" (click)="onSelect(tournament)">En savoir plus</button>
+        <button *ngIf="!readOnly" class="delete-btn" (click)="onDelete(tournament.uuid!, $event)">
+          <i class="fas fa-trash"></i>
+        </button>
       </div>
     </div>
   </div>

@@ -1,12 +1,13 @@
-<!-- src/app/pages/tournaments/pages/tournament-view/tournament-view.component.html -->
 <div class="tournament-view-container">
-  <div *ngIf="selectedUuid" class="back-link">
-    <button (click)="backToList()" class="back-btn">← Retour à la liste</button>
+  <div class="tournament-header">
+    <h1>Tournois à venir</h1>
+    <div *ngIf="selectedUuid" class="back-link">
+      <button (click)="backToList()" class="back-btn">← Retour à la liste</button>
+    </div>
   </div>
 
   <div class="tournament-content" [ngClass]="{'has-details': selectedUuid}">
-    <div class="tournament-list-section" *ngIf="!selectedUuid">
-      <h1>Tournois à venir</h1>
+    <div [ngClass]="{'tournament-list-section': true, 'with-preview': selectedUuid}">
       <app-tournament-list
         [tournaments]="tournamentFacade.tournaments$ | async | nullToEmpty"
         [readOnly]="true"
@@ -14,7 +15,7 @@
       </app-tournament-list>
     </div>
 
-    <div class="tournament-detail-section" *ngIf="selectedUuid">
+    <div *ngIf="selectedUuid" class="tournament-detail-section">
       <app-tournament-detail [tournament]="selectedTournament$ | async"></app-tournament-detail>
     </div>
   </div>

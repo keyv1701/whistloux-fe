@@ -1,167 +1,77 @@
-/* tournament-view.component.css */
 .tournament-view-container {
-  @apply max-w-6xl mx-auto p-4;
-}
-
-.tournament-card {
-  @apply bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
 }
 
 .tournament-header {
-  @apply p-6 bg-gray-50 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
 .tournament-header h1 {
-  @apply text-2xl font-bold text-gray-800 m-0;
-}
-
-.status-badge {
-  @apply px-3 py-1 rounded-full text-sm font-medium;
-}
-
-.status-open {
-  @apply bg-whist-primary text-white;
-}
-
-.status-progress {
-  @apply bg-amber-400 text-amber-900;
-}
-
-.status-completed {
-  @apply bg-green-500 text-white;
-}
-
-.status-cancelled {
-  @apply bg-red-500 text-white;
-}
-
-.tournament-content {
-  @apply p-6 grid gap-8;
-}
-
-.tournament-section {
-  @apply border-b border-gray-100 pb-6 last:border-b-0 last:pb-0;
-}
-
-.section-title {
-  @apply text-xl font-semibold text-gray-800 mb-4;
-}
-
-.tournament-info-grid {
-  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
-}
-
-.info-item {
-  @apply flex flex-col;
-}
-
-.info-label {
-  @apply text-sm text-gray-500 mb-1;
-}
-
-.info-value {
-  @apply text-base font-medium text-gray-800;
-}
-
-.description {
-  @apply bg-gray-50 p-4 rounded-md text-gray-700 leading-relaxed whitespace-pre-line;
-}
-
-.participants-section {
-  @apply mt-6;
-}
-
-.participants-header {
-  @apply flex justify-between items-center mb-4;
-}
-
-.participants-title {
-  @apply text-xl font-semibold text-gray-800;
-}
-
-.participants-count {
-  @apply bg-gray-100 px-3 py-1 rounded-full text-sm font-medium text-gray-700;
-}
-
-.participants-list {
-  @apply bg-white rounded-lg border border-gray-200 overflow-hidden;
-}
-
-.participants-table {
-  @apply w-full;
-}
-
-.table-header {
-  @apply bg-gray-50;
-}
-
-.table-header th {
-  @apply px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200;
-}
-
-.table-body tr {
-  @apply hover:bg-gray-50 border-b border-gray-100 last:border-b-0;
-}
-
-.table-body td {
-  @apply px-4 py-3 whitespace-nowrap text-sm text-gray-700;
-}
-
-.no-participants {
-  @apply text-center p-6 text-gray-500 italic;
-}
-
-.tournament-actions {
-  @apply mt-8 p-4 border-t border-gray-200 flex justify-center sm:justify-end gap-3;
-}
-
-.action-btn {
-  @apply px-5 py-2 rounded-md font-medium transition-colors duration-200;
-}
-
-.register-btn {
-  @apply bg-whist-primary text-white hover:bg-whist-primary/80;
-}
-
-.unregister-btn {
-  @apply bg-red-500 text-white hover:bg-red-500/80;
+  margin: 0;
+  color: #2c3e50;
 }
 
 .back-btn {
-  @apply bg-white border border-gray-300 text-gray-700 hover:bg-gray-50;
+  padding: 0.5rem 1rem;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  transition: background-color 0.2s;
 }
 
-.loading-container {
-  @apply flex justify-center items-center p-12;
+.back-btn:hover {
+  background-color: #e0e0e0;
 }
 
-.spinner {
-  @apply w-12 h-12 border-4 border-gray-200 rounded-full animate-spin;
-  border-top-color: theme('colors.whist-primary');
+.tournament-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
 }
 
-.error-container {
-  @apply text-center p-8 bg-red-50 text-red-700 rounded-lg border border-red-200;
+.tournament-content.has-details {
+  grid-template-columns: 1fr 2fr;
 }
 
-.no-tournament {
-  @apply text-center p-10 bg-gray-50 rounded-lg text-gray-500 italic border border-dashed border-gray-300;
+.tournament-list-section.with-preview {
+  max-height: 800px;
+  overflow-y: auto;
 }
 
-@media (max-width: 768px) {
-  .tournament-info-grid {
-    @apply grid-cols-1;
+.tournament-detail-section {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .tournament-content.has-details {
+    grid-template-columns: 1fr;
   }
 
-  .tournament-actions {
-    @apply flex-col;
-  }
-
-  .action-btn {
-    @apply w-full;
-  }
-
-  .participants-table {
-    @apply block overflow-x-auto;
+  .tournament-list-section.with-preview {
+    max-height: none;
   }
 }
