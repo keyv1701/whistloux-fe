@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Tournament } from '../../../../models/tournament/tournament';
 import { CommonModule } from '@angular/common';
+import { TournamentFacade } from "../../facades/tournament.facade";
+import { tap } from "rxjs";
 
 @Component({
   selector: 'app-tournament-edit',
@@ -17,7 +19,7 @@ export class TournamentEditComponent implements OnInit {
 
   tournamentForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private tournamentFacade: TournamentFacade) {
     this.tournamentForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -25,7 +27,16 @@ export class TournamentEditComponent implements OnInit {
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
       maxPlayers: [0, [Validators.required, Validators.min(0)]],
-      // Ajoutez d'autres champs selon votre modèle Tournament
+      registrationOpen: [true],
+      registrationDeadline: [''],
+      entryFee: [0],
+      prizes: [''],
+      format: [''],
+      rules: [''],
+      contactEmail: ['', Validators.email],
+      contactPhone: [''],
+      mainEvent: [false],
+      status: ['PLANNED']
     });
   }
 
@@ -43,6 +54,11 @@ export class TournamentEditComponent implements OnInit {
       if (tournament.endTime) {
         const endDate = new Date(tournament.endTime);
         tournament.endTime = this.formatDateForInput(endDate);
+      }
+
+      if (tournament.registrationDeadline) {
+        const deadlineDate = new Date(tournament.registrationDeadline);
+        tournament.registrationDeadline = deadlineDate;
       }
 
       this.tournamentForm.patchValue(tournament);
@@ -65,26 +81,53 @@ export class TournamentEditComponent implements OnInit {
 
   onSubmit(): void {
     if (this.tournamentForm.valid && this.tournament) {
-      const formValues = this.tournamentForm.value;
+      const formValues = {...this.tournamentForm.value};
 
-      // Convertir les chaînes de date en objets Date
+      // Créer une copie typée du tournament
+      const updatedTournament: Tournament = {
+        ...this.tournament,
+        name: formValues.name,
+        address: formValues.address,
+        maxPlayers: formValues.maxPlayers,
+        entryFee: formValues.entryFee,
+        description: formValues.description,
+        prizes: formValues.prizes
+      };
+
+      // Traiter les heures (qui sont des strings dans l'interface)
       if (formValues.startTime) {
-        formValues.startTime = new Date(formValues.startTime);
+        // Extraire seulement l'heure (HH:MM) de la chaîne ISO
+        updatedTournament.startTime = formValues.startTime.substring(11, 16);
       }
 
       if (formValues.endTime) {
-        formValues.endTime = new Date(formValues.endTime);
+        updatedTournament.endTime = formValues.endTime.substring(11, 16);
       }
 
-      const updatedTournament: Tournament = {
-        ...this.tournament,
-        ...formValues
-      };
+      // Traiter la date limite (qui est une Date dans l'interface)
+      if (formValues.registrationDeadline) {
+        updatedTournament.registrationDeadline = new Date(formValues.registrationDeadline);
+      }
 
-      this.saved.emit(updatedTournament);
+      console.log('Tournoi à mettre à jour:', updatedTournament);
+
+      this.tournamentFacade.updateTournament(updatedTournament)
+        .pipe(
+          tap({
+            next: (result) => {
+              this.saved.emit(result);
+              this.close.emit();
+            },
+            error: (err) => {
+              console.error('Erreur lors de la mise à jour du tournoi:', err);
+            }
+          })
+        )
+        .subscribe();
     }
   }
 
+// Fonction utilitaire pour formater l'heure au format HH:MM
   onClose(): void {
     this.close.emit();
   }

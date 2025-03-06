@@ -99,6 +99,133 @@
         </div>
       </div>
 
+      <!-- Frais d'inscription -->
+      <div class="form-group">
+        <label for="entryFee" class="block text-gray-700 text-sm font-bold mb-1">Frais d'inscription (€)</label>
+        <input
+          type="number"
+          id="entryFee"
+          formControlName="entryFee"
+          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <!-- Date limite d'inscription -->
+      <div class="form-group">
+        <label for="registrationDeadline" class="block text-gray-700 text-sm font-bold mb-1">Date limite
+          d'inscription</label>
+        <input
+          type="datetime-local"
+          id="registrationDeadline"
+          formControlName="registrationDeadline"
+          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <!-- Format du tournoi -->
+      <div class="form-group">
+        <label for="format" class="block text-gray-700 text-sm font-bold mb-1">Format</label>
+        <input
+          type="text"
+          id="format"
+          formControlName="format"
+          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <!-- Règles -->
+      <div class="form-group">
+        <label for="rules" class="block text-gray-700 text-sm font-bold mb-1">Règles</label>
+        <textarea
+          id="rules"
+          formControlName="rules"
+          rows="3"
+          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        ></textarea>
+      </div>
+
+      <!-- Prix -->
+      <div class="form-group">
+        <label for="prizes" class="block text-gray-700 text-sm font-bold mb-1">Prix</label>
+        <textarea
+          id="prizes"
+          formControlName="prizes"
+          rows="2"
+          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        ></textarea>
+      </div>
+
+      <!-- Contact -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="contactEmail" class="block text-gray-700 text-sm font-bold mb-1">Email de contact</label>
+          <input
+            type="email"
+            id="contactEmail"
+            formControlName="contactEmail"
+            class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            [ngClass]="{'border-red-500': tournamentForm.get('contactEmail')?.invalid && tournamentForm.get('contactEmail')?.touched}"
+          />
+          <div
+            *ngIf="tournamentForm.get('contactEmail')?.errors?.['email'] && tournamentForm.get('contactEmail')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Email invalide
+          </div>
+        </div>
+
+        <!-- Téléphone -->
+        <div class="form-group">
+          <label for="contactPhone" class="block text-gray-700 text-sm font-bold mb-1">Téléphone de contact</label>
+          <input
+            type="tel"
+            id="contactPhone"
+            formControlName="contactPhone"
+            class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+
+      <!-- Options supplémentaires -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Inscription ouverte -->
+        <div class="form-group flex items-center">
+          <input
+            type="checkbox"
+            id="registrationOpen"
+            formControlName="registrationOpen"
+            class="mr-2 h-4 w-4"
+          />
+          <label for="registrationOpen" class="text-gray-700 text-sm font-bold">Inscriptions ouvertes</label>
+        </div>
+
+        <!-- Événement principal -->
+        <div class="form-group flex items-center">
+          <input
+            type="checkbox"
+            id="mainEvent"
+            formControlName="mainEvent"
+            class="mr-2 h-4 w-4"
+          />
+          <label for="mainEvent" class="text-gray-700 text-sm font-bold">Événement principal</label>
+        </div>
+      </div>
+
+      <!-- Statut -->
+      <div class="form-group">
+        <label for="status" class="block text-gray-700 text-sm font-bold mb-1">Statut</label>
+        <select
+          id="status"
+          formControlName="status"
+          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="PLANNED">Planifié</option>
+          <option value="ONGOING">En cours</option>
+          <option value="COMPLETED">Terminé</option>
+          <option value="CANCELLED">Annulé</option>
+        </select>
+      </div>
+
       <!-- Boutons -->
       <div class="flex justify-end space-x-2 pt-4 border-t border-gray-200">
         <button
