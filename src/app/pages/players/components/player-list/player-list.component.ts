@@ -151,12 +151,14 @@ export class PlayerListComponent implements OnInit {
   }
 
   onPlayerSaved(updatedPlayer: Player): void {
-    // Mise à jour de la liste des joueurs
-    this.players = this.players?.map(p =>
-      p.uuid === updatedPlayer.uuid ? updatedPlayer : p
-    ) || [];
+    this.playerFacade.updatePlayer(updatedPlayer);
     this.selectedPlayer = null;
-    this.applyFiltersAndPagination();
+
+    // Afficher une notification de succès
+    this.toastService.success('Le joueur a été mis à jour avec succès');
+
+    // Recharger la liste des joueurs
+    this.playerFacade.loadPlayers();
   }
 
   onPlayerEdit(player: Player): void {
