@@ -22,7 +22,7 @@ export class TournamentService {
     return this.http.get<Tournament[]>(this.apiUrl);
   }
 
-  getTournamentById(uuid: string): Observable<Tournament> {
+  getTournamentByUuid(uuid: string): Observable<Tournament> {
     return this.http.get<Tournament>(`${this.apiUrl}/${uuid}`);
   }
 

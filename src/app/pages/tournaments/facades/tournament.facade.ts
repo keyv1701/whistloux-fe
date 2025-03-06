@@ -29,7 +29,7 @@ export class TournamentFacade {
   }
 
   loadTournament(uuid: string): void {
-    this.tournamentService.getTournamentById(uuid).pipe(
+    this.tournamentService.getTournamentByUuid(uuid).pipe(
       tap(tournament => this.currentTournamentSubject.next(tournament))
     ).subscribe();
   }
@@ -89,5 +89,9 @@ export class TournamentFacade {
         return tournament ? tournament.registrationsCount : 0;
       })
     );
+  }
+
+  getTournamentByUuid(uuid: string): Observable<Tournament | null> {
+    return this.tournamentService.getTournamentByUuid(uuid);
   }
 }

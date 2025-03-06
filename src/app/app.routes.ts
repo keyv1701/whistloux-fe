@@ -5,6 +5,9 @@ import { TournamentViewComponent } from './pages/tournaments/pages/tournament-vi
 import { TournamentAdminComponent } from './pages/tournaments/pages/tournament-admin/tournament-admin.component';
 import { LoginComponent } from "./pages/login/components/login.component";
 import { authGuard } from "./shared/security/auth/guards/auth.guard";
+import {
+  TournamentDetailPageComponent
+} from "./pages/tournaments/pages/tournament-detail-page/tournament-detail-page.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -14,6 +17,7 @@ export const routes: Routes = [
   {
     path: 'tournaments', children: [
       {path: '', component: TournamentViewComponent},
+      {path: ':uuid', component: TournamentDetailPageComponent},
       {path: 'admin', component: TournamentAdminComponent, canActivate: [authGuard]}
     ]
   },
