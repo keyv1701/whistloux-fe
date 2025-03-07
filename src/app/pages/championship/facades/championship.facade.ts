@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { ChampionshipWeek } from "../../../models/championship/championship-week.model";
 import { ChampionshipService } from "../services/championship.service";
@@ -71,7 +71,7 @@ export class ChampionshipFacade {
     this.loadingSubject.next(true);
     return this.championshipService.createChampionshipWeek(week).pipe(
       tap(createdWeek => {
-        this.loadChampionshipWeeks();
+        this.loadAllWeeksBySeason(week.season);
         this.toastService.success('Semaine de championnat créée avec succès');
       }),
       catchError(error => {
@@ -197,6 +197,21 @@ export class ChampionshipFacade {
 
   exportChampionshipToExcel(weekUuid: string): Observable<Blob> {
     return this.championshipService.exportChampionshipToExcel(weekUuid);
+  }
+
+  importChampionshipFromExcel(weekUuid: string, file: File): Observable<any> {
+    this.loadingSubject.next(true);
+    return this.championshipService.importChampionshipFromExcel(weekUuid, file).pipe(
+      tap(() => {
+        // Recharger les données après l'importation
+        this.loadChampionshipWeek(weekUuid);
+      }),
+      catchError(error => {
+        console.error('Erreur lors de l\'importation Excel:', error);
+        return throwError(() => error);
+      }),
+      finalize(() => this.loadingSubject.next(false))
+    );
   }
 
 }

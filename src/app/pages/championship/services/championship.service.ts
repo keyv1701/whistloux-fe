@@ -79,4 +79,14 @@ export class ChampionshipService {
       responseType: 'blob'
     });
   }
+
+  importChampionshipFromExcel(weekUuid: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<any>(
+      `${this.apiUrl}/weeks/${weekUuid}/import/excel`,
+      formData
+    );
+  }
 }

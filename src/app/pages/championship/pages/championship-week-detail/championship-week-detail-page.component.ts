@@ -8,6 +8,7 @@ import { PlayerWeekScore } from "../../../../models/championship/player-week-sco
 import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeek } from "../../../../models/championship/championship-week.model";
 import { ImportModalComponent } from "../../../../shared/components/import-modal/import-modal.component";
+import { ToastService } from "../../../../shared/services/toast.service";
 
 type SortColumn = 'playerName' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -36,7 +37,8 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private championshipFacade: ChampionshipFacade
+    private championshipFacade: ChampionshipFacade,
+    private toastService: ToastService
   ) {
     this.selectedWeek$ = this.championshipFacade.selectedWeek$;
     this.loading$ = this.championshipFacade.loading$;
@@ -167,11 +169,22 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   }
 
   importData(file: File): void {
-    // TODO: Implémenter la logique d'importation des données
-    console.log('Importation du fichier:', file.name);
-
-    // Ici viendra le code pour traiter le fichier importé
-
+    const weekUuid = this.route.snapshot.params['uuid'];
+    if (weekUuid) {
+      this.championshipFacade.importChampionshipFromExcel(weekUuid, file).pipe(
+        tap((response) => {
+          this.toastService.success(
+            `Importation réussie ! ${response.imported} enregistrements importés.`
+          );
+        }),
+        catchError((error) => {
+          this.toastService.error(
+            `Erreur lors de l'importation : ${error.error?.message || 'Une erreur est survenue'}`
+          );
+          return EMPTY;
+        })
+      ).subscribe();
+    }
     this.closeImportDialog();
   }
 }
