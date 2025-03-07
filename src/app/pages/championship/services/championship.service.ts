@@ -32,7 +32,7 @@ export class ChampionshipService {
 
   // Créer une nouvelle semaine de championnat
   createChampionshipWeek(week: ChampionshipWeek): Observable<ChampionshipWeek> {
-    return this.http.post<ChampionshipWeek>(this.apiUrl, week);
+    return this.http.post<ChampionshipWeek>(`${this.apiUrl}/weeks`, week);
   }
 
   // Mettre à jour une semaine de championnat

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, EMPTY, Observable, tap } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { PlayerWeekScore } from "../../../../models/championship/player-week-score.model";
 import { ChampionshipFacade } from "../../facades/championship.facade";
@@ -136,8 +136,8 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   exportToExcel(): void {
     const weekUuid = this.route.snapshot.params['uuid'];
     if (weekUuid) {
-      this.championshipFacade.exportChampionshipToExcel(weekUuid).subscribe({
-        next: (blob: Blob) => {
+      this.championshipFacade.exportChampionshipToExcel(weekUuid).pipe(
+        tap((blob: Blob) => {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
@@ -146,11 +146,12 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
           a.click();
           document.body.removeChild(a);
           window.URL.revokeObjectURL(url);
-        },
-        error: (error) => {
+        }),
+        catchError((error) => {
           console.error('Erreur lors de l\'export Excel:', error);
-        }
-      });
+          return EMPTY;
+        })
+      ).subscribe();
     }
   }
 

@@ -2,11 +2,21 @@
   <div class="header">
     <h1>Semaines de championnat</h1>
 
-    <div class="filters">
-      <label for="seasonSelect">Saison:</label>
-      <select id="seasonSelect" [(ngModel)]="selectedSeason" (change)="onSeasonChange(selectedSeason)">
-        <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
-      </select>
+    <div class="actions">
+      <div class="filters">
+        <label for="seasonSelect">Saison:</label>
+        <select id="seasonSelect" [(ngModel)]="selectedSeason" (change)="onSeasonChange(selectedSeason)">
+          <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
+        </select>
+      </div>
+
+      <button (click)="addChampionshipWeek()" class="add-week-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+        </svg>
+        Ajouter une semaine
+      </button>
     </div>
   </div>
 
@@ -57,3 +67,10 @@
     </ng-template>
   </ng-template>
 </div>
+
+<!-- Popup de création -->
+<app-championship-week-create
+  *ngIf="showCreateForm"
+  (close)="onCloseCreate()"
+  (saved)="onWeekCreated($event)">
+</app-championship-week-create>
