@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { PlayerWeekScore } from "../../../../models/championship/player-week-score.model";
 import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeek } from "../../../../models/championship/championship-week.model";
+
+type SortColumn = 'playerName' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
+type SortDirection = 'asc' | 'desc';
 
 @Component({
   selector: 'app-championship-week-detail-page',
@@ -18,6 +21,13 @@ import { ChampionshipWeek } from "../../../../models/championship/championship-w
 export class ChampionshipWeekDetailPageComponent implements OnInit {
   selectedWeek$: Observable<ChampionshipWeek | null>;
   loading$: Observable<boolean>;
+
+  sortColumnSubject = new BehaviorSubject<SortColumn>('playerName');
+  sortColumn$ = this.sortColumnSubject.asObservable();
+
+  sortDirectionSubject = new BehaviorSubject<SortDirection>('asc');
+  sortDirection$ = this.sortDirectionSubject.asObservable();
+
   playerScores$: Observable<PlayerWeekScore[]>;
 
   constructor(
@@ -27,9 +37,18 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   ) {
     this.selectedWeek$ = this.championshipFacade.selectedWeek$;
     this.loading$ = this.championshipFacade.loading$;
-    this.playerScores$ = this.selectedWeek$.pipe(
+
+    const baseScores$ = this.selectedWeek$.pipe(
       filter(week => !!week),
       map(week => week?.playerScores || [])
+    );
+
+    this.playerScores$ = combineLatest([
+      baseScores$,
+      this.sortColumn$,
+      this.sortDirection$
+    ]).pipe(
+      map(([scores, column, direction]) => this.sortScores(scores, column, direction))
     );
   }
 
@@ -62,7 +81,55 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
 
   addPlayerScore(): void {
     // Cette méthode serait implémentée avec un formulaire ou un dialogue pour ajouter un nouveau score
-    // Pour l'instant, c'est juste un emplacement
     console.log('Ajouter un score de joueur');
+  }
+
+  sortData(column: SortColumn): void {
+    const currentColumn = this.sortColumnSubject.value;
+    const currentDirection = this.sortDirectionSubject.value;
+
+    if (currentColumn === column) {
+      // Inverser la direction si on clique sur la même colonne
+      this.sortDirectionSubject.next(currentDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      // Nouvelle colonne, commencer par ordre ascendant
+      this.sortColumnSubject.next(column);
+      this.sortDirectionSubject.next('asc');
+    }
+  }
+
+  private sortScores(scores: PlayerWeekScore[], column: SortColumn, direction: SortDirection): PlayerWeekScore[] {
+    return [...scores].sort((a, b) => {
+      let comparison = 0;
+
+      switch (column) {
+        case 'playerName':
+          const nameA = `${a.playerFirstname} ${a.playerLastname}`.toLowerCase();
+          const nameB = `${b.playerFirstname} ${b.playerLastname}`.toLowerCase();
+          comparison = nameA.localeCompare(nameB);
+          break;
+        case 'round1Points':
+          comparison = (a.round1Points || 0) - (b.round1Points || 0);
+          break;
+        case 'round2Points':
+          comparison = (a.round2Points || 0) - (b.round2Points || 0);
+          break;
+        case 'round3Points':
+          comparison = (a.round3Points || 0) - (b.round3Points || 0);
+          break;
+        case 'total':
+          comparison = this.getTotalPoints(a) - this.getTotalPoints(b);
+          break;
+      }
+
+      return direction === 'asc' ? comparison : -comparison;
+    });
+  }
+
+  getSortIcon(column: SortColumn): string {
+    if (column !== this.sortColumnSubject.value) {
+      return 'sort';
+    }
+    return this.sortDirectionSubject.value === 'asc' ? 'sort-up' : 'sort-down';
   }
 }

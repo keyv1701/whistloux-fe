@@ -113,3 +113,11 @@ h2 {
 .back-button-error {
   @apply px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-150;
 }
+
+.sortable-header {
+  @apply cursor-pointer hover:bg-gray-100 transition-colors duration-150;
+}
+
+.sort-icon {
+  @apply inline-flex ml-1;
+}

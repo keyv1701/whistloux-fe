@@ -41,11 +41,81 @@
         <table class="scores-table">
           <thead>
           <tr>
-            <th>Joueur</th>
-            <th>Manche 1</th>
-            <th>Manche 2</th>
-            <th>Manche 3</th>
-            <th>Total</th>
+            <th (click)="sortData('playerName')" class="sortable-header">
+              Joueur
+              <span class="sort-icon">
+                <svg *ngIf="sortColumnSubject.value === 'playerName' && sortDirectionSubject.value === 'asc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                </svg>
+                <svg *ngIf="sortColumnSubject.value === 'playerName' && sortDirectionSubject.value === 'desc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </span>
+            </th>
+            <th (click)="sortData('round1Points')" class="sortable-header">
+              Manche 1
+              <span class="sort-icon">
+                <svg *ngIf="sortColumnSubject.value === 'round1Points' && sortDirectionSubject.value === 'asc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                </svg>
+                <svg *ngIf="sortColumnSubject.value === 'round1Points' && sortDirectionSubject.value === 'desc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </span>
+            </th>
+            <th (click)="sortData('round2Points')" class="sortable-header">
+              Manche 2
+              <span class="sort-icon">
+                <svg *ngIf="sortColumnSubject.value === 'round2Points' && sortDirectionSubject.value === 'asc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                </svg>
+                <svg *ngIf="sortColumnSubject.value === 'round2Points' && sortDirectionSubject.value === 'desc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </span>
+            </th>
+            <th (click)="sortData('round3Points')" class="sortable-header">
+              Manche 3
+              <span class="sort-icon">
+                <svg *ngIf="sortColumnSubject.value === 'round3Points' && sortDirectionSubject.value === 'asc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                </svg>
+                <svg *ngIf="sortColumnSubject.value === 'round3Points' && sortDirectionSubject.value === 'desc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </span>
+            </th>
+            <th (click)="sortData('total')" class="sortable-header">
+              Total
+              <span class="sort-icon">
+                <svg *ngIf="sortColumnSubject.value === 'total' && sortDirectionSubject.value === 'asc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                </svg>
+                <svg *ngIf="sortColumnSubject.value === 'total' && sortDirectionSubject.value === 'desc'"
+                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </span>
+            </th>
             <th>Actions</th>
           </tr>
           </thead>
