@@ -2,7 +2,8 @@
 export interface PlayerWeekScore {
   uuid?: string;
   playerUuid: string;
-  playerName: string;
+  playerFirstname: string;
+  playerLastname: string;
   round1Points: number | null;
   round2Points: number | null;
   round3Points: number | null;

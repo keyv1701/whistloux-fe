@@ -22,7 +22,7 @@ export class ChampionshipService {
 
   // Récupérer une semaine de championnat par son UUID
   getChampionshipWeek(uuid: string): Observable<ChampionshipWeek> {
-    return this.http.get<ChampionshipWeek>(`${this.apiUrl}/${uuid}`);
+    return this.http.get<ChampionshipWeek>(`${this.apiUrl}/weeks/${uuid}`);
   }
 
   // Récupérer les semaines d'une saison spécifique

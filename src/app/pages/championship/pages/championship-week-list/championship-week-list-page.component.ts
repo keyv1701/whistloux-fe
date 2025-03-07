@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { ChampionshipWeek } from '../../../models/championship/championship-week.model';
-import { ChampionshipFacade } from '../facades/championship.facade';
+import { ChampionshipWeek } from '../../../../models/championship/championship-week.model';
+import { ChampionshipFacade } from '../../facades/championship.facade';
 
 @Component({
   selector: 'app-championship-week-list-page',
@@ -49,9 +49,9 @@ export class ChampionshipWeekListPageComponent implements OnInit {
     this.loadChampionshipWeeks();
   }
 
-  viewWeekDetails(uuid: string | undefined): void {
+  navigateToDetail(uuid?: string): void {
     if (uuid) {
-      this.router.navigate(['/championship/weeks', uuid]);
+      this.router.navigate(['/championship/week', uuid]);
     }
   }
 }

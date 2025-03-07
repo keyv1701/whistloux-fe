@@ -1,0 +1,98 @@
+<div class="championship-detail-container">
+  <!-- Header avec bouton retour -->
+  <div class="header">
+    <button (click)="goBack()" class="back-button">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      Retour
+    </button>
+  </div>
+
+  <!-- Indicateur de chargement -->
+  <div *ngIf="loading$ | async" class="loading-indicator">
+    Chargement des détails de la semaine de championnat...
+  </div>
+
+  <!-- Contenu principal -->
+  <ng-container *ngIf="!(loading$ | async) && (selectedWeek$ | async) as week">
+    <div class="week-header">
+      <h1>Semaine de championnat #{{ week.weekNumber }}</h1>
+      <div class="week-meta">
+        <span class="season">Saison: {{ week.season }}</span>
+        <span class="date">Date: {{ week.date | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <p class="description">{{ week.description }}</p>
+    </div>
+
+    <div class="scores-section">
+      <div class="scores-header">
+        <h2>Scores des joueurs</h2>
+        <button (click)="addPlayerScore()" class="add-score-button">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Ajouter un score
+        </button>
+      </div>
+
+      <!-- Tableau des scores -->
+      <div class="scores-table-container" *ngIf="(playerScores$ | async)?.length; else noScores">
+        <table class="scores-table">
+          <thead>
+          <tr>
+            <th>Joueur</th>
+            <th>Manche 1</th>
+            <th>Manche 2</th>
+            <th>Manche 3</th>
+            <th>Total</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let score of playerScores$ | async">
+            <td>{{ score.playerFirstname + " " + score.playerLastname }}</td>
+            <td>{{ score.round1Points || 0 }}</td>
+            <td>{{ score.round2Points || 0 }}</td>
+            <td>{{ score.round3Points || 0 }}</td>
+            <td class="total-points">{{ getTotalPoints(score) }}</td>
+            <td class="actions">
+              <button class="btn-icon edit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+              </button>
+              <button class="btn-icon delete" (click)="deletePlayerScore(score.uuid!)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ng-template #noScores>
+        <div class="empty-state">
+          <p>Aucun score enregistré pour cette semaine de championnat.</p>
+          <button (click)="addPlayerScore()" class="add-score-button-empty">
+            Ajouter votre premier score
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </ng-container>
+
+  <!-- Message d'erreur si aucune semaine trouvée -->
+  <div *ngIf="!(loading$ | async) && !(selectedWeek$ | async)" class="error-state">
+    <p>Impossible de trouver les détails de cette semaine de championnat.</p>
+    <button (click)="goBack()" class="back-button-error">
+      Retourner à la liste
+    </button>
+  </div>
+</div>

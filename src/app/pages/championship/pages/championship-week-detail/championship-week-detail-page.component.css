@@ -1,0 +1,115 @@
+.championship-detail-container {
+  @apply p-6 bg-gray-50 min-h-screen;
+}
+
+.header {
+  @apply mb-6 flex;
+}
+
+.back-button {
+  @apply inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-150;
+}
+
+.back-button svg {
+  @apply mr-2 h-5 w-5;
+}
+
+.loading-indicator {
+  @apply flex justify-center items-center py-12 text-gray-500;
+}
+
+.week-header {
+  @apply bg-white p-6 rounded-lg shadow-sm mb-6;
+}
+
+h1 {
+  @apply text-2xl font-bold text-gray-800 mb-2;
+}
+
+.week-meta {
+  @apply flex flex-wrap gap-4 mb-3 text-gray-600;
+}
+
+.description {
+  @apply text-gray-700 mt-2;
+}
+
+.scores-section {
+  @apply bg-white p-6 rounded-lg shadow-sm;
+}
+
+.scores-header {
+  @apply flex justify-between items-center mb-6;
+}
+
+h2 {
+  @apply text-xl font-semibold text-gray-700;
+}
+
+.add-score-button {
+  @apply inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-150;
+}
+
+.add-score-button svg {
+  @apply mr-2 h-5 w-5;
+}
+
+.scores-table-container {
+  @apply overflow-x-auto;
+}
+
+.scores-table {
+  @apply min-w-full divide-y divide-gray-200;
+}
+
+.scores-table th {
+  @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50;
+}
+
+.scores-table td {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-700 border-b border-gray-200;
+}
+
+.total-points {
+  @apply font-semibold;
+}
+
+.actions {
+  @apply flex space-x-2 justify-end;
+}
+
+.btn-icon {
+  @apply rounded-full p-2 hover:bg-gray-100 transition-colors duration-150;
+}
+
+.btn-icon.edit {
+  @apply text-blue-600 hover:text-blue-800;
+}
+
+.btn-icon.delete {
+  @apply text-red-600 hover:text-red-800;
+}
+
+.empty-state {
+  @apply bg-gray-50 p-8 text-center rounded-lg;
+}
+
+.empty-state p {
+  @apply text-gray-600 mb-4;
+}
+
+.add-score-button-empty {
+  @apply px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-150;
+}
+
+.error-state {
+  @apply bg-red-50 p-8 text-center rounded-lg border border-red-100;
+}
+
+.error-state p {
+  @apply text-red-600 mb-4;
+}
+
+.back-button-error {
+  @apply px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-150;
+}
