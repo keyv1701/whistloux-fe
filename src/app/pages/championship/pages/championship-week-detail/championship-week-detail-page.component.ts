@@ -7,6 +7,7 @@ import { filter, map } from 'rxjs/operators';
 import { PlayerWeekScore } from "../../../../models/championship/player-week-score.model";
 import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeek } from "../../../../models/championship/championship-week.model";
+import { ImportModalComponent } from "../../../../shared/components/import-modal/import-modal.component";
 
 type SortColumn = 'playerName' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -14,7 +15,7 @@ type SortDirection = 'asc' | 'desc';
 @Component({
   selector: 'app-championship-week-detail-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ImportModalComponent],
   templateUrl: './championship-week-detail-page.component.html',
   styleUrls: ['./championship-week-detail-page.component.css']
 })
@@ -29,6 +30,8 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   sortDirection$ = this.sortDirectionSubject.asObservable();
 
   playerScores$: Observable<PlayerWeekScore[]>;
+
+  showImportDialog = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -155,4 +158,20 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     }
   }
 
+  openImportDialog(): void {
+    this.showImportDialog = true;
+  }
+
+  closeImportDialog(): void {
+    this.showImportDialog = false;
+  }
+
+  importData(file: File): void {
+    // TODO: Implémenter la logique d'importation des données
+    console.log('Importation du fichier:', file.name);
+
+    // Ici viendra le code pour traiter le fichier importé
+
+    this.closeImportDialog();
+  }
 }

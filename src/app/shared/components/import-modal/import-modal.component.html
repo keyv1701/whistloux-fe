@@ -1,0 +1,90 @@
+<div *ngIf="isOpen"
+     class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden bg-black bg-opacity-50">
+  <div class="relative w-full max-w-md p-4 md:p-0">
+    <div class="relative rounded-lg bg-white shadow">
+      <!-- Header -->
+      <div class="flex items-center justify-between rounded-t border-b p-4">
+        <h3 class="text-xl font-semibold text-gray-900">
+          {{ title }}
+        </h3>
+        <button
+          type="button"
+          (click)="onClose()"
+          class="ml-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
+        >
+          <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+          </svg>
+          <span class="sr-only">Fermer</span>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-6">
+        <p class="mb-4 text-base leading-relaxed text-gray-500">
+          {{ description }}
+        </p>
+
+        <div class="mb-4">
+          <div class="flex w-full items-center justify-center">
+            <label
+              class="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
+            >
+              <div class="flex flex-col items-center justify-center pb-6 pt-5">
+                <svg class="mb-3 h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+                <p class="mb-2 text-sm text-gray-500">
+                  <span class="font-semibold">Cliquez pour sélectionner</span> ou glissez-déposez
+                </p>
+                <p class="text-xs text-gray-500">
+                  Fichiers supportés: XLS, XLSX, CSV
+                </p>
+              </div>
+              <input
+                #fileInput
+                (change)="onFileSelected($event)"
+                type="file"
+                class="hidden"
+                [accept]="acceptTypes"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="selectedFile" class="mb-4 rounded-lg bg-blue-50 p-4 text-sm text-blue-800">
+          <div class="flex items-center">
+            <svg class="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z"
+                    clip-rule="evenodd"></path>
+            </svg>
+            <span>{{ selectedFile.name }} ({{ (selectedFile.size / 1024).toFixed(2) }} KB)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center space-x-2 rounded-b border-t border-gray-200 p-6">
+        <button
+          type="button"
+          [disabled]="!selectedFile"
+          (click)="onImport()"
+          class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:bg-blue-300 disabled:cursor-not-allowed"
+        >
+          Importer
+        </button>
+        <button
+          type="button"
+          (click)="onClose()"
+          class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-200"
+        >
+          Annuler
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
