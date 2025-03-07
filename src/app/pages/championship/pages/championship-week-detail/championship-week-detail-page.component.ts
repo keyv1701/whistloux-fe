@@ -132,4 +132,26 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     }
     return this.sortDirectionSubject.value === 'asc' ? 'sort-up' : 'sort-down';
   }
+
+  exportToExcel(): void {
+    const weekUuid = this.route.snapshot.params['uuid'];
+    if (weekUuid) {
+      this.championshipFacade.exportChampionshipToExcel(weekUuid).subscribe({
+        next: (blob: Blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `championnat-semaine-${weekUuid}-${new Date().toISOString().split('T')[0]}.xlsx`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        },
+        error: (error) => {
+          console.error('Erreur lors de l\'export Excel:', error);
+        }
+      });
+    }
+  }
+
 }

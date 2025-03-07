@@ -73,4 +73,10 @@ export class ChampionshipService {
     const url = `${this.apiUrl}/weeks`;
     return this.http.get<ChampionshipWeek[]>(url);
   }
+
+  exportChampionshipToExcel(weekUuid: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/weeks/${weekUuid}/export/excel`, {
+      responseType: 'blob'
+    });
+  }
 }

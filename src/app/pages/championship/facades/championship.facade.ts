@@ -195,4 +195,8 @@ export class ChampionshipFacade {
     ).subscribe();
   }
 
+  exportChampionshipToExcel(weekUuid: string): Observable<Blob> {
+    return this.championshipService.exportChampionshipToExcel(weekUuid);
+  }
+
 }
