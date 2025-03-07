@@ -2,6 +2,7 @@ export interface Player {
   uuid: string;
   firstName: string;
   lastName: string;
+  pseudo: string;
   email: string;
   dayOfBirth?: number;
   monthOfBirth?: number;
