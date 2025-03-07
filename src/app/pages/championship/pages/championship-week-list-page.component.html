@@ -1,0 +1,59 @@
+<div class="championship-week-list-container">
+  <div class="header">
+    <h1>Semaines de championnat</h1>
+
+    <div class="filters">
+      <label for="seasonSelect">Saison:</label>
+      <select id="seasonSelect" [(ngModel)]="selectedSeason" (change)="onSeasonChange(selectedSeason)">
+        <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
+      </select>
+    </div>
+  </div>
+
+  <ng-container *ngIf="loading$ | async; else content">
+    <div class="loading-indicator">
+      Chargement des semaines de championnat...
+    </div>
+  </ng-container>
+
+  <ng-template #content>
+    <ng-container *ngIf="(championshipWeeks$ | async)?.length === 0; else weekTable">
+      <div class="empty-state">
+        Aucune semaine de championnat trouvée pour la saison {{ selectedSeason }}.
+      </div>
+    </ng-container>
+
+    <ng-template #weekTable>
+      <div class="week-list">
+        <table>
+          <thead>
+          <tr>
+            <th>Semaine #</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Nb. joueurs</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let week of championshipWeeks$ | async"
+              (click)="viewWeekDetails(week.uuid)"
+              class="week-row">
+            <td>{{ week.weekNumber }}</td>
+            <td>{{ week.date | date:'dd/MM/yyyy' }}</td>
+            <td>{{ week.description }}</td>
+            <td>{{ week.playerScores?.length }}</td>
+            <td>
+              <div class="actions">
+                <button class="btn-icon edit" (click)="$event.stopPropagation(); viewWeekDetails(week.uuid)">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

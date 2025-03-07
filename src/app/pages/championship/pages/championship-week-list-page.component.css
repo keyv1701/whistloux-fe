@@ -1,0 +1,69 @@
+/* src/app/pages/championship/pages/championship-week-list-page.component.css */
+
+.championship-week-list-container {
+  @apply p-6 bg-gray-50 min-h-screen;
+}
+
+.header {
+  @apply flex flex-col md:flex-row justify-between items-center mb-6;
+}
+
+h1 {
+  @apply text-2xl font-bold text-gray-800 mb-4 md:mb-0;
+}
+
+.filters {
+  @apply flex items-center space-x-4;
+}
+
+.filters label {
+  @apply text-gray-600 font-medium;
+}
+
+.filters select {
+  @apply bg-white border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.loading-indicator {
+  @apply flex justify-center items-center py-12 text-gray-500;
+}
+
+.empty-state {
+  @apply bg-white p-8 rounded-lg shadow-sm text-center text-gray-500;
+}
+
+.week-list {
+  @apply overflow-x-auto mt-4;
+}
+
+table {
+  @apply min-w-full bg-white rounded-lg overflow-hidden shadow-sm;
+}
+
+thead {
+  @apply bg-gray-50;
+}
+
+th {
+  @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+
+td {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-700 border-b border-gray-200;
+}
+
+.week-row {
+  @apply hover:bg-blue-50 cursor-pointer transition-colors duration-150;
+}
+
+.actions {
+  @apply flex justify-end space-x-2;
+}
+
+.btn-icon {
+  @apply rounded-full p-2 hover:bg-gray-100 transition-colors duration-150;
+}
+
+.btn-icon.edit {
+  @apply text-blue-600 hover:text-blue-800;
+}

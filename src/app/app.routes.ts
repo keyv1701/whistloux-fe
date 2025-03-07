@@ -8,6 +8,7 @@ import {
 } from "./pages/tournaments/pages/tournament-detail-page/tournament-detail-page.component";
 import { ContactComponent } from "./pages/contact/contact.component";
 import { AboutComponent } from "./pages/about/about.component";
+import { ChampionshipWeekListPageComponent } from "./pages/championship/pages/championship-week-list-page.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -20,6 +21,11 @@ export const routes: Routes = [
     path: 'tournaments', children: [
       {path: '', component: TournamentPageComponent},
       {path: ':uuid', component: TournamentDetailPageComponent}
+    ]
+  },
+  {
+    path: 'championship', children: [
+      {path: '', component: ChampionshipWeekListPageComponent},
     ]
   },
   {path: '**', redirectTo: 'home'}
