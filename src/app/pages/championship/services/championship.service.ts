@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ChampionshipWeek } from "../../../models/championship/championship-week.model";
 import { PlayerWeekScore } from "../../../models/championship/player-week-score.model";
+import {PlayerRanking} from "../../../models/championship/player-ranking.model";
 
 @Injectable({
   providedIn: 'root'
@@ -88,5 +89,9 @@ export class ChampionshipService {
       `${this.apiUrl}/weeks/${weekUuid}/import/excel`,
       formData
     );
+  }
+
+  getChampionshipRankings(season: string): Observable<PlayerRanking[]> {
+    return this.http.get<PlayerRanking[]>(`${this.apiUrl}/championship/rankings/${season}`);
   }
 }

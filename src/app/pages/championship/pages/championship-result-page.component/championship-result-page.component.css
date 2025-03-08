@@ -1,0 +1,109 @@
+/* src/app/pages/championship/pages/championship-result/championship-result-page.component.css */
+.championship-result-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.rankings-table-container {
+  overflow-x: auto;
+}
+
+.rankings-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rankings-table th,
+.rankings-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.rankings-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #333;
+  position: sticky;
+  top: 0;
+}
+
+.rankings-table tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.rankings-table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.rankings-table .rank {
+  font-weight: bold;
+  width: 80px;
+  text-align: center;
+}
+
+.top-three {
+  background-color: #fafafa;
+  font-weight: bold;
+}
+
+.top-three:nth-child(1) {
+  background-color: rgba(255, 215, 0, 0.1); /* Gold */
+}
+
+.top-three:nth-child(2) {
+  background-color: rgba(192, 192, 192, 0.1); /* Silver */
+}
+
+.top-three:nth-child(3) {
+  background-color: rgba(205, 127, 50, 0.1); /* Bronze */
+}
+
+.best-score {
+  display: inline-block;
+  background-color: #e8f5e9;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-right: 4px;
+  font-size: 0.9em;
+}
+
+.worst-score {
+  background-color: #ffebee;
+  border-radius: 4px;
+  padding: 2px 6px;
+  display: inline-block;
+  font-size: 0.9em;
+}

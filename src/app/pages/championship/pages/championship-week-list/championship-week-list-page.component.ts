@@ -78,4 +78,12 @@ export class ChampionshipWeekListPageComponent implements OnInit {
     // Recharger la liste des semaines
     this.loadChampionshipWeeks();
   }
+
+  navigateToRankings(season: string): void {
+    if (!season) {
+      this.toastService.error('Veuillez sélectionner une saison');
+      return;
+    }
+    this.router.navigate(['/championship/results', season]);
+  }
 }

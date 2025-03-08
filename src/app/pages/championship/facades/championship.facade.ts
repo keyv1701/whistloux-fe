@@ -5,6 +5,7 @@ import { ChampionshipWeek } from "../../../models/championship/championship-week
 import { ChampionshipService } from "../services/championship.service";
 import { ToastService } from "../../../shared/services/toast.service";
 import { PlayerWeekScore } from "../../../models/championship/player-week-score.model";
+import {PlayerRanking} from "../../../models/championship/player-ranking.model";
 
 @Injectable({
   providedIn: 'root'
@@ -212,6 +213,10 @@ export class ChampionshipFacade {
       }),
       finalize(() => this.loadingSubject.next(false))
     );
+  }
+
+  getChampionshipRankings(season: string): Observable<PlayerRanking[]> {
+    return this.championshipService.getChampionshipRankings(season);
   }
 
 }

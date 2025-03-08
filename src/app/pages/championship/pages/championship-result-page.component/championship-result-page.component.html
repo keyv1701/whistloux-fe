@@ -1,0 +1,49 @@
+<!-- src/app/pages/championship/pages/championship-result/championship-result-page.component.html -->
+<div class="championship-result-container">
+  <div class="header">
+    <h1>Classement du Championnat - Saison {{ season }}</h1>
+  </div>
+
+  <ng-container *ngIf="loading; else content">
+    <div class="loading-indicator">
+      Chargement du classement...
+    </div>
+  </ng-container>
+
+  <ng-template #content>
+    <ng-container *ngIf="(playerRankings$ | async)?.length === 0; else rankingsTable">
+      <div class="empty-state">
+        Aucun classement disponible pour la saison {{ season }}.
+      </div>
+    </ng-container>
+
+    <ng-template #rankingsTable>
+      <div class="rankings-table-container">
+        <table class="rankings-table">
+          <thead>
+          <tr>
+            <th>Position</th>
+            <th>Joueur</th>
+            <th>Score Total</th>
+            <th>Rondes Jouées</th>
+            <th>5 Meilleurs Scores</th>
+            <th>Pire Score Comptabilisé</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let player of playerRankings$ | async" [ngClass]="{'top-three': player.rank <= 3}">
+            <td class="rank">{{ player.rank }}</td>
+            <td class="player-name">{{ player.playerName }}</td>
+            <td class="total-score">{{ player.totalScore }}</td>
+            <td class="rounds-played">{{ player.roundsPlayed }}</td>
+            <td class="best-scores">
+              <span *ngFor="let score of player.bestRoundScores" class="best-score">{{ score }}</span>
+            </td>
+            <td class="worst-score">{{ player.worstRoundScore }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>
