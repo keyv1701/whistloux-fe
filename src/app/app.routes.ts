@@ -17,6 +17,9 @@ import {
 import {
   ChampionshipResultPageComponent
 } from "./pages/championship/pages/championship-result-page.component/championship-result-page.component";
+import {
+  PlayerWhistBidsListPageComponent
+} from "./pages/bids/pages/player-whist-bids-list-page/player-whist-bids-list-page.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -36,6 +39,11 @@ export const routes: Routes = [
       {path: '', component: ChampionshipWeekListPageComponent},
       {path: 'week/:uuid', component: ChampionshipWeekDetailPageComponent},
       {path: 'results/:season', component: ChampionshipResultPageComponent}
+    ]
+  },
+  {
+    path: 'whist-bids', children: [
+      {path: '', component: PlayerWhistBidsListPageComponent},
     ]
   },
   {path: '**', redirectTo: 'home'}

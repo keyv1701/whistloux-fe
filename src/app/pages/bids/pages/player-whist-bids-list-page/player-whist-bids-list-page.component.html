@@ -1,0 +1,73 @@
+<div class="container mt-4">
+  <h1>Liste des enchères de Whist par joueur</h1>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <form [formGroup]="filterForm">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="seasonSelect" class="form-label">Saison</label>
+            <select id="seasonSelect" class="form-select" formControlName="season">
+              <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && playerBids.length === 0" class="alert alert-info" role="alert">
+    Aucune enchère trouvée pour cette saison.
+  </div>
+
+  <div *ngIf="playerBids.length > 0" class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>Joueur</th>
+        <th>Total</th>
+        <th>Petit Misère</th>
+        <th>Picolissimo</th>
+        <th>Huitième</th>
+        <th>Petit Misère Entame</th>
+        <th>Abondance 9</th>
+        <th>Grand Misère</th>
+        <th>Abondance 10</th>
+        <th>Abondance 11</th>
+        <th>Grand Misère Entame</th>
+        <th>Grand Misère Ouvert</th>
+        <th>Petit Chelem</th>
+        <th>Grand Chelem</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let playerBid of playerBids">
+        <td>{{ playerBid.playerFirstname }} {{ playerBid.playerLastName }}</td>
+        <td><strong>{{ getTotalBids(playerBid) }}</strong></td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.PM) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.PIC) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.H8) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.PME) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.AB9) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.GM) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.AB10) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.AB11) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.GME) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.GMO) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.PCH) }}</td>
+        <td>{{ getBidTypeCount(playerBid, WhistBid.GCH) }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
