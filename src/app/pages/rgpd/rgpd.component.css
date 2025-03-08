@@ -1,0 +1,44 @@
+:host {
+  display: block;
+  min-height: calc(100vh - 64px - 300px);
+  background-color: white;
+}
+
+.card {
+  background-color: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #2563eb;
+}
+
+a {
+  color: #2563eb;
+  transition: all 0.2s ease;
+  text-decoration: underline;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  margin-bottom: 0.5rem;
+}
+
+.container {
+  max-width: 1200px;
+}
