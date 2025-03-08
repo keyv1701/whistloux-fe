@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PlayerWhistBidsFacade } from '../../facades/player-whist-bids.facade';
 import { PlayerWhistBids } from '../../../../models/bids/player-whist-bids.model';
-import { WhistBid, getBidDescription } from "../../../../models/bids/whist-bid.enum";
+import {WhistBid, getBidDescription, WhistBidPoints} from "../../../../models/bids/whist-bid.enum";
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -93,4 +93,6 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     const bidDetail = playerBids.bidDetails.find(detail => detail.bidType === bidType);
     return bidDetail ? bidDetail.count : 0;
   }
+
+  protected readonly WhistBidPoints = WhistBidPoints;
 }

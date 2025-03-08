@@ -28,7 +28,33 @@ export const WhistBidDescriptions: Record<WhistBid, string> = {
   [WhistBid.GCH]: 'Grand Chelem'
 };
 
+export const WhistBidPoints: Record<WhistBid, number> = {
+  [WhistBid.PM]: -4,
+  [WhistBid.PIC]: 5,
+  [WhistBid.H8]: 6,
+  [WhistBid.PME]: 8,
+  [WhistBid.AB9]: 10,
+  [WhistBid.GM]: 12,
+  [WhistBid.AB10]: 14,
+  [WhistBid.AB11]: 16,
+  [WhistBid.GME]: 20,
+  [WhistBid.GMO]: 25,
+  [WhistBid.PCH]: 30,
+  [WhistBid.GCH]: 40
+};
+
 // Fonction utilitaire pour obtenir la description d'un type d'enchère
 export function getBidDescription(bidType: WhistBid): string {
   return WhistBidDescriptions[bidType] || bidType.toString();
+}
+
+// Fonction utilitaire pour obtenir les points d'un type d'enchère
+export function getBidPoints(bidType: WhistBid): number {
+  return WhistBidPoints[bidType];
+}
+
+// Fonction pour calculer les points en fonction du résultat
+export function getPointsForResult(bidType: WhistBid, success: boolean): number {
+  const points = WhistBidPoints[bidType];
+  return success ? points : -points;
 }
