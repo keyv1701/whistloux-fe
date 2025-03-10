@@ -9,7 +9,7 @@ import {WhistBidDetail} from "../../../models/bids/whist-bid-detail.model";
   providedIn: 'root'
 })
 export class PlayerWhistBidsService {
-  private apiUrl = `${environment.apiBaseUrl}/api/whist-bids`;
+  private apiUrl = `${environment.apiBaseUrl}/whist-bids`;
 
   constructor(private http: HttpClient) { }
 
