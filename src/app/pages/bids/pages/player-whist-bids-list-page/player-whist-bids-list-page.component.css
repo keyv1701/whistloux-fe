@@ -47,3 +47,16 @@
     overflow: hidden;
   }
 }
+
+.btn-success {
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .bi-file-earmark-excel {
+    font-size: 1.1rem;
+  }
+}

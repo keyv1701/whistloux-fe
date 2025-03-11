@@ -25,17 +25,20 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   playerBids: PlayerWhistBids[] = [];
   loading = false;
   error: string | null = null;
+  currentSeason = '2025';
 
   filterForm: FormGroup;
   seasons: string[] = [];
   protected readonly WhistBid = WhistBid;
+  selectedPlayerUuid: string | null = null; // Ajout de cette propriété
 
   constructor(
     private fb: FormBuilder,
     private playerWhistBidsFacade: PlayerWhistBidsFacade
   ) {
     this.filterForm = this.fb.group({
-      season: [new Date().getFullYear().toString()]
+      season: [new Date().getFullYear().toString()],
+      player: [null] // Ajout d'un contrôle pour sélectionner un joueur
     });
 
     // Créer les options pour les 5 dernières années
@@ -68,6 +71,11 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     this.filterForm.get('season')?.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(season => this.loadBidsBySeason(season));
+
+    // Écouter les changements de joueur sélectionné
+    this.filterForm.get('player')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(player => this.selectedPlayerUuid = player);
   }
 
   ngOnDestroy(): void {
@@ -92,6 +100,10 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   getBidTypeCount(playerBids: PlayerWhistBids, bidType: WhistBid): number {
     const bidDetail = playerBids.bidDetails.find(detail => detail.bidType === bidType);
     return bidDetail ? bidDetail.count : 0;
+  }
+
+  exportToExcel(): void {
+    this.playerWhistBidsFacade.exportSeasonBidsToExcel(this.currentSeason).subscribe();
   }
 
   protected readonly WhistBidPoints = WhistBidPoints;

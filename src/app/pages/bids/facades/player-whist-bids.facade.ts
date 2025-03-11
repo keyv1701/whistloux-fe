@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {BehaviorSubject, catchError, EMPTY, finalize, Observable} from 'rxjs';
 import { PlayerWhistBids } from '../../../models/bids/player-whist-bids.model';
 import { WhistBidDetail } from '../../../models/bids/whist-bid-detail.model';
 import { PlayerWhistBidsService } from '../services/player-whist-bids.service';
-import { tap } from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -180,5 +180,29 @@ export class PlayerWhistBidsFacade {
     } else {
       this.playerBidsSubject.next([...currentBids, modifiedBids]);
     }
+  }
+
+  exportSeasonBidsToExcel(season: string): Observable<void> {
+    this.loadingSubject.next(true);
+
+    return this.playerWhistBidsService.exportSeasonBidsToExcel(season).pipe(
+      tap((blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `encheres-whist-saison-${season}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }),
+      map(() => void 0),
+      catchError((error) => {
+        this.errorSubject.next('Une erreur est survenue lors de l\'exportation des données.');
+        console.error('Erreur lors de l\'exportation Excel:', error);
+        return EMPTY;
+      }),
+      finalize(() => this.loadingSubject.next(false))
+    );
   }
 }

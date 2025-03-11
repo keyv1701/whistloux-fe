@@ -40,4 +40,10 @@ export class PlayerWhistBidsService {
   addBidDetail(season: string, playerUuid: string, bidDetail: WhistBidDetail): Observable<PlayerWhistBids> {
     return this.http.post<PlayerWhistBids>(`${this.apiUrl}/season/${season}/player/${playerUuid}/bid`, bidDetail);
   }
+
+  exportSeasonBidsToExcel(season: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/season/${season}/export/excel`, {
+      responseType: 'blob'
+    });
+  }
 }

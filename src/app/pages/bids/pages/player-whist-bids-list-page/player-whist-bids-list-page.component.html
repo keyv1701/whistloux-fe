@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h1 class="text-center mb-4">Liste des enchères de Whist par joueur</h1>
+  <h1 class="text-center mb-4">Liste des annonces par joueur</h1>
 
   <div class="card shadow-sm mb-4">
     <div class="card-header bg-light">
@@ -9,10 +9,12 @@
       <form [formGroup]="filterForm">
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label for="seasonSelect" class="form-label fw-bold">Saison</label>
-            <select id="seasonSelect" class="form-select" formControlName="season">
-              <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
-            </select>
+            <label class="form-label fw-bold">Saison 2025</label>
+          </div>
+          <div class="col-md-6 d-flex justify-content-end">
+            <button class="btn btn-success" (click)="exportToExcel()" [disabled]="loading">
+              <i class="bi bi-file-earmark-excel me-2"></i>Exporter la saison
+            </button>
           </div>
         </div>
       </form>
