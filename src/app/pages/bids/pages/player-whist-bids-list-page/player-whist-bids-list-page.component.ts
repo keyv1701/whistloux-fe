@@ -7,6 +7,8 @@ import { PlayerWhistBids } from '../../../../models/bids/player-whist-bids.model
 import {WhistBid, getBidDescription, WhistBidPoints} from "../../../../models/bids/whist-bid.enum";
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import {ImportModalComponent} from "../../../../shared/components/import-modal/import-modal.component";
+import {ToastService} from "../../../../shared/services/toast.service";
 
 @Component({
   selector: 'app-player-whist-bids-list-page',
@@ -16,7 +18,8 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    ImportModalComponent
   ]
 })
 export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
@@ -32,9 +35,12 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   protected readonly WhistBid = WhistBid;
   selectedPlayerUuid: string | null = null; // Ajout de cette propriété
 
+  showImportDialog = false;
+
   constructor(
     private fb: FormBuilder,
-    private playerWhistBidsFacade: PlayerWhistBidsFacade
+    private playerWhistBidsFacade: PlayerWhistBidsFacade,
+    private toastService: ToastService
   ) {
     this.filterForm = this.fb.group({
       season: [new Date().getFullYear().toString()],
@@ -62,7 +68,12 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     // S'abonner aux erreurs
     this.playerWhistBidsFacade.error$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(error => this.error = error);
+      .subscribe(error => {
+        this.error = error;
+        if (error) {
+          this.toastService.error(error);
+        }
+      });
 
     // Charger les données pour la saison actuelle
     this.loadBidsBySeason(this.filterForm.get('season')?.value);
@@ -104,6 +115,35 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
 
   exportToExcel(): void {
     this.playerWhistBidsFacade.exportSeasonBidsToExcel(this.currentSeason).subscribe();
+  }
+
+  openImportDialog(): void {
+    this.showImportDialog = true;
+  }
+
+  closeImportDialog(): void {
+    this.showImportDialog = false;
+  }
+
+  importData(file: File): void {
+    const currentSeason = this.filterForm.get('season')?.value;
+    if (currentSeason) {
+      this.playerWhistBidsFacade.importSeasonBidsFromExcel(currentSeason, file).subscribe({
+        next: (response) => {
+          this.toastService.success(
+            `Importation réussie !`
+          );
+        },
+        error: (error) => {
+          this.toastService.error(
+            `Erreur lors de l'importation : ${error.error?.message || 'Une erreur est survenue'}`
+          );
+        }
+      });
+    } else {
+      this.toastService.error('Veuillez sélectionner une saison pour importer des données.');
+    }
+    this.closeImportDialog();
   }
 
   protected readonly WhistBidPoints = WhistBidPoints;

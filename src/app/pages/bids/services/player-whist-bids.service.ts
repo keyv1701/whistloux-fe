@@ -46,4 +46,11 @@ export class PlayerWhistBidsService {
       responseType: 'blob'
     });
   }
+
+  importSeasonBidsFromExcel(season: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<any>(`${this.apiUrl}/season/${season}/import/excel`, formData);
+  }
 }

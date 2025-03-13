@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, catchError, EMPTY, finalize, Observable} from 'rxjs';
+import {BehaviorSubject, catchError, EMPTY, finalize, Observable, throwError} from 'rxjs';
 import { PlayerWhistBids } from '../../../models/bids/player-whist-bids.model';
 import { WhistBidDetail } from '../../../models/bids/whist-bid-detail.model';
 import { PlayerWhistBidsService } from '../services/player-whist-bids.service';
@@ -201,6 +201,24 @@ export class PlayerWhistBidsFacade {
         this.errorSubject.next('Une erreur est survenue lors de l\'exportation des données.');
         console.error('Erreur lors de l\'exportation Excel:', error);
         return EMPTY;
+      }),
+      finalize(() => this.loadingSubject.next(false))
+    );
+  }
+
+  importSeasonBidsFromExcel(season: string, file: File): Observable<any> {
+    this.loadingSubject.next(true);
+
+    return this.playerWhistBidsService.importSeasonBidsFromExcel(season, file).pipe(
+      tap(response => {
+        // Recharger les données après l'importation
+        this.loadBidsBySeason(season);
+        return response;
+      }),
+      catchError(error => {
+        this.errorSubject.next(error.error?.message || 'Une erreur est survenue lors de l\'importation des données.');
+        console.error('Erreur lors de l\'importation Excel:', error);
+        return throwError(() => error);
       }),
       finalize(() => this.loadingSubject.next(false))
     );
