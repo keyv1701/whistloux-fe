@@ -43,12 +43,12 @@ export const WhistBidPoints: Record<WhistBid, number> = {
   [WhistBid.GCH]: 40
 };
 
-// Fonction utilitaire pour obtenir la description d'un type d'enchère
+// Fonction utilitaire pour obtenir la description d'un type d'annonce
 export function getBidDescription(bidType: WhistBid): string {
   return WhistBidDescriptions[bidType] || bidType.toString();
 }
 
-// Fonction utilitaire pour obtenir les points d'un type d'enchère
+// Fonction utilitaire pour obtenir les points d'un type d'annonce
 export function getBidPoints(bidType: WhistBid): number {
   return WhistBidPoints[bidType];
 }

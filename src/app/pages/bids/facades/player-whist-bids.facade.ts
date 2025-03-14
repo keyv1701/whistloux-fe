@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, catchError, EMPTY, finalize, Observable, throwError} from 'rxjs';
-import { PlayerWhistBids } from '../../../models/bids/player-whist-bids.model';
-import { WhistBidDetail } from '../../../models/bids/whist-bid-detail.model';
-import { PlayerWhistBidsService } from '../services/player-whist-bids.service';
+import {PlayerWhistBids} from '../../../models/bids/player-whist-bids.model';
+import {WhistBidDetail} from '../../../models/bids/whist-bid-detail.model';
+import {PlayerWhistBidsService} from '../services/player-whist-bids.service';
 import {map, tap} from 'rxjs/operators';
 
 @Injectable({
@@ -19,7 +19,8 @@ export class PlayerWhistBidsFacade {
   public loading$ = this.loadingSubject.asObservable();
   public error$ = this.errorSubject.asObservable();
 
-  constructor(private playerWhistBidsService: PlayerWhistBidsService) { }
+  constructor(private playerWhistBidsService: PlayerWhistBidsService) {
+  }
 
   loadBidsBySeason(season: string): void {
     this.loadingSubject.next(true);
@@ -32,7 +33,7 @@ export class PlayerWhistBidsFacade {
       .subscribe({
         next: (bids) => this.playerBidsSubject.next(bids),
         error: (error) => {
-          this.errorSubject.next('Erreur lors du chargement des enchères pour la saison');
+          this.errorSubject.next('Erreur lors du chargement des annonces pour la saison');
           this.loadingSubject.next(false);
         }
       });
@@ -49,7 +50,7 @@ export class PlayerWhistBidsFacade {
       .subscribe({
         next: (bids) => this.playerBidsSubject.next(bids),
         error: (error) => {
-          this.errorSubject.next('Erreur lors du chargement des enchères pour le joueur');
+          this.errorSubject.next('Erreur lors du chargement des annonces pour le joueur');
           this.loadingSubject.next(false);
         }
       });
@@ -66,7 +67,7 @@ export class PlayerWhistBidsFacade {
       .subscribe({
         next: (bids) => this.currentPlayerBidsSubject.next(bids),
         error: (error) => {
-          this.errorSubject.next('Erreur lors du chargement des enchères pour le joueur et la saison');
+          this.errorSubject.next('Erreur lors du chargement des annonces pour le joueur et la saison');
           this.loadingSubject.next(false);
         }
       });
@@ -84,7 +85,7 @@ export class PlayerWhistBidsFacade {
             this.updateStateAfterModification(createdBids);
           },
           error: (error) => {
-            this.errorSubject.next('Erreur lors de la création des enchères');
+            this.errorSubject.next('Erreur lors de la création des annonces');
             this.loadingSubject.next(false);
           }
         })
@@ -132,7 +133,7 @@ export class PlayerWhistBidsFacade {
             }
           },
           error: (error) => {
-            this.errorSubject.next('Erreur lors de la suppression des enchères');
+            this.errorSubject.next('Erreur lors de la suppression des annonces');
             this.loadingSubject.next(false);
           }
         })
@@ -151,7 +152,7 @@ export class PlayerWhistBidsFacade {
             this.updateStateAfterModification(updatedPlayerBids);
           },
           error: (error) => {
-            this.errorSubject.next('Erreur lors de l\'ajout d\'une enchère');
+            this.errorSubject.next('Erreur lors de l\'ajout d\'une annonce');
             this.loadingSubject.next(false);
           }
         })
