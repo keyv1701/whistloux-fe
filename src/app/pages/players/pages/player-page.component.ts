@@ -1,26 +1,27 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { PlayerFacade } from "../facades/player.facade";
-import { Player } from "../../../models/player.interface";
-import { Subject } from "rxjs";
-import { PlayerFormComponent } from '../components/player-form/player-form.component';
-import { PlayerListComponent } from '../components/player-list/player-list.component';
-import { PlayerErrorAlertComponent } from '../components/player-error-alert/player-error-alert.component';
-import { LoaderComponent } from "../../../shared/components/loader/loader.component";
-import { ToastService } from "../../../shared/services/toast.service";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {AsyncPipe, NgIf} from '@angular/common';
+import {PlayerFacade} from "../facades/player.facade";
+import {Player} from "../../../models/player.interface";
+import {finalize, Subject} from "rxjs";
+import {PlayerListComponent} from '../components/player-list/player-list.component';
+import {PlayerErrorAlertComponent} from '../components/player-error-alert/player-error-alert.component';
+import {LoaderComponent} from "../../../shared/components/loader/loader.component";
+import {ToastService} from "../../../shared/services/toast.service";
 
 @Component({
   selector: 'app-player',
   standalone: true,
   imports: [
-    NgIf, NgFor, NgClass, ReactiveFormsModule, AsyncPipe,
-    PlayerFormComponent, PlayerListComponent, PlayerErrorAlertComponent, LoaderComponent
+    NgIf, ReactiveFormsModule, AsyncPipe,
+    PlayerListComponent, PlayerErrorAlertComponent, LoaderComponent
   ],
   templateUrl: './player-page.component.html',
 })
 export class PlayerPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+
+  isImporting = false;
 
   constructor(
     public playerFacade: PlayerFacade,
@@ -67,5 +68,28 @@ export class PlayerPageComponent implements OnInit, OnDestroy {
   onExportPlayers(): void {
     this.playerFacade.exportPlayersToExcel();
     this.toastService.info('L\'export Excel a été lancé');
+  }
+
+  onImportPlayers(): void {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.xlsx, .xls';
+
+    fileInput.onchange = (event: any) => {
+      const file = event.target.files[0];
+      if (file) {
+        this.importFile(file);
+      }
+    };
+
+    fileInput.click();
+  }
+
+  private importFile(file: File): void {
+    this.isImporting = true;
+
+    this.playerFacade.importPlayersFromExcel(file).pipe(
+      finalize(() => this.isImporting = false)
+    ).subscribe();
   }
 }

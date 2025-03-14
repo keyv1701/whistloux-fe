@@ -1,7 +1,7 @@
 <div class="player-card">
   <div class="card-header">
     <div class="avatar" [style.backgroundColor]="generateAvatarColor(player.lastName)">
-      {{ player.firstName?.charAt(0) || '?' }}{{ player.lastName?.charAt(0) || '?' }}
+      {{ player.firstName ? player.firstName.charAt(0) : '?' }}{{ player.lastName ? player.lastName.charAt(0) : '?' }}
     </div>
     <div class="main-info">
       <div class="name-container">

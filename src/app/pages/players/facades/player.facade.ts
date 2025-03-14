@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, of, tap } from 'rxjs';
-import { PlayerService } from '../services/player.service';
-import { Player } from "../../../models/player.interface";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, catchError, finalize, Observable, of, tap} from 'rxjs';
+import {PlayerService} from '../services/player.service';
+import {Player} from "../../../models/player.interface";
+import {ToastService} from "../../../shared/services/toast.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,10 @@ export class PlayerFacade {
   public readonly loading$ = this.loadingSubject.asObservable();
   public readonly error$ = this.errorSubject.asObservable();
 
-  constructor(private playerService: PlayerService) {
+  constructor(
+    private playerService: PlayerService,
+    private toastService: ToastService
+  ) {
   }
 
   loadPlayers(): void {
@@ -127,5 +131,20 @@ export class PlayerFacade {
       }),
       finalize(() => this.loadingSubject.next(false))
     ).subscribe();
+  }
+
+  importPlayersFromExcel(file: File): Observable<string> {
+    return this.playerService.importPlayersFromExcel(file).pipe(
+      tap(message => {
+        this.toastService.success('Import réussi');
+        // Rafraîchir la liste des joueurs après l'import
+        this.loadPlayers();
+      }),
+      catchError(error => {
+        this.toastService.error('Erreur lors de l\'import',
+          error.error || 'Impossible d\'importer les joueurs depuis le fichier Excel');
+        throw error;
+      })
+    );
   }
 }
