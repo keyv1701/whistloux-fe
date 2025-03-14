@@ -74,6 +74,9 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         tap(bids => {
           this.playerBids = bids;
+          // Initialiser le tri par défaut sur totalBids en descendant
+          this.sortColumn = 'totalBids';
+          this.sortDirection = 'desc';
           this.applyFilters();
         })
       )
