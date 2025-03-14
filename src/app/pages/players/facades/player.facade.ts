@@ -3,6 +3,7 @@ import {BehaviorSubject, catchError, finalize, Observable, of, tap} from 'rxjs';
 import {PlayerService} from '../services/player.service';
 import {Player} from "../../../models/player.interface";
 import {ToastService} from "../../../shared/services/toast.service";
+import {ErrorHandlingService} from "../../../shared/services/error-handling.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class PlayerFacade {
 
   constructor(
     private playerService: PlayerService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private errorHandlingService: ErrorHandlingService
   ) {
   }
 
@@ -141,8 +143,10 @@ export class PlayerFacade {
         this.loadPlayers();
       }),
       catchError(error => {
-        this.toastService.error('Erreur lors de l\'import',
-          error.error || 'Impossible d\'importer les joueurs depuis le fichier Excel');
+        this.errorHandlingService.handleHttpError(
+          error,
+          'Une erreur est survenue lors de l\'importation'
+        );
         throw error;
       })
     );
