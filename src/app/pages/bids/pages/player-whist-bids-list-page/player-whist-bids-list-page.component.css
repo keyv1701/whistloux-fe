@@ -174,13 +174,13 @@ tbody td.sticky-col {
   transition: all 0.2s ease;
 }
 
-/* Style pour les cellules avec enchères */
+/* Style pour les cellules avec annonces */
 .has-bids {
   font-weight: 700;
   color: #27ae60;
 }
 
-/* Points des enchères */
+/* Points des annonces */
 .bid-points {
   color: #e74c3c;
 }

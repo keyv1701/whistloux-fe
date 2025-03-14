@@ -68,7 +68,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // S'abonner aux données des enchères
+    // S'abonner aux données des annonces
     this.playerWhistBidsFacade.playerBids$
       .pipe(
         takeUntil(this.destroy$),
@@ -249,12 +249,15 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     return getBidDescription(bidType);
   }
 
-  // Calcule le nombre total d'enchères pour un joueur
+  // Calcule le nombre total d'annonces pour un joueur
   getTotalBids(playerBids: PlayerWhistBids): number {
-    return playerBids.bidDetails.reduce((total, bid) => total + bid.count, 0);
+    return playerBids.bidDetails.reduce((total, bid) => {
+      const points = WhistBidPoints[bid.bidType] * bid.count;
+      return total + points;
+    }, 0);
   }
 
-  // Calcule le nombre d'enchères d'un type spécifique pour un joueur
+  // Calcule le nombre d'annonces d'un type spécifique pour un joueur
   getBidTypeCount(playerBids: PlayerWhistBids, bidType: WhistBid): number {
     const bidDetail = playerBids.bidDetails.find(detail => detail.bidType === bidType);
     return bidDetail ? bidDetail.count : 0;

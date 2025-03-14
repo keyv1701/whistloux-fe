@@ -49,7 +49,7 @@
   </div>
 
   <div *ngIf="!loading && filteredPlayerBids.length === 0" class="alert alert-info shadow-sm" role="alert">
-    <i class="bi bi-info-circle-fill me-2"></i>Aucune enchère trouvée pour cette recherche.
+    <i class="bi bi-info-circle-fill me-2"></i>Aucune annonce trouvée pour cette recherche.
   </div>
 
   <div *ngIf="filteredPlayerBids.length > 0" class="table-responsive card shadow-sm">
@@ -167,9 +167,9 @@
 
 <app-import-modal
   [isOpen]="showImportDialog"
-  [title]="'Importer des enchères'"
+  [title]="'Importer des annonces'"
   [acceptTypes]="'.xlsx'"
-  [description]="'Sélectionnez un fichier Excel (.xlsx) contenant les données d\'enchères à importer.'"
+  [description]="'Sélectionnez un fichier Excel (.xlsx) contenant les données d\'annonces à importer.'"
   (fileSelected)="importData($event)"
   (closeModal)="closeImportDialog()"
 ></app-import-modal>

@@ -28,15 +28,14 @@ export class PlayerWhistBidsFacade {
 
     this.playerWhistBidsService.getBidsBySeason(season)
       .pipe(
-        tap(() => this.loadingSubject.next(false))
-      )
-      .subscribe({
-        next: (bids) => this.playerBidsSubject.next(bids),
-        error: (error) => {
+        tap(bids => this.playerBidsSubject.next(bids)),
+        catchError(error => {
           this.errorSubject.next('Erreur lors du chargement des annonces pour la saison');
-          this.loadingSubject.next(false);
-        }
-      });
+          return EMPTY;
+        }),
+        finalize(() => this.loadingSubject.next(false))
+      )
+      .subscribe();
   }
 
   loadBidsByPlayer(playerUuid: string): void {
@@ -45,15 +44,14 @@ export class PlayerWhistBidsFacade {
 
     this.playerWhistBidsService.getBidsByPlayer(playerUuid)
       .pipe(
-        tap(() => this.loadingSubject.next(false))
-      )
-      .subscribe({
-        next: (bids) => this.playerBidsSubject.next(bids),
-        error: (error) => {
+        tap(bids => this.playerBidsSubject.next(bids)),
+        catchError(error => {
           this.errorSubject.next('Erreur lors du chargement des annonces pour le joueur');
-          this.loadingSubject.next(false);
-        }
-      });
+          return EMPTY;
+        }),
+        finalize(() => this.loadingSubject.next(false))
+      )
+      .subscribe();
   }
 
   loadBidsBySeasonAndPlayer(season: string, playerUuid: string): void {
@@ -62,15 +60,14 @@ export class PlayerWhistBidsFacade {
 
     this.playerWhistBidsService.getBidsBySeasonAndPlayer(season, playerUuid)
       .pipe(
-        tap(() => this.loadingSubject.next(false))
-      )
-      .subscribe({
-        next: (bids) => this.currentPlayerBidsSubject.next(bids),
-        error: (error) => {
+        tap(bids => this.currentPlayerBidsSubject.next(bids)),
+        catchError(error => {
           this.errorSubject.next('Erreur lors du chargement des annonces pour le joueur et la saison');
-          this.loadingSubject.next(false);
-        }
-      });
+          return EMPTY;
+        }),
+        finalize(() => this.loadingSubject.next(false))
+      )
+      .subscribe();
   }
 
   createPlayerBids(playerBids: PlayerWhistBids): Observable<PlayerWhistBids> {
@@ -79,16 +76,12 @@ export class PlayerWhistBidsFacade {
 
     return this.playerWhistBidsService.createPlayerBids(playerBids)
       .pipe(
-        tap({
-          next: (createdBids) => {
-            this.loadingSubject.next(false);
-            this.updateStateAfterModification(createdBids);
-          },
-          error: (error) => {
-            this.errorSubject.next('Erreur lors de la création des annonces');
-            this.loadingSubject.next(false);
-          }
-        })
+        tap(createdBids => this.updateStateAfterModification(createdBids)),
+        catchError(error => {
+          this.errorSubject.next('Erreur lors de la création des annonces');
+          return throwError(() => error);
+        }),
+        finalize(() => this.loadingSubject.next(false))
       );
   }
 
@@ -98,16 +91,12 @@ export class PlayerWhistBidsFacade {
 
     return this.playerWhistBidsService.updatePlayerBids(season, playerUuid, updatedBids)
       .pipe(
-        tap({
-          next: (updatedPlayerBids) => {
-            this.loadingSubject.next(false);
-            this.updateStateAfterModification(updatedPlayerBids);
-          },
-          error: (error) => {
-            this.errorSubject.next('Erreur lors de la mise à jour des enchères');
-            this.loadingSubject.next(false);
-          }
-        })
+        tap(updatedPlayerBids => this.updateStateAfterModification(updatedPlayerBids)),
+        catchError(error => {
+          this.errorSubject.next('Erreur lors de la mise à jour des annonces');
+          return throwError(() => error);
+        }),
+        finalize(() => this.loadingSubject.next(false))
       );
   }
 
@@ -117,26 +106,24 @@ export class PlayerWhistBidsFacade {
 
     return this.playerWhistBidsService.deletePlayerBids(season, playerUuid)
       .pipe(
-        tap({
-          next: () => {
-            this.loadingSubject.next(false);
-            // Mise à jour de l'état après suppression
-            const currentBids = this.playerBidsSubject.getValue();
-            this.playerBidsSubject.next(
-              currentBids.filter(bid => !(bid.season === season && bid.playerUuid === playerUuid))
-            );
-            if (
-              this.currentPlayerBidsSubject.getValue()?.season === season &&
-              this.currentPlayerBidsSubject.getValue()?.playerUuid === playerUuid
-            ) {
-              this.currentPlayerBidsSubject.next(null);
-            }
-          },
-          error: (error) => {
-            this.errorSubject.next('Erreur lors de la suppression des annonces');
-            this.loadingSubject.next(false);
+        tap(() => {
+          // Mise à jour de l'état après suppression
+          const currentBids = this.playerBidsSubject.getValue();
+          this.playerBidsSubject.next(
+            currentBids.filter(bid => !(bid.season === season && bid.playerUuid === playerUuid))
+          );
+          if (
+            this.currentPlayerBidsSubject.getValue()?.season === season &&
+            this.currentPlayerBidsSubject.getValue()?.playerUuid === playerUuid
+          ) {
+            this.currentPlayerBidsSubject.next(null);
           }
-        })
+        }),
+        catchError(error => {
+          this.errorSubject.next('Erreur lors de la suppression des annonces');
+          return throwError(() => error);
+        }),
+        finalize(() => this.loadingSubject.next(false))
       );
   }
 
@@ -146,21 +133,17 @@ export class PlayerWhistBidsFacade {
 
     return this.playerWhistBidsService.addBidDetail(season, playerUuid, bidDetail)
       .pipe(
-        tap({
-          next: (updatedPlayerBids) => {
-            this.loadingSubject.next(false);
-            this.updateStateAfterModification(updatedPlayerBids);
-          },
-          error: (error) => {
-            this.errorSubject.next('Erreur lors de l\'ajout d\'une annonce');
-            this.loadingSubject.next(false);
-          }
-        })
+        tap(updatedPlayerBids => this.updateStateAfterModification(updatedPlayerBids)),
+        catchError(error => {
+          this.errorSubject.next('Erreur lors de l\'ajout d\'une annonce');
+          return throwError(() => error);
+        }),
+        finalize(() => this.loadingSubject.next(false))
       );
   }
 
   private updateStateAfterModification(modifiedBids: PlayerWhistBids): void {
-    // Mise à jour de l'enchère courante si nécessaire
+    // Mise à jour de l'annonce courante si nécessaire
     if (
       this.currentPlayerBidsSubject.getValue()?.season === modifiedBids.season &&
       this.currentPlayerBidsSubject.getValue()?.playerUuid === modifiedBids.playerUuid
@@ -168,7 +151,7 @@ export class PlayerWhistBidsFacade {
       this.currentPlayerBidsSubject.next(modifiedBids);
     }
 
-    // Mise à jour de la liste d'enchères
+    // Mise à jour de la liste d'annonces
     const currentBids = this.playerBidsSubject.getValue();
     const index = currentBids.findIndex(
       bid => bid.season === modifiedBids.season && bid.playerUuid === modifiedBids.playerUuid
