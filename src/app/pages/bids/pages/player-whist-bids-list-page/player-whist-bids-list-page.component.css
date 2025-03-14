@@ -145,17 +145,27 @@ h1 {
 .sticky-col {
   position: sticky;
   left: 0;
-  z-index: 10;
+  z-index: 15;
   background-color: inherit;
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
 .table-primary th.sticky-col {
   z-index: 30;
+  background-color: #3498db;
 }
 
 .table-secondary th.sticky-col {
   z-index: 29;
+  background-color: #f0f3f7;
+}
+
+tbody td.sticky-col {
+  background-color: white;
+}
+
+.table-striped tbody tr:nth-of-type(odd) td.sticky-col {
+  background-color: #f8f9fa;
 }
 
 /* Cellules avec valeur */
@@ -180,8 +190,18 @@ h1 {
   background-color: #f8f9fa;
 }
 
-.table-hover tbody tr:hover {
+/* Correction pour le survol des lignes */
+.table-hover tbody tr:hover td {
   background-color: rgba(52, 152, 219, 0.1);
+  position: relative;
+  z-index: 5; /* z-index plus bas que les cellules fixes */
+}
+
+/* Assurer que la cellule fixe lors du survol reste au-dessus */
+.table-hover tbody tr:hover td.sticky-col {
+  background-color: rgba(52, 152, 219, 0.1);
+  position: sticky;
+  z-index: 15; /* z-index supérieur aux autres cellules de la ligne survolée */
 }
 
 /* Indicateur de défilement horizontal */
