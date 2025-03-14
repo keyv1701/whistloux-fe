@@ -40,6 +40,7 @@ export class PlayerFormComponent implements OnChanges {
       uuid: [''],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
+      pseudo: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       dayOfBirth: [null],
       monthOfBirth: [null],

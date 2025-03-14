@@ -1,116 +1,90 @@
-<form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="playerForm" (ngSubmit)="onSubmit()" class="player-form">
   <div class="form-grid">
-    <!-- Informations de base -->
-    <div class="form-section">
-      <h3>Informations de base</h3>
-
-      <div class="form-group">
-        <label for="firstName">Prénom *</label>
-        <input id="firstName" type="text" formControlName="firstName" class="form-control" placeholder="Prénom"/>
-        <div *ngIf="playerForm.get('firstName')?.invalid && playerForm.get('firstName')?.touched" class="error-text">
-          Le prénom est obligatoire
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="lastName">Nom *</label>
-        <input id="lastName" type="text" formControlName="lastName" class="form-control" placeholder="Nom"/>
-        <div *ngIf="playerForm.get('lastName')?.invalid && playerForm.get('lastName')?.touched" class="error-text">
-          Le nom est obligatoire
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email *</label>
-        <input id="email" type="email" formControlName="email" class="form-control" placeholder="email@exemple.com"/>
-        <div *ngIf="playerForm.get('email')?.errors?.['required'] && playerForm.get('email')?.touched"
-             class="error-text">
-          L'email est obligatoire
-        </div>
-        <div *ngIf="playerForm.get('email')?.errors?.['email'] && playerForm.get('email')?.touched" class="error-text">
-          Format d'email invalide
-        </div>
+    <div class="form-group">
+      <label for="firstName">Prénom</label>
+      <input type="text" id="firstName" formControlName="firstName">
+      <div *ngIf="playerForm.get('firstName')?.invalid && playerForm.get('firstName')?.touched" class="error">
+        Prénom requis
       </div>
     </div>
 
-    <!-- Date de naissance -->
-    <div class="form-section">
-      <h3>Date de naissance</h3>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="dayOfBirth">Jour</label>
-          <select id="dayOfBirth" formControlName="dayOfBirth" class="form-control">
-            <option [value]="null">--</option>
-            <option *ngFor="let day of days" [value]="day">{{ day }}</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="monthOfBirth">Mois</label>
-          <select id="monthOfBirth" formControlName="monthOfBirth" class="form-control">
-            <option [value]="null">--</option>
-            <option *ngFor="let month of months" [value]="month">{{ month }}</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="yearOfBirth">Année</label>
-          <select id="yearOfBirth" formControlName="yearOfBirth" class="form-control">
-            <option [value]="null">--</option>
-            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-          </select>
-        </div>
+    <div class="form-group">
+      <label for="lastName">Nom</label>
+      <input type="text" id="lastName" formControlName="lastName">
+      <div *ngIf="playerForm.get('lastName')?.invalid && playerForm.get('lastName')?.touched" class="error">
+        Nom requis
       </div>
     </div>
 
-    <!-- Cotisation et validité -->
-    <div class="form-section">
-      <h3>Cotisation et validité</h3>
-
-      <div class="form-group">
-        <label for="pay">Montant cotisation</label>
-        <input id="pay" type="number" step="0.01" min="0" formControlName="pay" class="form-control"
-               placeholder="Montant en €"/>
-      </div>
-
-      <div class="form-group">
-        <label for="validSince">Valide depuis</label>
-        <input id="validSince" type="date" formControlName="validSince" class="form-control"/>
-      </div>
-
-      <div class="form-group">
-        <label for="validUntil">Valide jusqu'au</label>
-        <input id="validUntil" type="date" formControlName="validUntil" class="form-control"/>
+    <div class="form-group">
+      <label for="pseudo">Pseudo</label>
+      <input type="text" id="pseudo" formControlName="pseudo">
+      <div *ngIf="playerForm.get('pseudo')?.invalid && playerForm.get('pseudo')?.touched" class="error">
+        Pseudo requis
       </div>
     </div>
 
-    <!-- Contact -->
-    <div class="form-section">
-      <h3>Coordonnées</h3>
-
-      <div class="form-group">
-        <label for="address">Adresse</label>
-        <input id="address" type="text" formControlName="address" class="form-control" placeholder="Adresse"/>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email">
+      <div *ngIf="playerForm.get('email')?.invalid && playerForm.get('email')?.touched" class="error">
+        Email invalide ou manquant
       </div>
+    </div>
 
-      <div class="form-group">
-        <label for="gsm">GSM</label>
-        <input id="gsm" type="tel" formControlName="gsm" class="form-control" placeholder="Numéro de GSM"/>
+    <div class="form-group birthdate-group">
+      <label>Date de naissance</label>
+      <div class="birthdate-inputs">
+        <select formControlName="dayOfBirth">
+          <option [value]="null">Jour</option>
+          <option *ngFor="let day of days" [value]="day">{{day}}</option>
+        </select>
+        <select formControlName="monthOfBirth">
+          <option [value]="null">Mois</option>
+          <option *ngFor="let month of months" [value]="month">{{month}}</option>
+        </select>
+        <select formControlName="yearOfBirth">
+          <option [value]="null">Année</option>
+          <option *ngFor="let year of years" [value]="year">{{year}}</option>
+        </select>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label for="phoneNumber">Téléphone fixe</label>
-        <input id="phoneNumber" type="tel" formControlName="phoneNumber" class="form-control"
-               placeholder="Numéro de téléphone"/>
-      </div>
+    <div class="form-group">
+      <label for="pay">Paiement</label>
+      <input type="number" id="pay" formControlName="pay">
+    </div>
+
+    <div class="form-group">
+      <label for="validSince">Valide depuis</label>
+      <input type="date" id="validSince" formControlName="validSince">
+    </div>
+
+    <div class="form-group">
+      <label for="validUntil">Valide jusqu'à</label>
+      <input type="date" id="validUntil" formControlName="validUntil">
+    </div>
+
+    <div class="form-group full-width">
+      <label for="address">Adresse</label>
+      <input type="text" id="address" formControlName="address">
+    </div>
+
+    <div class="form-group">
+      <label for="gsm">GSM</label>
+      <input type="tel" id="gsm" formControlName="gsm">
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Téléphone</label>
+      <input type="tel" id="phoneNumber" formControlName="phoneNumber">
     </div>
   </div>
 
   <div class="form-actions">
-    <button type="button" (click)="onCancel()" class="btn-cancel">Annuler</button>
-    <button type="submit" [disabled]="playerForm.invalid" class="btn-save">
-      {{ isNewPlayer ? 'Créer' : 'Enregistrer' }}
+    <button type="button" class="cancel-button" (click)="onCancel()">Annuler</button>
+    <button type="submit" class="submit-button" [disabled]="playerForm.invalid">
+      {{ isNewPlayer ? 'Ajouter' : 'Mettre à jour' }}
     </button>
   </div>
 </form>
