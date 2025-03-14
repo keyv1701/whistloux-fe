@@ -55,4 +55,27 @@ export class PlayerCardComponent {
     return validDate < new Date();
   }
 
+  generateAvatarColor(name: string): string {
+    if (!name) return '#3490dc'; // Couleur par défaut
+
+    // Génère une couleur basée sur les caractères du nom
+    const colors = [
+      '#3b82f6', // blue
+      '#10b981', // green
+      '#f97316', // orange
+      '#8b5cf6', // violet
+      '#ec4899', // pink
+      '#6366f1', // indigo
+      '#14b8a6', // teal
+    ];
+
+    // Calcule un indice basé sur les caractères du nom
+    let total = 0;
+    for (let i = 0; i < name.length; i++) {
+      total += name.charCodeAt(i);
+    }
+
+    // Sélectionne une couleur de notre palette
+    return colors[total % colors.length];
+  }
 }
