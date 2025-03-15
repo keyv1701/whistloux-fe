@@ -20,7 +20,8 @@ import {
 import {
   PlayerWhistBidsListPageComponent
 } from "./pages/bids/pages/player-whist-bids-list-page/player-whist-bids-list-page.component";
-import {RgpdComponent} from "./pages/rgpd/rgpd.component";
+import { RgpdComponent } from "./pages/rgpd/rgpd.component";
+import { RulesComponent } from "./pages/rules/rules.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -30,6 +31,7 @@ export const routes: Routes = [
   {path: 'contact', component: ContactComponent},
   {path: 'about', component: AboutComponent},
   {path: 'rgpd', component: RgpdComponent},
+  {path: 'rules', component: RulesComponent},
   {
     path: 'tournaments', children: [
       {path: '', component: TournamentPageComponent},

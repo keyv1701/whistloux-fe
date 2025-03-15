@@ -1,0 +1,24 @@
+/* Styles spécifiques si nécessaire au-delà de Tailwind */
+.prose h2 {
+  color: #2c5282;
+}
+
+.prose ul li::before {
+  color: #2c5282;
+}
+
+@media print {
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  header, footer {
+    display: none;
+  }
+
+  .bg-white {
+    box-shadow: none;
+    border: none;
+  }
+}
