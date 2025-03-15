@@ -15,7 +15,7 @@ export class PlayerService {
   }
 
   getPlayers(): Observable<Player[]> {
-    return this.http.get<Player[]>(this.apiUrl);
+    return this.http.get<Player[]>(this.apiUrl, {withCredentials: true});
   }
 
   getPlayerByUuid(uuid: string): Observable<Player> {
