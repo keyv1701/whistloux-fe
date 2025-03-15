@@ -113,7 +113,11 @@
   </div>
 
   <div class="tournament-actions">
-    <button class="register-button" *ngIf="isRegistrationAvailable()">S'inscrire</button>
+    <a href="mailto:info@lewhistloux.be?subject=Inscription pour le tournoi du {{ formatDate(tournament.date) }}"
+       class="register-button"
+       *ngIf="isRegistrationAvailable()">
+      S'inscrire
+    </a>
   </div>
 </div>
 
