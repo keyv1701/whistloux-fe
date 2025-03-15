@@ -7,6 +7,7 @@ import { PlayerEditComponent } from "../player-edit/player-edit.component";
 import { PlayerCreateComponent } from "../player-create/player-create.component";
 import { PlayerFacade } from "../../facades/player.facade";
 import { ToastService } from "../../../../shared/services/toast.service";
+import { tap } from "rxjs";
 
 @Component({
   selector: 'app-player-list',
@@ -151,14 +152,15 @@ export class PlayerListComponent implements OnInit {
   }
 
   onPlayerSaved(updatedPlayer: Player): void {
-    this.playerFacade.updatePlayer(updatedPlayer);
-    this.selectedPlayer = null;
-
-    // Afficher une notification de succès
-    this.toastService.success('Le joueur a été mis à jour avec succès');
-
-    // Recharger la liste des joueurs
-    this.playerFacade.loadPlayers();
+    this.playerFacade.updatePlayer(updatedPlayer)
+      .pipe(
+        tap(() => {
+          this.selectedPlayer = null;
+          this.playerFacade.loadPlayers();
+          this.toastService.success('Le joueur a été mis à jour avec succès');
+        })
+      )
+      .subscribe();
   }
 
   onPlayerEdit(player: Player): void {

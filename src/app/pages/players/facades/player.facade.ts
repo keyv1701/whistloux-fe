@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, finalize, Observable, of, tap} from 'rxjs';
-import {PlayerService} from '../services/player.service';
-import {Player} from "../../../models/player.interface";
-import {ToastService} from "../../../shared/services/toast.service";
-import {ErrorHandlingService} from "../../../shared/services/error-handling.service";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, finalize, Observable, of, tap } from 'rxjs';
+import { PlayerService } from '../services/player.service';
+import { Player } from "../../../models/player.interface";
+import { ToastService } from "../../../shared/services/toast.service";
+import { ErrorHandlingService } from "../../../shared/services/error-handling.service";
 
 @Injectable({
   providedIn: 'root'
@@ -68,9 +68,9 @@ export class PlayerFacade {
     ).subscribe();
   }
 
-  updatePlayer(player: Player): void {
+  updatePlayer(player: Player): Observable<undefined | Player> {
     this.loadingSubject.next(true);
-    this.playerService.updatePlayer(player).pipe(
+    return this.playerService.updatePlayer(player).pipe(
       tap(updatedPlayer => {
         const currentPlayers = this.playersSubject.getValue();
         const index = currentPlayers.findIndex(p => p.uuid === updatedPlayer.uuid);
@@ -86,7 +86,7 @@ export class PlayerFacade {
         return of(undefined);
       }),
       finalize(() => this.loadingSubject.next(false))
-    ).subscribe();
+    );
   }
 
   deletePlayer(uuid: string): void {

@@ -15,18 +15,11 @@ export class PlayerEditComponent {
   @Output() close = new EventEmitter<void>();
   @Output() saved = new EventEmitter<Player>();
 
-  @Output() edit = new EventEmitter<Player>()
-
   onClose(): void {
     this.close.emit();
   }
 
   onPlayerSubmit(updatedPlayer: Player): void {
     this.saved.emit(updatedPlayer);
-  }
-
-  onEditClick(event: Event): void {
-    event.stopPropagation(); // Empêche la propagation de l'événement
-    this.edit.emit(this.player);
   }
 }
