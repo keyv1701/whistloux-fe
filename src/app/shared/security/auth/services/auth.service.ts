@@ -34,7 +34,7 @@ export class AuthService {
       password: this.hashPassword(credentials.password, salt)
     };
 
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, secureCredentials, {withCredentials: true});
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, secureCredentials);
   }
 
   // Procédure complète de login
@@ -48,7 +48,7 @@ export class AuthService {
         };
       }),
       switchMap(secureCredentials => {
-        return this.http.post<AuthResponse>(`${this.apiUrl}/login`, secureCredentials, {withCredentials: true});
+        return this.http.post<AuthResponse>(`${this.apiUrl}/login`, secureCredentials);
       })
     );
   }
@@ -66,10 +66,10 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}, {withCredentials: true});
+    return this.http.post(`${this.apiUrl}/logout`, {});
   }
 
   getCurrentUser(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/me`, {withCredentials: true});
+    return this.http.get<any>(`${this.apiUrl}/me`);
   }
 }

@@ -1,9 +1,9 @@
 // src/app/services/player.service.ts
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Player} from "../../../models/player.interface";
-import {environment} from "../../../../environments/environment";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Player } from "../../../models/player.interface";
+import { environment } from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class PlayerService {
   }
 
   getPlayers(): Observable<Player[]> {
-    return this.http.get<Player[]>(this.apiUrl, {withCredentials: true});
+    return this.http.get<Player[]>(this.apiUrl);
   }
 
   getPlayerByUuid(uuid: string): Observable<Player> {
