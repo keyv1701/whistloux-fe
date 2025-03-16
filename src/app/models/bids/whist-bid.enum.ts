@@ -16,11 +16,11 @@ export enum WhistBid {
 }
 
 export const WhistBidDescriptions: Record<WhistBid, string> = {
-  [WhistBid.H6]: 'Jeu à 6 levées (sixième)',
-  [WhistBid.H7]: 'Jeu à 7 levées (septième)',
+  [WhistBid.H6]: 'Solo 6',
+  [WhistBid.H7]: 'Solo 7',
   [WhistBid.PM]: 'Petit Misère',
   [WhistBid.PIC]: 'Picolissimo',
-  [WhistBid.H8]: 'Jeu à 8 levées (huitième)',
+  [WhistBid.H8]: 'Solo 8',
   [WhistBid.PME]: 'Petit Misère Entame',
   [WhistBid.AB9]: 'Abondance à 9 levées',
   [WhistBid.GM]: 'Grand Misère',

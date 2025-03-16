@@ -68,9 +68,11 @@
             (click)="sortBy('totalBids')">
           Total
         </th>
+        <th class="text-nowrap text-center">Solo 6</th>
+        <th class="text-nowrap text-center">Solo 7</th>
         <th class="text-nowrap text-center">Petit Misère</th>
         <th class="text-nowrap text-center">Picolissimo</th>
-        <th class="text-nowrap text-center">Huitième</th>
+        <th class="text-nowrap text-center">Solo 8</th>
         <th class="text-nowrap text-center">Petit Misère Entame</th>
         <th class="text-nowrap text-center">Abondance 9</th>
         <th class="text-nowrap text-center">Grand Misère</th>
@@ -84,6 +86,8 @@
       <tr class="table-secondary">
         <th class="text-nowrap sticky-col">Points</th>
         <th></th>
+        <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.H6] }}</th>
+        <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.H7] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.PM] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.PIC] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.H8] }}</th>
@@ -103,40 +107,60 @@
         <td class="fw-bold sticky-col">{{ playerBid.playerFirstname }} {{ playerBid.playerLastName }}</td>
         <td class="text-center fw-bold">{{ getTotalBids(playerBid) }}</td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PM) > 0}">{{ getBidTypeCount(playerBid, WhistBid.PM) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.H6) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.H6, true) }}/{{ getBidTypeCount(playerBid, WhistBid.H6, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PIC) > 0}">{{ getBidTypeCount(playerBid, WhistBid.PIC) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.H7) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.H7, true) }}/{{ getBidTypeCount(playerBid, WhistBid.H7, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.H8) > 0}">{{ getBidTypeCount(playerBid, WhistBid.H8) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PM) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.PM, true) }}/{{ getBidTypeCount(playerBid, WhistBid.PM, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PME) > 0}">{{ getBidTypeCount(playerBid, WhistBid.PME) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PIC) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.PIC, true) }}/{{ getBidTypeCount(playerBid, WhistBid.PIC, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.AB9) > 0}">{{ getBidTypeCount(playerBid, WhistBid.AB9) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.H8) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.H8, true) }}/{{ getBidTypeCount(playerBid, WhistBid.H8, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.GM) > 0}">{{ getBidTypeCount(playerBid, WhistBid.GM) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PME) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.PME, true) }}/{{ getBidTypeCount(playerBid, WhistBid.PME, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.AB10) > 0}">{{ getBidTypeCount(playerBid, WhistBid.AB10) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.AB9) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.AB9, true) }}/{{ getBidTypeCount(playerBid, WhistBid.AB9, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.AB11) > 0}">{{ getBidTypeCount(playerBid, WhistBid.AB11) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.GM) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.GM, true) }}/{{ getBidTypeCount(playerBid, WhistBid.GM, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.GME) > 0}">{{ getBidTypeCount(playerBid, WhistBid.GME) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.AB10) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.AB10, true) }}/{{ getBidTypeCount(playerBid, WhistBid.AB10, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.GMO) > 0}">{{ getBidTypeCount(playerBid, WhistBid.GMO) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.AB11) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.AB11, true) }}/{{ getBidTypeCount(playerBid, WhistBid.AB11, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PCH) > 0}">{{ getBidTypeCount(playerBid, WhistBid.PCH) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.GME) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.GME, true) }}/{{ getBidTypeCount(playerBid, WhistBid.GME, false) }}
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.GCH) > 0}">{{ getBidTypeCount(playerBid, WhistBid.GCH) }}
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.GMO) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.GMO, true) }}/{{ getBidTypeCount(playerBid, WhistBid.GMO, false) }}
+        </td>
+        <td class="text-center bid-cell"
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PCH) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.PCH, true) }}/{{ getBidTypeCount(playerBid, WhistBid.PCH, false) }}
+        </td>
+        <td class="text-center bid-cell"
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.GCH) > 0}">
+          {{ getBidTypeCount(playerBid, WhistBid.GCH, true) }}/{{ getBidTypeCount(playerBid, WhistBid.GCH, false) }}
         </td>
       </tr>
       </tbody>

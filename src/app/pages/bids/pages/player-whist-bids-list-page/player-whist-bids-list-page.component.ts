@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {EMPTY, Subject} from 'rxjs';
-import {catchError, finalize, takeUntil, tap} from 'rxjs/operators';
-import {PlayerWhistBidsFacade} from '../../facades/player-whist-bids.facade';
-import {PlayerWhistBids} from '../../../../models/bids/player-whist-bids.model';
-import {getBidDescription, WhistBid, WhistBidPoints} from "../../../../models/bids/whist-bid.enum";
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
-import {ImportModalComponent} from "../../../../shared/components/import-modal/import-modal.component";
-import {ToastService} from "../../../../shared/services/toast.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { EMPTY, Subject } from 'rxjs';
+import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
+import { PlayerWhistBidsFacade } from '../../facades/player-whist-bids.facade';
+import { PlayerWhistBids } from '../../../../models/bids/player-whist-bids.model';
+import { getBidDescription, WhistBid, WhistBidPoints } from "../../../../models/bids/whist-bid.enum";
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ImportModalComponent } from "../../../../shared/components/import-modal/import-modal.component";
+import { ToastService } from "../../../../shared/services/toast.service";
 
 @Component({
   selector: 'app-player-whist-bids-list-page',
@@ -261,8 +261,17 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   }
 
   // Calcule le nombre d'annonces d'un type spécifique pour un joueur
-  getBidTypeCount(playerBids: PlayerWhistBids, bidType: WhistBid): number {
-    const bidDetail = playerBids.bidDetails.find(detail => detail.bidType === bidType);
+  getBidTypeCount(playerBids: PlayerWhistBids, bidType: WhistBid, success?: boolean): number {
+    // Si success n'est pas défini, on renvoie le total comme avant
+    if (success === undefined) {
+      const bidDetail = playerBids.bidDetails.find(detail => detail.bidType === bidType);
+      return bidDetail ? bidDetail.count : 0;
+    }
+
+    // Sinon on filtre par success/failure
+    const bidDetail = playerBids.bidDetails.find(detail =>
+      detail.bidType === bidType && detail.success === success
+    );
     return bidDetail ? bidDetail.count : 0;
   }
 
