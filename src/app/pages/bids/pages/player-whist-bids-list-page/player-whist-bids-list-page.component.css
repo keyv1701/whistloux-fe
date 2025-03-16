@@ -400,3 +400,11 @@ tbody td.sticky-col {
   color: red;
   font-weight: bold;
 }
+
+.pagination-button {
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #e5e7eb;
+  }
+}

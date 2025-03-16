@@ -230,26 +230,76 @@
     </table>
   </div>
 
-  <!-- Pagination -->
-  <div class="d-flex justify-content-center mt-3" *ngIf="filteredPlayerBids.length > pageSize">
-    <nav>
-      <ul class="pagination">
-        <li class="page-item" [class.disabled]="currentPage === 1">
-          <a class="page-link" href="javascript:void(0)" (click)="changePage(currentPage - 1)">
-            <i class="bi bi-chevron-left"></i>
-          </a>
-        </li>
-        <li class="page-item" *ngFor="let page of getPageNumbers()" [class.active]="page === currentPage">
-          <a class="page-link" href="javascript:void(0)" (click)="changePage(page)">{{ page }}</a>
-        </li>
-        <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <a class="page-link" href="javascript:void(0)" (click)="changePage(currentPage + 1)">
-            <i class="bi bi-chevron-right"></i>
-          </a>
-        </li>
-      </ul>
-    </nav>
+  <!-- Options de pagination -->
+  <div class="flex justify-between items-center mt-4">
+    <div class="flex items-center">
+      <span class="mr-2 text-sm text-gray-600">Éléments par page:</span>
+      <select
+        [ngModel]="itemsPerPage"
+        (change)="changePageSize($event)"
+        class="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+      </select>
+    </div>
   </div>
+
+  <!-- Pagination -->
+  <div *ngIf="totalPages > 1" class="flex justify-center items-center mt-6">
+    <button
+      (click)="prevPage()"
+      [disabled]="currentPage === 1"
+      class="px-3 py-1 mr-1 border rounded-md"
+      [ngClass]="{'bg-gray-100': currentPage !== 1, 'bg-gray-200 cursor-not-allowed': currentPage === 1}">
+      <span>&laquo;</span>
+    </button>
+
+    <!-- Première page (seulement si elle n'est pas dans visiblePages) -->
+    <button *ngIf="totalPages > 3 && !visiblePages.includes(1)"
+            (click)="goToPage(1)"
+            class="px-3 py-1 mx-1 border rounded-md"
+            [ngClass]="{'bg-blue-500 text-white': currentPage === 1, 'bg-gray-100': currentPage !== 1}">
+      1
+    </button>
+
+    <!-- Ellipsis gauche -->
+    <span *ngIf="currentPage > 3 && !visiblePages.includes(1)" class="px-2">...</span>
+
+    <!-- Pages autour de la page courante -->
+    <ng-container *ngFor="let page of visiblePages">
+      <button
+        (click)="goToPage(page)"
+        class="px-3 py-1 mx-1 border rounded-md"
+        [ngClass]="{'bg-blue-500 text-white': currentPage === page, 'bg-gray-100': currentPage !== page}">
+        {{ page }}
+      </button>
+    </ng-container>
+
+    <!-- Ellipsis droite -->
+    <span *ngIf="currentPage < totalPages - 2 && !visiblePages.includes(totalPages)" class="px-2">...</span>
+
+    <!-- Dernière page (seulement si elle n'est pas dans visiblePages) -->
+    <button *ngIf="totalPages > 3 && !visiblePages.includes(totalPages)"
+            (click)="goToPage(totalPages)"
+            class="px-3 py-1 mx-1 border rounded-md"
+            [ngClass]="{'bg-blue-500 text-white': currentPage === totalPages, 'bg-gray-100': currentPage !== totalPages}">
+      {{ totalPages }}
+    </button>
+
+    <button
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+      class="px-3 py-1 ml-1 border rounded-md"
+      [ngClass]="{'bg-gray-100': currentPage !== totalPages, 'bg-gray-200 cursor-not-allowed': currentPage === totalPages}">
+      <span>&raquo;</span>
+    </button>
+  </div>
+
+  <!-- Information sur la pagination -->
+  <div *ngIf="filteredPlayerBids.length > 0" class="text-center mt-2 text-sm text-gray-600">
+    Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }}
+    à {{ Math.min(currentPage * itemsPerPage, filteredPlayerBids.length) }} sur {{ filteredPlayerBids.length }} annonces
+  </div>
+
 </div>
 
 <app-import-modal

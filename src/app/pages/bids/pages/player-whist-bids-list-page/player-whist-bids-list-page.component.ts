@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EMPTY, Subject } from 'rxjs';
 import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
 import { PlayerWhistBidsFacade } from '../../facades/player-whist-bids.facade';
 import { PlayerWhistBids } from '../../../../models/bids/player-whist-bids.model';
-import { getBidDescription, WhistBid, WhistBidPoints } from "../../../../models/bids/whist-bid.enum";
+import { WhistBid, WhistBidPoints } from "../../../../models/bids/whist-bid.enum";
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ImportModalComponent } from "../../../../shared/components/import-modal/import-modal.component";
@@ -19,7 +19,8 @@ import { ToastService } from "../../../../shared/services/toast.service";
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    ImportModalComponent
+    ImportModalComponent,
+    FormsModule
   ]
 })
 export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
@@ -29,10 +30,12 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   filteredPlayerBids: PlayerWhistBids[] = [];
   paginatedPlayerBids: PlayerWhistBids[] = [];
 
-  // Propriétés pour la pagination
   currentPage = 1;
-  pageSize = 10;
+  itemsPerPage = 10;
+  pageSizeOptions = [5, 10, 20, 50];
   totalPages = 1;
+  visiblePages: number[] = [];
+  Math = Math; // Pour utiliser Math dans le template
 
   // Propriétés pour le tri
   sortColumn: string = 'playerName';
@@ -124,6 +127,9 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+
+    this.calculateTotalPages();
+    this.updatePaginatedPlayerBids();
   }
 
   ngOnDestroy(): void {
@@ -150,9 +156,8 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     // Appliquer le tri
     this.sortData();
 
-    // Recalculer la pagination
-    this.totalPages = Math.ceil(this.filteredPlayerBids.length / this.pageSize);
     this.currentPage = 1;
+    this.calculateTotalPages();
     this.updatePaginatedPlayerBids();
   }
 
@@ -219,60 +224,9 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  updatePaginatedPlayerBids(): void {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    this.paginatedPlayerBids = this.filteredPlayerBids.slice(startIndex, startIndex + this.pageSize);
-  }
-
-  changePage(page: number): void {
-    if (page < 1 || page > this.totalPages) {
-      return;
-    }
-    this.currentPage = page;
-    this.updatePaginatedPlayerBids();
-  }
-
-  getPageNumbers(): number[] {
-    const maxVisiblePages = 5;
-    const pages: number[] = [];
-
-    // Si le nombre total de pages est inférieur au max affichable
-    if (this.totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= this.totalPages; i++) {
-        pages.push(i);
-      }
-      return pages;
-    }
-
-    // Sinon, calculer quelles pages afficher
-    const halfVisible = Math.floor(maxVisiblePages / 2);
-    let start = this.currentPage - halfVisible;
-    let end = this.currentPage + halfVisible;
-
-    // Ajuster les limites si on déborde
-    if (start < 1) {
-      end += (1 - start);
-      start = 1;
-    }
-
-    if (end > this.totalPages) {
-      start -= (end - this.totalPages);
-      end = this.totalPages;
-    }
-
-    // S'assurer que start ne descend pas en dessous de 1
-    start = Math.max(1, start);
-
-    // Générer la liste des numéros de page
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-
-    return pages;
-  }
-
-  getBidDescription(bidType: WhistBid): string {
-    return getBidDescription(bidType);
+  private updatePaginatedPlayerBids(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    this.paginatedPlayerBids = this.filteredPlayerBids.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
   // Calcule le nombre total d'annonces pour un joueur
@@ -404,6 +358,55 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
       return total;
     }, 0);
   }
+
+
+// Ajouter ces méthodes à la classe
+  private calculateTotalPages(): void {
+    this.totalPages = Math.ceil(this.filteredPlayerBids.length / this.itemsPerPage);
+    this.updateVisiblePages();
+  }
+
+  private updateVisiblePages(): void {
+    this.visiblePages = [];
+    const startPage = Math.max(this.currentPage - 1, 1);
+    const endPage = Math.min(startPage + 2, this.totalPages);
+
+    for (let i = startPage; i <= endPage; i++) {
+      this.visiblePages.push(i);
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedPlayerBids();
+      this.updateVisiblePages();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedPlayerBids();
+      this.updateVisiblePages();
+    }
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePaginatedPlayerBids();
+      this.updateVisiblePages();
+    }
+  }
+
+  changePageSize(event: any): void {
+    this.itemsPerPage = parseInt(event.target.value, 10);
+    this.currentPage = 1; // Retour à la première page
+    this.calculateTotalPages();
+    this.updatePaginatedPlayerBids();
+  }
+
 
   protected readonly WhistBidPoints = WhistBidPoints;
 }
