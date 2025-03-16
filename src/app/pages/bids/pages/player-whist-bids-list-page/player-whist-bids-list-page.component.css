@@ -413,3 +413,61 @@ tbody td.sticky-col {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
 }
+
+/* Styles pour les en-têtes de statistiques */
+.stats-header {
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  font-weight: 600;
+  padding: 0.5rem;
+  border-left: 3px solid #0d6efd;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  color: #495057;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+
+/* Styles spécifiques pour chaque type de statistique */
+.total-count-row .stats-header {
+  border-left-color: #198754; /* vert pour le total */
+}
+
+.percentage-total-row .stats-header {
+  border-left-color: #6f42c1; /* violet pour le % du total */
+}
+
+.success-rate-row .stats-header {
+  border-left-color: #fd7e14; /* orange pour le % réussite */
+}
+
+/* Animation pour l'affichage des statistiques */
+tr.table-light {
+  transition: all 0.3s ease;
+}
+
+/* Bouton pour afficher/cacher les statistiques */
+.toggle-stats-btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  color: #0d6efd;
+  background-color: transparent;
+  border: 1px solid #0d6efd;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.toggle-stats-btn:hover {
+  background-color: rgba(13, 110, 253, 0.1);
+}
+
+.toggle-stats-btn i {
+  margin-right: 0.25rem;
+  transition: transform 0.3s ease;
+}
+
+.toggle-stats-btn.active i {
+  transform: rotate(180deg);
+}
