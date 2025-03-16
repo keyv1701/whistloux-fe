@@ -408,3 +408,8 @@ tbody td.sticky-col {
     background-color: #e5e7eb;
   }
 }
+
+.btn-outline-primary {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}

@@ -25,10 +25,13 @@ import { ToastService } from "../../../../shared/services/toast.service";
 })
 export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+  protected readonly WhistBidPoints = WhistBidPoints;
 
   playerBids: PlayerWhistBids[] = [];
   filteredPlayerBids: PlayerWhistBids[] = [];
   paginatedPlayerBids: PlayerWhistBids[] = [];
+
+  showStatistics: boolean = false;
 
   currentPage = 1;
   itemsPerPage = 10;
@@ -438,5 +441,8 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     return ((successCount / totalCount) * 100).toFixed(1);
   }
 
-  protected readonly WhistBidPoints = WhistBidPoints;
+  toggleStatistics(): void {
+    this.showStatistics = !this.showStatistics;
+  }
+
 }
