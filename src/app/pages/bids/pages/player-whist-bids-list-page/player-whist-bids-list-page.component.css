@@ -385,3 +385,18 @@ tbody td.sticky-col {
     display: none;
   }
 }
+
+.success-count {
+  color: green;
+  font-weight: bold;
+}
+
+.separator {
+  color: black;
+  font-weight: normal;
+}
+
+.failure-count {
+  color: red;
+  font-weight: bold;
+}
