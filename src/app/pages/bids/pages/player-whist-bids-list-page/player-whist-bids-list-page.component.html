@@ -68,6 +68,11 @@
             (click)="sortBy('totalBids')">
           Total
         </th>
+        <th class="text-nowrap text-center">Annonces</th>
+        <th class="text-nowrap text-center">% Réussite</th>
+        <th class="text-nowrap text-center">Pts/Annonce</th>
+        <th class="text-nowrap text-center">Pts gagnés</th>
+        <th class="text-nowrap text-center">Pts perdus</th>
         <th class="text-nowrap text-center">Solo 6</th>
         <th class="text-nowrap text-center">Solo 7</th>
         <th class="text-nowrap text-center">Petit Misère</th>
@@ -85,6 +90,11 @@
       </tr>
       <tr class="table-secondary">
         <th class="text-nowrap sticky-col">Points</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
         <th></th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.H6] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.H7] }}</th>
@@ -106,6 +116,11 @@
       <tr *ngFor="let playerBid of paginatedPlayerBids">
         <td class="fw-bold sticky-col">{{ playerBid.playerFirstname }} {{ playerBid.playerLastName }}</td>
         <td class="text-center fw-bold">{{ getTotalBids(playerBid) }}</td>
+        <td class="text-center">{{ getTotalBidCount(playerBid) }}</td>
+        <td class="text-center">{{ getSuccessPercentage(playerBid) }}</td>
+        <td class="text-center">{{ getPointsPerBid(playerBid) }}</td>
+        <td class="text-center success-count">{{ getPointsWon(playerBid) }}</td>
+        <td class="text-center failure-count">{{ getPointsLost(playerBid) }}</td>
         <td class="text-center bid-cell"
             [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.H6) > 0}">
           <span class="success-count">{{ getBidTypeCount(playerBid, WhistBid.H6, true) }}</span><span class="separator">/</span><span

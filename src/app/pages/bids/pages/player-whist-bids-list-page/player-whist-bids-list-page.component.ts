@@ -255,8 +255,13 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   // Calcule le nombre total d'annonces pour un joueur
   getTotalBids(playerBids: PlayerWhistBids): number {
     return playerBids.bidDetails.reduce((total, bid) => {
-      const points = WhistBidPoints[bid.bidType] * bid.count;
-      return total + points;
+      if (bid.success) {
+        // Points positifs pour les annonces réussies
+        return total + (WhistBidPoints[bid.bidType] * bid.count);
+      } else {
+        // Points négatifs pour les annonces échouées
+        return total - (WhistBidPoints[bid.bidType] * bid.count);
+      }
     }, 0);
   }
 
@@ -320,6 +325,61 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
         finalize(() => this.closeImportDialog())
       )
       .subscribe();
+  }
+
+  // Calcule le nombre total d'annonces (succès + échecs) pour un joueur
+  getTotalBidCount(playerBids: PlayerWhistBids): number {
+    return playerBids.bidDetails.reduce((total, bid) => total + bid.count, 0);
+  }
+
+// Calcule le nombre d'annonces réussies pour un joueur
+  getSuccessBidCount(playerBids: PlayerWhistBids): number {
+    return playerBids.bidDetails.reduce((total, bid) => {
+      if (bid.success) {
+        return total + bid.count;
+      }
+      return total;
+    }, 0);
+  }
+
+// Calcule le pourcentage de réussite pour un joueur
+  getSuccessPercentage(playerBids: PlayerWhistBids): string {
+    const totalBids = this.getTotalBidCount(playerBids);
+    if (totalBids === 0) return '0%';
+
+    const successBids = this.getSuccessBidCount(playerBids);
+    const percentage = (successBids / totalBids) * 100;
+    return `${percentage.toFixed(1)}%`;
+  }
+
+// Calcule la moyenne de points par annonce
+  getPointsPerBid(playerBids: PlayerWhistBids): string {
+    const totalBids = this.getTotalBidCount(playerBids);
+    if (totalBids === 0) return '0';
+
+    const totalPoints = this.getTotalBids(playerBids);
+    const average = totalPoints / totalBids;
+    return average.toFixed(1);
+  }
+
+// Calcule les points gagnés (annonces réussies)
+  getPointsWon(playerBids: PlayerWhistBids): number {
+    return playerBids.bidDetails.reduce((total, bid) => {
+      if (bid.success) {
+        return total + (WhistBidPoints[bid.bidType] * bid.count);
+      }
+      return total;
+    }, 0);
+  }
+
+// Calcule les points perdus (annonces échouées)
+  getPointsLost(playerBids: PlayerWhistBids): number {
+    return playerBids.bidDetails.reduce((total, bid) => {
+      if (!bid.success) {
+        return total + (WhistBidPoints[bid.bidType] * bid.count);
+      }
+      return total;
+    }, 0);
   }
 
   protected readonly WhistBidPoints = WhistBidPoints;
