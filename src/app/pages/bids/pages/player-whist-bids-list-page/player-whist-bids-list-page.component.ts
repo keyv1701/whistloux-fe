@@ -407,6 +407,36 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     this.updatePaginatedPlayerBids();
   }
 
+  // Calcule le nombre total d'annonces d'un type spécifique pour tous les joueurs
+  getTotalBidTypeCount(bidType: WhistBid, success?: boolean): number {
+    return this.filteredPlayerBids.reduce((total, playerBid) => {
+      return total + this.getBidTypeCount(playerBid, bidType, success);
+    }, 0);
+  }
+
+// Calcule le pourcentage de ce type d'annonce par rapport au total
+  getBidTypePercentage(bidType: WhistBid): string {
+    // Nombre total d'annonces de ce type (succès + échecs)
+    const totalBidTypeCount = this.getTotalBidTypeCount(bidType, true) + this.getTotalBidTypeCount(bidType, false);
+
+    // Nombre total de toutes les annonces (tous types confondus)
+    const totalAllBids = Object.values(WhistBid)
+      .reduce((total, type) => {
+        return total + this.getTotalBidTypeCount(type as WhistBid, true) + this.getTotalBidTypeCount(type as WhistBid, false);
+      }, 0);
+
+    if (totalAllBids === 0) return '0';
+    return ((totalBidTypeCount / totalAllBids) * 100).toFixed(1);
+  }
+
+// Calcule le pourcentage de réussite pour ce type d'annonce
+  getBidTypeSuccessRate(bidType: WhistBid): string {
+    const successCount = this.getTotalBidTypeCount(bidType, true);
+    const totalCount = this.getTotalBidTypeCount(bidType, true) + this.getTotalBidTypeCount(bidType, false);
+
+    if (totalCount === 0) return '0';
+    return ((successCount / totalCount) * 100).toFixed(1);
+  }
 
   protected readonly WhistBidPoints = WhistBidPoints;
 }

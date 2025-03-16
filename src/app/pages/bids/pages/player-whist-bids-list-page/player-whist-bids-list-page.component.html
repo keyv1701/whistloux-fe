@@ -136,6 +136,134 @@
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.PCH] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.GCH] }}</th>
       </tr>
+      <!-- Nouvelle ligne pour le nombre total d'annonces de chaque type -->
+      <tr class="table-light">
+        <th class="text-nowrap sticky-col">Nombre total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.H6, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.H6, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.H7, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.H7, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.PM, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.PM, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.PIC, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.PIC, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.H8, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.H8, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.PME, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.PME, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.AB9, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.AB9, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.GM, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.GM, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.AB10, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.AB10, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.AB11, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.AB11, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.GME, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.GME, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.GMO, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.GMO, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.PCH, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.PCH, false) }}</span>
+        </th>
+        <th class="text-center">
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.GCH, true) }}</span>
+          <span class="separator">/</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.GCH, false) }}</span>
+        </th>
+      </tr>
+      <!-- Nouvelle ligne pour le pourcentage de chaque type par rapport au total -->
+      <tr class="table-light">
+        <th class="text-nowrap sticky-col">% du total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.H6) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.H7) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.PM) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.PIC) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.H8) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.PME) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.AB9) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.GM) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.AB10) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.AB11) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.GME) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.GMO) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.PCH) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.GCH) }}%</th>
+      </tr>
+      <!-- Nouvelle ligne pour le pourcentage de réussite de chaque type -->
+      <tr class="table-light">
+        <th class="text-nowrap sticky-col">% réussite</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.H6) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.H7) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.PM) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.PIC) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.H8) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.PME) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.AB9) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.GM) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.AB10) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.AB11) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.GME) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.GMO) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.PCH) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.GCH) }}%</th>
+      </tr>
       </thead>
       <tbody>
       <tr *ngFor="let playerBid of paginatedPlayerBids">
