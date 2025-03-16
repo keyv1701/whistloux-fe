@@ -176,14 +176,37 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
       let valueA: any;
       let valueB: any;
 
-      if (this.sortColumn === 'playerName') {
-        valueA = `${a.playerFirstname} ${a.playerLastName}`.toLowerCase();
-        valueB = `${b.playerFirstname} ${b.playerLastName}`.toLowerCase();
-      } else if (this.sortColumn === 'totalBids') {
-        valueA = this.getTotalBids(a);
-        valueB = this.getTotalBids(b);
-      } else {
-        return 0;
+      switch (this.sortColumn) {
+        case 'playerName':
+          valueA = `${a.playerFirstname} ${a.playerLastName}`.toLowerCase();
+          valueB = `${b.playerFirstname} ${b.playerLastName}`.toLowerCase();
+          break;
+        case 'totalBids':
+          valueA = this.getTotalBids(a);
+          valueB = this.getTotalBids(b);
+          break;
+        case 'bidCount':
+          valueA = this.getTotalBidCount(a);
+          valueB = this.getTotalBidCount(b);
+          break;
+        case 'successRate':
+          valueA = this.getSuccessBidCount(a) / (this.getTotalBidCount(a) || 1);
+          valueB = this.getSuccessBidCount(b) / (this.getTotalBidCount(b) || 1);
+          break;
+        case 'avgPoints':
+          valueA = this.getTotalBids(a) / (this.getTotalBidCount(a) || 1);
+          valueB = this.getTotalBids(b) / (this.getTotalBidCount(b) || 1);
+          break;
+        case 'pointsWon':
+          valueA = this.getPointsWon(a);
+          valueB = this.getPointsWon(b);
+          break;
+        case 'pointsLost':
+          valueA = this.getPointsLost(a);
+          valueB = this.getPointsLost(b);
+          break;
+        default:
+          return 0;
       }
 
       if (valueA < valueB) {

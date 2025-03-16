@@ -68,11 +68,36 @@
             (click)="sortBy('totalBids')">
           Total
         </th>
-        <th class="text-nowrap text-center">Annonces</th>
-        <th class="text-nowrap text-center">% Réussite</th>
-        <th class="text-nowrap text-center">Pts/Annonce</th>
-        <th class="text-nowrap text-center">Pts gagnés</th>
-        <th class="text-nowrap text-center">Pts perdus</th>
+        <th class="text-nowrap text-center sortable"
+            [class.sort-asc]="sortColumn === 'bidCount' && sortDirection === 'asc'"
+            [class.sort-desc]="sortColumn === 'bidCount' && sortDirection === 'desc'"
+            (click)="sortBy('bidCount')">
+          Annonces
+        </th>
+        <th class="text-nowrap text-center sortable"
+            [class.sort-asc]="sortColumn === 'successRate' && sortDirection === 'asc'"
+            [class.sort-desc]="sortColumn === 'successRate' && sortDirection === 'desc'"
+            (click)="sortBy('successRate')">
+          % Réussite
+        </th>
+        <th class="text-nowrap text-center sortable"
+            [class.sort-asc]="sortColumn === 'avgPoints' && sortDirection === 'asc'"
+            [class.sort-desc]="sortColumn === 'avgPoints' && sortDirection === 'desc'"
+            (click)="sortBy('avgPoints')">
+          Pts/Annonce
+        </th>
+        <th class="text-nowrap text-center sortable"
+            [class.sort-asc]="sortColumn === 'pointsWon' && sortDirection === 'asc'"
+            [class.sort-desc]="sortColumn === 'pointsWon' && sortDirection === 'desc'"
+            (click)="sortBy('pointsWon')">
+          Pts gagnés
+        </th>
+        <th class="text-nowrap text-center sortable"
+            [class.sort-asc]="sortColumn === 'pointsLost' && sortDirection === 'asc'"
+            [class.sort-desc]="sortColumn === 'pointsLost' && sortDirection === 'desc'"
+            (click)="sortBy('pointsLost')">
+          Pts perdus
+        </th>
         <th class="text-nowrap text-center">Solo 6</th>
         <th class="text-nowrap text-center">Solo 7</th>
         <th class="text-nowrap text-center">Petit Misère</th>
