@@ -29,7 +29,7 @@
       <div class="scores-header">
         <h2>Scores des joueurs</h2>
         <div class="action-buttons">
-          <button (click)="openImportDialog()" class="import-button">
+          <button *ngIf="authFacade.isAuthenticated$ | async" (click)="openImportDialog()" class="import-button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -37,7 +37,7 @@
             </svg>
             Importer des données
           </button>
-          <button (click)="exportToExcel()" class="export-button">
+          <button *ngIf="authFacade.isAuthenticated$ | async" (click)="exportToExcel()" class="export-button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

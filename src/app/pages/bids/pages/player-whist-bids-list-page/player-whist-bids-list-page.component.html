@@ -26,10 +26,12 @@
             </div>
           </div>
           <div class="col-md-6 d-flex justify-content-end">
-            <button class="btn btn-success me-2" (click)="exportToExcel()" [disabled]="loading">
+            <button *ngIf="authFacade.isAuthenticated$ | async" class="btn btn-success me-2" (click)="exportToExcel()"
+                    [disabled]="loading">
               <i class="bi bi-file-earmark-excel me-2"></i>Exporter la saison
             </button>
-            <button class="btn btn-primary" (click)="openImportDialog()" [disabled]="loading">
+            <button *ngIf="authFacade.isAuthenticated$ | async" class="btn btn-primary" (click)="openImportDialog()"
+                    [disabled]="loading">
               <i class="bi bi-upload me-2"></i>Importer
             </button>
           </div>

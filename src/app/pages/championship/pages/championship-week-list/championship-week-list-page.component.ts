@@ -80,6 +80,7 @@ export class ChampionshipWeekListPageComponent implements OnInit {
   }
 
   onWeekCreated(championshipWeek: ChampionshipWeek): void {
+    championshipWeek.season = this.selectedSeason;
     this.championshipFacade.createChampionshipWeek(championshipWeek).subscribe();
     this.showCreateForm = false;
 

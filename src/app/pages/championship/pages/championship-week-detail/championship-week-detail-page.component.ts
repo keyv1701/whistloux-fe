@@ -9,6 +9,7 @@ import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeek } from "../../../../models/championship/championship-week.model";
 import { ImportModalComponent } from "../../../../shared/components/import-modal/import-modal.component";
 import { ToastService } from "../../../../shared/services/toast.service";
+import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 
 type SortColumn = 'playerName' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -38,7 +39,8 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private championshipFacade: ChampionshipFacade,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public authFacade: AuthFacade
   ) {
     this.selectedWeek$ = this.championshipFacade.selectedWeek$;
     this.loading$ = this.championshipFacade.loading$;

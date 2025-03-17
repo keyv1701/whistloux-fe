@@ -4,9 +4,9 @@
     Aucun tournoi disponible.
   </div>
 
-  <button
-    (click)="onCreateTournament()"
-    class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+  <button *ngIf="authFacade.isAuthenticated$ | async"
+          (click)="onCreateTournament()"
+          class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
     <span class="mr-1">+</span>
     <span>Ajouter un tournoi</span>
   </button>

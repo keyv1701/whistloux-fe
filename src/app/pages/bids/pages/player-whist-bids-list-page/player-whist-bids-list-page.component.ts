@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ImportModalComponent } from "../../../../shared/components/import-modal/import-modal.component";
 import { ToastService } from "../../../../shared/services/toast.service";
+import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 
 @Component({
   selector: 'app-player-whist-bids-list-page',
@@ -58,7 +59,8 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private playerWhistBidsFacade: PlayerWhistBidsFacade,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public authFacade: AuthFacade
   ) {
     this.filterForm = this.fb.group({
       season: [new Date().getFullYear().toString()],
