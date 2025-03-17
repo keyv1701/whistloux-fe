@@ -4,6 +4,7 @@ import { Tournament } from '../../../../models/tournament/tournament';
 import { CommonModule } from '@angular/common';
 import { TournamentFacade } from "../../facades/tournament.facade";
 import { tap } from "rxjs";
+import { ToastService } from "../../../../shared/services/toast.service";
 
 @Component({
   selector: 'app-tournament-form',
@@ -20,7 +21,11 @@ export class TournamentFormComponent implements OnInit {
 
   tournamentForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private tournamentFacade: TournamentFacade) {
+  constructor(
+    private fb: FormBuilder,
+    private tournamentFacade: TournamentFacade,
+    private toastService: ToastService
+  ) {
     this.tournamentForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -48,13 +53,11 @@ export class TournamentFormComponent implements OnInit {
 
       // Convertir les dates en format ISO pour les champs input
       if (tournament.startTime) {
-        const startDate = new Date(tournament.startTime);
-        tournament.startTime = this.formatDateForInput(startDate);
+        tournament.startTime = tournament.startTime; // déjà au format HH:MM dans le modèle
       }
 
       if (tournament.endTime) {
-        const endDate = new Date(tournament.endTime);
-        tournament.endTime = this.formatDateForInput(endDate);
+        tournament.endTime = tournament.endTime; // déjà au format HH:MM dans le modèle
       }
 
       if (tournament.registrationDeadline) {
@@ -83,26 +86,16 @@ export class TournamentFormComponent implements OnInit {
   onSubmit(): void {
     if (this.tournamentForm.valid) {
       const formValues = {...this.tournamentForm.value};
-
       const savedTournament = this.createSavedTournament(formValues);
 
-      // Traiter les heures (qui sont des strings dans l'interface)
-      if (formValues.startTime) {
-        // Extraire seulement l'heure (HH:MM) de la chaîne ISO
-        savedTournament.startTime = formValues.startTime.substring(11, 16);
-      }
+      savedTournament.startTime = formValues.startTime;
+      savedTournament.endTime = formValues.endTime;
 
-      if (formValues.endTime) {
-        savedTournament.endTime = formValues.endTime.substring(11, 16);
-      }
-
-      // Traiter la date limite (qui est une Date dans l'interface)
       if (formValues.registrationDeadline) {
         savedTournament.registrationDeadline = new Date(formValues.registrationDeadline);
       }
 
-      console.log('Tournoi à mettre à jour:', savedTournament);
-
+      this.toastService.info(`Enregistrement du tournoi ${savedTournament.name}...`);
       this.saveAction(savedTournament);
     }
   }
@@ -157,11 +150,12 @@ export class TournamentFormComponent implements OnInit {
       .pipe(
         tap({
           next: (result) => {
+            this.toastService.success(`Le tournoi ${result.name} a été mis à jour avec succès !`);
             this.saved.emit(result);
             this.close.emit();
           },
           error: (err) => {
-            console.error('Erreur lors de la mise à jour du tournoi:', err);
+            this.toastService.error(`Erreur lors de la mise à jour du tournoi: ${err.message || 'Erreur inconnue'}`);
           }
         })
       )
@@ -173,11 +167,12 @@ export class TournamentFormComponent implements OnInit {
       .pipe(
         tap({
           next: (result) => {
+            this.toastService.success(`Le tournoi ${result.name} a été créé avec succès !`);
             this.saved.emit(result);
             this.close.emit();
           },
           error: (err) => {
-            console.error('Erreur lors de la créatoin du tournoi:', err);
+            this.toastService.error(`Erreur lors de la création du tournoi: ${err.message || 'Erreur inconnue'}`);
           }
         })
       )

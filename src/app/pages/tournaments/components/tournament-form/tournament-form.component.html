@@ -49,37 +49,24 @@
       </div>
 
       <!-- Dates -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Date de début -->
-        <div class="form-group">
-          <label for="startTime" class="block text-gray-700 text-sm font-bold mb-1">Date de début</label>
+      <div class="form-group">
+        <label for="startTime" class="block text-gray-700 text-sm font-bold mb-1">Heure de début</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                    clip-rule="evenodd"></path>
+            </svg>
+          </div>
           <input
-            type="datetime-local"
+            type="time"
             id="startTime"
             formControlName="startTime"
-            class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            [ngClass]="{'border-red-500': tournamentForm.get('startTime')?.invalid && tournamentForm.get('startTime')?.touched}"
-          />
-          <div *ngIf="tournamentForm.get('startTime')?.invalid && tournamentForm.get('startTime')?.touched"
-               class="text-red-500 text-sm mt-1">
-            La date de début est requise
-          </div>
-        </div>
-
-        <!-- Date de fin -->
-        <div class="form-group">
-          <label for="endTime" class="block text-gray-700 text-sm font-bold mb-1">Date de fin</label>
-          <input
-            type="datetime-local"
-            id="endTime"
-            formControlName="endTime"
-            class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            [ngClass]="{'border-red-500': tournamentForm.get('endTime')?.invalid && tournamentForm.get('endTime')?.touched}"
-          />
-          <div *ngIf="tournamentForm.get('endTime')?.invalid && tournamentForm.get('endTime')?.touched"
-               class="text-red-500 text-sm mt-1">
-            La date de fin est requise
-          </div>
+            class="w-full p-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Sélectionner l'heure de début"
+          >
         </div>
       </div>
 

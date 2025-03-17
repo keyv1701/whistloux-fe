@@ -14,8 +14,8 @@
       </div>
     </div>
     <div class="info-row">
-      <div class="info-label">Horaire</div>
-      <div class="info-value">{{ formatTime(tournament.startTime) }} - {{ formatTime(tournament.endTime) }}</div>
+      <div class="info-label">Heure du début</div>
+      <div class="info-value">{{ tournament.startTime | timeFormat }}</div>
     </div>
     <div class="info-row">
       <div class="info-label">Lieu</div>

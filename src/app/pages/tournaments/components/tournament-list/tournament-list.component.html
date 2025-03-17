@@ -27,12 +27,8 @@
             <span>{{ tournament.address }}</span>
           </div>
           <div class="detail-item">
-            <i class="fas fa-calendar-alt"></i>
-            <span>Du {{ tournament.startTime | timeFormat }}</span>
-          </div>
-          <div class="detail-item">
             <i class="fas fa-clock"></i>
-            <span>Au {{ tournament.endTime | timeFormat }}</span>
+            <span>{{ tournament.startTime | timeFormat }}</span>
           </div>
           <div class="detail-item">
             <i class="fas fa-users"></i>

@@ -9,14 +9,17 @@ export class TimeFormatPipe implements PipeTransform {
   transform(time: string | null | undefined): string {
     if (!time) return '';
 
-    // Si c'est déjà au format hh:mm, retourner tel quel
+    // Si c'est au format hh:mm, convertir en hh'h'mm
     if (/^\d{1,2}:\d{2}$/.test(time)) {
-      return time;
+      const [hours, minutes] = time.split(':');
+      return `${hours}h${minutes}`;
     }
 
-    // Si c'est au format hh:mm:ss, retirer les secondes
+    // Si c'est au format hh:mm:ss, retirer les secondes et convertir en hh'h'mm
     if (/^\d{1,2}:\d{2}:\d{2}$/.test(time)) {
-      return time.substring(0, 5);
+      const timeWithoutSeconds = time.substring(0, 5);
+      const [hours, minutes] = timeWithoutSeconds.split(':');
+      return `${hours}h${minutes}`;
     }
 
     return time; // Retourner la valeur d'origine si format non reconnu

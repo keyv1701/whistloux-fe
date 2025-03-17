@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Tournament } from '../../../../models/tournament/tournament';
+import { TimeFormatPipe } from "../../../../shared/pipes/time-format.pipe";
 
 @Component({
   selector: 'app-tournament-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TimeFormatPipe],
   templateUrl: './tournament-detail.component.html',
   styleUrls: ['./tournament-detail.component.css']
 })
