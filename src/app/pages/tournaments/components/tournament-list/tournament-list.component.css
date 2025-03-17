@@ -123,17 +123,16 @@
 }
 
 .delete-btn {
-  padding: 0.6rem 1rem;
-  background-color: #e74c3c;
-  color: white;
+  background: none;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  padding: 4px 8px;
+  font-size: 1rem;
+  border-radius: 4px;
 }
 
 .delete-btn:hover {
-  background-color: #c0392b;
+  background-color: rgba(229, 62, 62, 0.1);
 }
 
 .edit-btn {

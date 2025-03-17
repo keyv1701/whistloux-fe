@@ -89,9 +89,9 @@ export class PlayerFacade {
     );
   }
 
-  deletePlayer(uuid: string): void {
+  deletePlayer(uuid: string): Observable<undefined | void> {
     this.loadingSubject.next(true);
-    this.playerService.deletePlayer(uuid).pipe(
+    return this.playerService.deletePlayer(uuid).pipe(
       tap(() => {
         const currentPlayers = this.playersSubject.getValue();
         this.playersSubject.next(currentPlayers.filter(p => p.uuid !== uuid));
@@ -102,7 +102,7 @@ export class PlayerFacade {
         return of(undefined);
       }),
       finalize(() => this.loadingSubject.next(false))
-    ).subscribe();
+    );
   }
 
   clearSelectedPlayer(): void {

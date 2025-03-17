@@ -42,6 +42,9 @@
         <button *ngIf="authFacade.isAuthenticated$ | async" class="edit-btn" (click)="onEdit(tournament, $event)">
           <span>✏️</span>
         </button>
+        <button *ngIf="authFacade.isAuthenticated$ | async" class="delete-btn" (click)="onDelete(tournament, $event)">
+          <i class="fas fa-trash-alt text-red-500"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -59,3 +62,12 @@
   (close)="onCloseEdit()"
   (saved)="onTournamentSaved($event)">
 </app-tournament-edit>
+
+<app-confirmation
+  *ngIf="showConfirmation"
+  title="Supprimer le tournoi"
+  message="Êtes-vous sûr de vouloir supprimer ce tournoi ? Cette action est irréversible."
+  confirmButtonText="Supprimer"
+  (confirm)="confirmDelete()"
+  (cancel)="closeConfirmation()">
+</app-confirmation>

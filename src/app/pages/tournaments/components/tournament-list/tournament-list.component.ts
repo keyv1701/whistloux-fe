@@ -7,6 +7,8 @@ import { TournamentEditComponent } from '../tournament-edit/tournament-edit.comp
 import { TournamentCreateComponent } from "../tournament-create/tournament-create.component";
 import { TournamentFacade } from "../../facades/tournament.facade";
 import { ToastService } from "../../../../shared/services/toast.service";
+import { tap } from "rxjs";
+import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
 
 @Component({
   selector: 'app-tournament-list',
@@ -20,7 +22,8 @@ import { ToastService } from "../../../../shared/services/toast.service";
     SlicePipe,
     TimeFormatPipe,
     TournamentEditComponent,
-    TournamentCreateComponent
+    TournamentCreateComponent,
+    ConfirmationComponent
   ],
   templateUrl: './tournament-list.component.html',
   styleUrls: ['./tournament-list.component.css']
@@ -36,6 +39,9 @@ export class TournamentListComponent {
 
   showCreateForm = false;
 
+  showConfirmation = false;
+  tournamentToDelete: Tournament | null = null;
+
   constructor(public authFacade: AuthFacade, public tournamentFacade: TournamentFacade,
               private toastService: ToastService) {
   }
@@ -47,11 +53,6 @@ export class TournamentListComponent {
   onEdit(tournament: Tournament, event: Event): void {
     event.stopPropagation(); // Pour éviter que l'événement ne se propage
     this.selectedTournament = tournament;
-  }
-
-  onDelete(uuid: string, event: Event): void {
-    event.stopPropagation();
-    this.deleteTournamentEvent.emit(uuid);
   }
 
   onCloseEdit(): void {
@@ -84,5 +85,37 @@ export class TournamentListComponent {
 
     // Recharger la liste des joueurs
     this.tournamentFacade.loadTournaments();
+  }
+
+  onDelete(tournament: Tournament, event: Event): void {
+    event.stopPropagation();
+    this.tournamentToDelete = tournament;
+    this.showConfirmation = true;
+  }
+
+  confirmDelete(): void {
+    if (this.tournamentToDelete) {
+      // Appel du service pour supprimer le tournoi
+      this.tournamentFacade.deleteTournament(this.tournamentToDelete.uuid)
+        .pipe(
+          tap({
+            next: () => {
+              this.toastService.success(`Le tournoi ${this.tournamentToDelete?.name} a été supprimé avec succès!`);
+              // Rafraîchir la liste des tournois
+              this.tournamentFacade.loadTournaments();
+            },
+            error: (err) => {
+              this.toastService.error(`Erreur lors de la suppression du tournoi: ${err.message || 'Erreur inconnue'}`);
+            }
+          })
+        )
+        .subscribe();
+    }
+    this.closeConfirmation();
+  }
+
+  closeConfirmation(): void {
+    this.showConfirmation = false;
+    this.tournamentToDelete = null;
   }
 }

@@ -1,11 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Player } from '../../../../models/player.interface';
+import { catchError, of, tap } from "rxjs";
+import { ToastService } from "../../../../shared/services/toast.service";
+import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
+import { PlayerFacade } from "../../facades/player.facade";
+import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 
 @Component({
   selector: 'app-player-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ConfirmationComponent],
   templateUrl: './player-card.component.html',
   styleUrls: ['./player-card.component.css']
 })
@@ -14,6 +19,15 @@ export class PlayerCardComponent {
   @Output() select = new EventEmitter<Player>();
   @Output() delete = new EventEmitter<string>();
   @Output() edit = new EventEmitter<Player>()
+
+  showConfirmation = false;
+  playerToDelete: Player | null = null;
+
+  public constructor(
+    private playerFacade: PlayerFacade,
+    private toastService: ToastService,
+    public authFacade: AuthFacade) {
+  }
 
   onEditClick(event: Event): void {
     event.stopPropagation();  // Empêche l'event select de se déclencher
@@ -77,5 +91,38 @@ export class PlayerCardComponent {
 
     // Sélectionne une couleur de notre palette
     return colors[total % colors.length];
+  }
+
+  onDeleteClick(event: Event): void {
+    event.stopPropagation();
+    this.playerToDelete = this.player;
+    this.showConfirmation = true;
+  }
+
+// Ajoutez ces méthodes pour gérer la confirmation
+  confirmDelete(): void {
+    if (this.playerToDelete) {
+      this.playerFacade.deletePlayer(this.playerToDelete.uuid)
+        .pipe(
+          tap(() => {
+            this.toastService.success(`Le joueur ${this.playerToDelete?.firstName} ${this.playerToDelete?.lastName} a été supprimé avec succès!`);
+            this.playerFacade.loadPlayers();
+          }),
+          catchError(err => {
+            this.toastService.error(`Erreur lors de la suppression du joueur: ${err.message || 'Erreur inconnue'}`);
+            return of(null);
+          })
+        )
+        .subscribe(() => {
+          this.closeConfirmation();
+        });
+    } else {
+      this.closeConfirmation();
+    }
+  }
+
+  closeConfirmation(): void {
+    this.showConfirmation = false;
+    this.playerToDelete = null;
   }
 }
