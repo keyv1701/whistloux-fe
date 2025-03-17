@@ -18,7 +18,7 @@
         Voir le classement
       </button>
 
-      <button (click)="addChampionshipWeek()" class="add-week-button">
+      <button *ngIf="authFacade.isAuthenticated$ | async" (click)="addChampionshipWeek()" class="add-week-button">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
              stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
@@ -49,8 +49,8 @@
             <th>Semaine #</th>
             <th>Date</th>
             <th>Description</th>
-            <th>Nb. joueurs</th>
-            <th>Actions</th>
+            <th [attr.colspan]="(authFacade.isAuthenticated$ | async) ? 1 : 2">Nb. joueurs</th>
+            <th *ngIf="authFacade.isAuthenticated$ | async">Actions</th>
           </tr>
           </thead>
           <tbody>
@@ -62,12 +62,14 @@
             <td>{{ week.description }}</td>
             <td>{{ week.playerScores?.length }}</td>
             <td>
-              <div class="actions">
-                <button class="edit-btn" (click)="$event.stopPropagation(); onEditWeek(week, $event)"
+              <div *ngIf="authFacade.isAuthenticated$ | async" class="actions">
+                <button *ngIf="authFacade.isAuthenticated$ | async" class="edit-btn"
+                        (click)="$event.stopPropagation(); onEditWeek(week, $event)"
                         title="Modifier cette semaine">
                   <span>✏️</span>
                 </button>
-                <button class="delete-btn" (click)="$event.stopPropagation(); onDeleteWeek(week, $event)"
+                <button *ngIf="authFacade.isAuthenticated$ | async" class="delete-btn"
+                        (click)="$event.stopPropagation(); onDeleteWeek(week, $event)"
                         title="Supprimer cette semaine">
                   <i class="fas fa-trash-alt text-red-500"></i>
                 </button>

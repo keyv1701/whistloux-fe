@@ -14,6 +14,7 @@ import {
 import {
   ChampionshipWeekEditComponent
 } from "../../components/championship-week-edit/championship-week-edit.component";
+import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 
 @Component({
   selector: 'app-championship-week-list-page',
@@ -38,7 +39,8 @@ export class ChampionshipWeekListPageComponent implements OnInit {
   constructor(
     private championshipFacade: ChampionshipFacade,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public authFacade: AuthFacade
   ) {
     this.championshipWeeks$ = this.championshipFacade.championshipWeeks$;
     this.loading$ = this.championshipFacade.loading$;
