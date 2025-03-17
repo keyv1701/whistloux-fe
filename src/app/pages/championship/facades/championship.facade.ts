@@ -5,7 +5,7 @@ import { ChampionshipWeek } from "../../../models/championship/championship-week
 import { ChampionshipService } from "../services/championship.service";
 import { ToastService } from "../../../shared/services/toast.service";
 import { PlayerWeekScore } from "../../../models/championship/player-week-score.model";
-import {PlayerRanking} from "../../../models/championship/player-ranking.model";
+import { PlayerRanking } from "../../../models/championship/player-ranking.model";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,9 @@ export class ChampionshipFacade {
   public championshipWeeks$ = this.championshipWeeksSubject.asObservable();
   public selectedWeek$ = this.selectedWeekSubject.asObservable();
   public loading$ = this.loadingSubject.asObservable();
+
+  private monthlyRankingsSubject = new BehaviorSubject<PlayerRanking[]>([]);
+  monthlyRankings$ = this.monthlyRankingsSubject.asObservable();
 
   constructor(
     private championshipService: ChampionshipService,
@@ -217,6 +220,41 @@ export class ChampionshipFacade {
 
   getChampionshipRankings(season: string): Observable<PlayerRanking[]> {
     return this.championshipService.getChampionshipRankings(season);
+  }
+
+  private monthlyScoresSubject = new BehaviorSubject<PlayerWeekScore[]>([]);
+  monthlyScores$ = this.monthlyScoresSubject.asObservable();
+
+  loadMonthlyScores(season: string, month: number): Observable<PlayerWeekScore[]> {
+    this.loadingSubject.next(true);
+
+    return this.championshipService.getMonthlyScores(season, month).pipe(
+      tap(scores => {
+        this.monthlyScoresSubject.next(scores);
+        this.loadingSubject.next(false);
+      }),
+      catchError(error => {
+        this.loadingSubject.next(false);
+        console.error('Error loading monthly scores', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  loadMonthlyChampionshipRankings(season: string, month: number): Observable<PlayerRanking[]> {
+    this.loadingSubject.next(true);
+
+    return this.championshipService.getMonthlyChampionshipRankings(season, month).pipe(
+      tap(rankings => {
+        this.monthlyRankingsSubject.next(rankings);
+        this.loadingSubject.next(false);
+      }),
+      catchError(error => {
+        this.loadingSubject.next(false);
+        console.error('Error loading monthly rankings', error);
+        return throwError(() => error);
+      })
+    );
   }
 
 }

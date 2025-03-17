@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ChampionshipWeek } from "../../../models/championship/championship-week.model";
 import { PlayerWeekScore } from "../../../models/championship/player-week-score.model";
-import {PlayerRanking} from "../../../models/championship/player-ranking.model";
+import { PlayerRanking } from "../../../models/championship/player-ranking.model";
 
 @Injectable({
   providedIn: 'root'
@@ -93,5 +93,13 @@ export class ChampionshipService {
 
   getChampionshipRankings(season: string): Observable<PlayerRanking[]> {
     return this.http.get<PlayerRanking[]>(`${this.apiUrl}/championship/rankings/${season}`);
+  }
+
+  getMonthlyScores(season: string, month: number): Observable<PlayerWeekScore[]> {
+    return this.http.get<PlayerWeekScore[]>(`${this.apiUrl}/scores/monthly?season=${season}&month=${month}`);
+  }
+
+  getMonthlyChampionshipRankings(season: string, month: number): Observable<PlayerRanking[]> {
+    return this.http.get<PlayerRanking[]>(`${this.apiUrl}/championship/rankings/monthly?season=${season}&month=${month}`);
   }
 }

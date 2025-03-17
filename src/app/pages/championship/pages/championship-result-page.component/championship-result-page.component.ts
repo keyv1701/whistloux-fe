@@ -1,41 +1,76 @@
-// src/app/pages/championship/pages/championship-result/championship-result-page.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Observable, switchMap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { ChampionshipFacade } from '../../facades/championship.facade';
-import {PlayerRanking} from "../../../../models/championship/player-ranking.model";
+import { PlayerRanking } from '../../../../models/championship/player-ranking.model';
 
 @Component({
   selector: 'app-championship-result-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './championship-result-page.component.html',
   styleUrls: ['./championship-result-page.component.css']
 })
 export class ChampionshipResultPageComponent implements OnInit {
-  playerRankings$: Observable<PlayerRanking[]>;
-  season: string;
-  loading = true;
+  monthlyRankings$: Observable<PlayerRanking[]>;
+  loading$: Observable<boolean>;
+
+  seasons: string[] = [];
+  selectedSeason: string = new Date().getFullYear().toString();
+
+  months = [
+    {value: 1, name: 'Janvier'},
+    {value: 2, name: 'Février'},
+    {value: 3, name: 'Mars'},
+    {value: 4, name: 'Avril'},
+    {value: 5, name: 'Mai'},
+    {value: 6, name: 'Juin'},
+    {value: 7, name: 'Juillet'},
+    {value: 8, name: 'Août'},
+    {value: 9, name: 'Septembre'},
+    {value: 10, name: 'Octobre'},
+    {value: 11, name: 'Novembre'},
+    {value: 12, name: 'Décembre'}
+  ];
+  selectedMonth: number = new Date().getMonth() + 1;
 
   constructor(
-    private route: ActivatedRoute,
-    private championshipFacade: ChampionshipFacade
+    private championshipFacade: ChampionshipFacade,
+    private route: ActivatedRoute
   ) {
-    this.season = this.route.snapshot.paramMap.get('season') || new Date().getFullYear().toString();
-    this.playerRankings$ = this.championshipFacade.getChampionshipRankings(this.season);
+    this.monthlyRankings$ = this.championshipFacade.monthlyRankings$;
+    this.loading$ = this.championshipFacade.loading$;
+    this.initializeSeasons();
   }
 
   ngOnInit(): void {
-    this.route.paramMap.pipe(
+    this.route.params.pipe(
       switchMap(params => {
-        this.season = params.get('season') || new Date().getFullYear().toString();
-        this.loading = true;
-        return this.championshipFacade.getChampionshipRankings(this.season);
+        const season = params['season'] || this.selectedSeason;
+        this.selectedSeason = season;
+        return this.championshipFacade.loadMonthlyChampionshipRankings(season, this.selectedMonth);
       })
-    ).subscribe({
-      next: () => this.loading = false,
-      error: () => this.loading = false
-    });
+    ).subscribe();
+  }
+
+  private initializeSeasons(): void {
+    const currentYear = new Date().getFullYear();
+    this.seasons = [(currentYear).toString()];
+  }
+
+  onSeasonChange(season: string): void {
+    this.selectedSeason = season;
+    this.loadMonthlyRankings();
+  }
+
+  onMonthChange(month: number): void {
+    this.selectedMonth = month;
+    this.loadMonthlyRankings();
+  }
+
+  loadMonthlyRankings(): void {
+    this.championshipFacade.loadMonthlyChampionshipRankings(this.selectedSeason, this.selectedMonth).subscribe();
   }
 }

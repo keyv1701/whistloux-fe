@@ -41,9 +41,7 @@ export class ChampionshipWeekListPageComponent implements OnInit {
 
   private initializeSeasons(): void {
     const currentYear = new Date().getFullYear();
-    for (let i = 0; i <= 5; i++) {
-      this.seasons.push((currentYear - i).toString());
-    }
+    this.seasons.push((currentYear).toString());
   }
 
   loadChampionshipWeeks(): void {

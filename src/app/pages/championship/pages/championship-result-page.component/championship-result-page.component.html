@@ -1,48 +1,57 @@
-<!-- src/app/pages/championship/pages/championship-result/championship-result-page.component.html -->
 <div class="championship-result-container">
   <div class="header">
-    <h1>Classement du Championnat - Saison {{ season }}</h1>
+    <h1>Résultats mensuels du championnat</h1>
+
+    <div class="actions">
+      <div class="filters">
+        <label for="seasonSelect">Saison:</label>
+        <select id="seasonSelect" [(ngModel)]="selectedSeason" (change)="onSeasonChange(selectedSeason)">
+          <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
+        </select>
+
+        <label for="monthSelect">Mois:</label>
+        <select id="monthSelect" [(ngModel)]="selectedMonth" (change)="onMonthChange(selectedMonth)">
+          <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+        </select>
+      </div>
+    </div>
   </div>
 
-  <ng-container *ngIf="loading; else content">
+  <ng-container *ngIf="loading$ | async; else content">
     <div class="loading-indicator">
-      Chargement du classement...
+      Chargement des résultats...
     </div>
   </ng-container>
 
   <ng-template #content>
-    <ng-container *ngIf="(playerRankings$ | async)?.length === 0; else rankingsTable">
+    <!-- Affichage du classement mensuel -->
+    <div class="rankings-table" *ngIf="(monthlyRankings$ | async)?.length; else emptyMonthly">
+      <table>
+        <thead>
+        <tr>
+          <th>Position</th>
+          <th>Joueur</th>
+          <th>Score total</th>
+          <th>Manches jouées</th>
+          <th>Meilleurs scores</th>
+          <th>Plus mauvais score</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let player of monthlyRankings$ | async">
+          <td>{{ player.rank }}</td>
+          <td>{{ player.playerName }}</td>
+          <td>{{ player.totalScore }}</td>
+          <td>{{ player.roundsPlayed }}</td>
+          <td>{{ player.bestRoundScores.join(', ') }}</td>
+          <td>{{ player.worstRoundScore }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #emptyMonthly>
       <div class="empty-state">
-        Aucun classement disponible pour la saison {{ season }}.
-      </div>
-    </ng-container>
-
-    <ng-template #rankingsTable>
-      <div class="rankings-table-container">
-        <table class="rankings-table">
-          <thead>
-          <tr>
-            <th>Position</th>
-            <th>Joueur</th>
-            <th>Score Total</th>
-            <th>Rondes Jouées</th>
-            <th>5 Meilleurs Scores</th>
-            <th>Pire Score Comptabilisé</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let player of playerRankings$ | async" [ngClass]="{'top-three': player.rank <= 3}">
-            <td class="rank">{{ player.rank }}</td>
-            <td class="player-name">{{ player.playerName }}</td>
-            <td class="total-score">{{ player.totalScore }}</td>
-            <td class="rounds-played">{{ player.roundsPlayed }}</td>
-            <td class="best-scores">
-              <span *ngFor="let score of player.bestRoundScores" class="best-score">{{ score }}</span>
-            </td>
-            <td class="worst-score">{{ player.worstRoundScore }}</td>
-          </tr>
-          </tbody>
-        </table>
+        Aucun classement disponible pour {{ months[selectedMonth - 1].name }} {{ selectedSeason }}.
       </div>
     </ng-template>
   </ng-template>
