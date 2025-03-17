@@ -24,10 +24,10 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   selectedWeek$: Observable<ChampionshipWeek | null>;
   loading$: Observable<boolean>;
 
-  sortColumnSubject = new BehaviorSubject<SortColumn>('playerName');
+  sortColumnSubject = new BehaviorSubject<SortColumn>('total');
   sortColumn$ = this.sortColumnSubject.asObservable();
 
-  sortDirectionSubject = new BehaviorSubject<SortDirection>('asc');
+  sortDirectionSubject = new BehaviorSubject<SortDirection>('desc');
   sortDirection$ = this.sortDirectionSubject.asObservable();
 
   playerScores$: Observable<PlayerWeekScore[]>;
