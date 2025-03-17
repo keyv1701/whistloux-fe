@@ -1,9 +1,9 @@
 export enum WhistBid {
-  H6 = 'H6',
-  H7 = 'H7',
+  S6 = 'S6',
+  S7 = 'S7',
   PM = 'PM',
   PIC = 'PIC',
-  H8 = 'H8',
+  S8 = 'S8',
   PME = 'PME',
   AB9 = 'AB9',
   GM = 'GM',
@@ -16,11 +16,11 @@ export enum WhistBid {
 }
 
 export const WhistBidDescriptions: Record<WhistBid, string> = {
-  [WhistBid.H6]: 'Solo 6',
-  [WhistBid.H7]: 'Solo 7',
+  [WhistBid.S6]: 'Solo 6',
+  [WhistBid.S7]: 'Solo 7',
   [WhistBid.PM]: 'Petit Misère',
   [WhistBid.PIC]: 'Picolissimo',
-  [WhistBid.H8]: 'Solo 8',
+  [WhistBid.S8]: 'Solo 8',
   [WhistBid.PME]: 'Petit Misère Entame',
   [WhistBid.AB9]: 'Abondance à 9 levées',
   [WhistBid.GM]: 'Grand Misère',
@@ -33,11 +33,11 @@ export const WhistBidDescriptions: Record<WhistBid, string> = {
 };
 
 export const WhistBidPoints: Record<WhistBid, number> = {
-  [WhistBid.H6]: 1,
-  [WhistBid.H7]: 2,
+  [WhistBid.S6]: 1,
+  [WhistBid.S7]: 2,
   [WhistBid.PM]: 4,
   [WhistBid.PIC]: 5,
-  [WhistBid.H8]: 6,
+  [WhistBid.S8]: 6,
   [WhistBid.PME]: 8,
   [WhistBid.AB9]: 10,
   [WhistBid.GM]: 12,

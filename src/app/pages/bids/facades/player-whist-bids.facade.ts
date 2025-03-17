@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, EMPTY, finalize, Observable, throwError} from 'rxjs';
-import {PlayerWhistBids} from '../../../models/bids/player-whist-bids.model';
-import {WhistBidDetail} from '../../../models/bids/whist-bid-detail.model';
-import {PlayerWhistBidsService} from '../services/player-whist-bids.service';
-import {map, tap} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, EMPTY, finalize, Observable, throwError } from 'rxjs';
+import { PlayerWhistBids } from '../../../models/bids/player-whist-bids.model';
+import { WhistBidDetail } from '../../../models/bids/whist-bid-detail.model';
+import { PlayerWhistBidsService } from '../services/player-whist-bids.service';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -174,7 +174,7 @@ export class PlayerWhistBidsFacade {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `encheres-whist-saison-${season}.xlsx`;
+        a.download = `annonces-whist-saison-${season}.xlsx`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

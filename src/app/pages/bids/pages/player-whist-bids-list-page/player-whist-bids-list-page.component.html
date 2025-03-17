@@ -131,11 +131,11 @@
         <th></th>
         <th></th>
         <th></th>
-        <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.H6] }}</th>
-        <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.H7] }}</th>
+        <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.S6] }}</th>
+        <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.S7] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.PM] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.PIC] }}</th>
-        <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.H8] }}</th>
+        <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.S8] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.PME] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.AB9] }}</th>
         <th class="text-center fw-bold bid-points">{{ WhistBidPoints[WhistBid.GM] }}</th>
@@ -156,14 +156,14 @@
         <th></th>
         <th></th>
         <th class="text-center">
-          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.H6, true) }}</span>
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.S6, true) }}</span>
           <span class="separator">/</span>
-          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.H6, false) }}</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.S6, false) }}</span>
         </th>
         <th class="text-center">
-          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.H7, true) }}</span>
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.S7, true) }}</span>
           <span class="separator">/</span>
-          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.H7, false) }}</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.S7, false) }}</span>
         </th>
         <th class="text-center">
           <span class="success-count">{{ getTotalBidTypeCount(WhistBid.PM, true) }}</span>
@@ -176,9 +176,9 @@
           <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.PIC, false) }}</span>
         </th>
         <th class="text-center">
-          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.H8, true) }}</span>
+          <span class="success-count">{{ getTotalBidTypeCount(WhistBid.S8, true) }}</span>
           <span class="separator">/</span>
-          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.H8, false) }}</span>
+          <span class="failure-count">{{ getTotalBidTypeCount(WhistBid.S8, false) }}</span>
         </th>
         <th class="text-center">
           <span class="success-count">{{ getTotalBidTypeCount(WhistBid.PME, true) }}</span>
@@ -235,11 +235,11 @@
         <th></th>
         <th></th>
         <th></th>
-        <th class="text-center">{{ getBidTypePercentage(WhistBid.H6) }}%</th>
-        <th class="text-center">{{ getBidTypePercentage(WhistBid.H7) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.S6) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.S7) }}%</th>
         <th class="text-center">{{ getBidTypePercentage(WhistBid.PM) }}%</th>
         <th class="text-center">{{ getBidTypePercentage(WhistBid.PIC) }}%</th>
-        <th class="text-center">{{ getBidTypePercentage(WhistBid.H8) }}%</th>
+        <th class="text-center">{{ getBidTypePercentage(WhistBid.S8) }}%</th>
         <th class="text-center">{{ getBidTypePercentage(WhistBid.PME) }}%</th>
         <th class="text-center">{{ getBidTypePercentage(WhistBid.AB9) }}%</th>
         <th class="text-center">{{ getBidTypePercentage(WhistBid.GM) }}%</th>
@@ -259,11 +259,11 @@
         <th></th>
         <th></th>
         <th></th>
-        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.H6) }}%</th>
-        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.H7) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.S6) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.S7) }}%</th>
         <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.PM) }}%</th>
         <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.PIC) }}%</th>
-        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.H8) }}%</th>
+        <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.S8) }}%</th>
         <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.PME) }}%</th>
         <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.AB9) }}%</th>
         <th class="text-center">{{ getBidTypeSuccessRate(WhistBid.GM) }}%</th>
@@ -285,14 +285,14 @@
         <td class="text-center success-count">{{ getPointsWon(playerBid) }}</td>
         <td class="text-center failure-count">{{ getPointsLost(playerBid) }}</td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.H6) > 0}">
-          <span class="success-count">{{ getBidTypeCount(playerBid, WhistBid.H6, true) }}</span><span class="separator">/</span><span
-          class="failure-count">{{ getBidTypeCount(playerBid, WhistBid.H6, false) }}</span>
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.S6) > 0}">
+          <span class="success-count">{{ getBidTypeCount(playerBid, WhistBid.S6, true) }}</span><span class="separator">/</span><span
+          class="failure-count">{{ getBidTypeCount(playerBid, WhistBid.S6, false) }}</span>
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.H7) > 0}">
-          <span class="success-count">{{ getBidTypeCount(playerBid, WhistBid.H7, true) }}</span><span class="separator">/</span><span
-          class="failure-count">{{ getBidTypeCount(playerBid, WhistBid.H7, false) }}</span>
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.S7) > 0}">
+          <span class="success-count">{{ getBidTypeCount(playerBid, WhistBid.S7, true) }}</span><span class="separator">/</span><span
+          class="failure-count">{{ getBidTypeCount(playerBid, WhistBid.S7, false) }}</span>
         </td>
         <td class="text-center bid-cell"
             [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PM) > 0}">
@@ -306,9 +306,9 @@
           class="failure-count">{{ getBidTypeCount(playerBid, WhistBid.PIC, false) }}</span>
         </td>
         <td class="text-center bid-cell"
-            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.H8) > 0}">
-          <span class="success-count">{{ getBidTypeCount(playerBid, WhistBid.H8, true) }}</span><span class="separator">/</span><span
-          class="failure-count">{{ getBidTypeCount(playerBid, WhistBid.H8, false) }}</span>
+            [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.S8) > 0}">
+          <span class="success-count">{{ getBidTypeCount(playerBid, WhistBid.S8, true) }}</span><span class="separator">/</span><span
+          class="failure-count">{{ getBidTypeCount(playerBid, WhistBid.S8, false) }}</span>
         </td>
         <td class="text-center bid-cell"
             [ngClass]="{'has-bids': getBidTypeCount(playerBid, WhistBid.PME) > 0}">
@@ -445,6 +445,6 @@
   [title]="'Importer des annonces'"
   [acceptTypes]="'.xlsx'"
   [description]="'Sélectionnez un fichier Excel (.xlsx) contenant les données d\'annonces à importer.'"
-  (fileSelected)="importData($event)"
   (closeModal)="closeImportDialog()"
+  (importConfirmed)="importData($event)"
 ></app-import-modal>
