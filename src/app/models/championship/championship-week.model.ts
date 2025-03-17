@@ -2,7 +2,7 @@
 import { PlayerWeekScore } from './player-week-score.model';
 
 export interface ChampionshipWeek {
-  uuid?: string;
+  uuid: string;
   date: Date;
   weekNumber: number;
   season: string;

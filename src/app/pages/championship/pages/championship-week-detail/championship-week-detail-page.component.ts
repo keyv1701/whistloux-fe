@@ -84,11 +84,6 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     }
   }
 
-  addPlayerScore(): void {
-    // Cette méthode serait implémentée avec un formulaire ou un dialogue pour ajouter un nouveau score
-    console.log('Ajouter un score de joueur');
-  }
-
   sortData(column: SortColumn): void {
     const currentColumn = this.sortColumnSubject.value;
     const currentDirection = this.sortDirectionSubject.value;

@@ -2,19 +2,23 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ChampionshipWeek } from '../../../../models/championship/championship-week.model';
 import { ChampionshipFacade } from '../../facades/championship.facade';
 import { ToastService } from "../../../../shared/services/toast.service";
+import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
 import {
   ChampionshipWeekCreateComponent
 } from "../../components/championship-week-create/championship-week-create.component";
+import {
+  ChampionshipWeekEditComponent
+} from "../../components/championship-week-edit/championship-week-edit.component";
 
 @Component({
   selector: 'app-championship-week-list-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChampionshipWeekCreateComponent],
+  imports: [CommonModule, FormsModule, ChampionshipWeekCreateComponent, ConfirmationComponent, ChampionshipWeekEditComponent],
   templateUrl: './championship-week-list-page.component.html',
   styleUrls: ['./championship-week-list-page.component.css']
 })
@@ -24,6 +28,12 @@ export class ChampionshipWeekListPageComponent implements OnInit {
   selectedSeason: string = new Date().getFullYear().toString();
   seasons: string[] = [];
   showCreateForm = false;
+
+  showEditForm = false;
+  weekToEdit: any = null;
+
+  showConfirmation = false;
+  weekToDelete: any = null;
 
   constructor(
     private championshipFacade: ChampionshipFacade,
@@ -83,5 +93,59 @@ export class ChampionshipWeekListPageComponent implements OnInit {
       return;
     }
     this.router.navigate(['/championship/results', season]);
+  }
+
+  onEditWeek(week: any, event: Event): void {
+    event.stopPropagation();
+    // Ici, vous pouvez réutiliser le popup de création pour l'édition
+    // ou créer une nouvelle méthode spécifique à l'édition
+    this.editChampionshipWeek(week);
+  }
+
+  editChampionshipWeek(week: any): void {
+    // Logique pour l'édition (à personnaliser selon vos besoins)
+    this.showEditForm = true;
+    this.weekToEdit = week;
+  }
+
+  onDeleteWeek(week: any, event: Event): void {
+    event.stopPropagation();
+    this.weekToDelete = week;
+    this.showConfirmation = true;
+  }
+
+  confirmDelete(): void {
+    if (this.weekToDelete) {
+      this.championshipFacade.deleteChampionshipWeek(this.weekToDelete.uuid, this.selectedSeason)
+        .pipe(
+          tap(() => {
+            this.toastService.success(`La semaine ${this.weekToDelete.weekNumber} a été supprimée avec succès!`);
+            // Rafraîchir la liste
+            this.loadChampionshipWeeks();
+          }),
+          catchError(err => {
+            this.toastService.error(`Erreur lors de la suppression de la semaine: ${err.message || 'Erreur inconnue'}`);
+            return of(null);
+          })
+        )
+        .subscribe(() => {
+          this.closeConfirmation();
+        });
+    } else {
+      this.closeConfirmation();
+    }
+  }
+
+  closeConfirmation(): void {
+    this.showConfirmation = false;
+    this.weekToDelete = null;
+  }
+
+// Vous aurez également besoin d'ajouter cette méthode pour la mise à jour
+  onWeekUpdated(updatedWeek: any): void {
+    this.showEditForm = false;
+    this.weekToEdit = null;
+    this.loadChampionshipWeeks();
+    this.toastService.success(`La semaine ${updatedWeek.weekNumber} a été mise à jour avec succès!`);
   }
 }

@@ -1,9 +1,10 @@
 <div class="modal-overlay">
   <div class="modal-content">
     <app-championship-week-form
-      [championshipUuid]="championshipId"
-      formTitle="Nouvelle semaine de championnat"
-      submitButtonText="Créer"
+      [week]="week"
+      [championshipUuid]="championshipUuid"
+      formTitle="Modifier la semaine de championnat"
+      submitButtonText="Mettre à jour"
       (formSubmit)="onSubmit($event)"
       (cancel)="onCancel()">
     </app-championship-week-form>

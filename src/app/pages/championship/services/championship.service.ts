@@ -38,12 +38,12 @@ export class ChampionshipService {
 
   // Mettre à jour une semaine de championnat
   updateChampionshipWeek(week: ChampionshipWeek): Observable<ChampionshipWeek> {
-    return this.http.put<ChampionshipWeek>(`${this.apiUrl}/${week.uuid}`, week);
+    return this.http.put<ChampionshipWeek>(`${this.apiUrl}/weeks/${week.uuid}`, week);
   }
 
   // Supprimer une semaine de championnat
   deleteChampionshipWeek(uuid: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${uuid}`);
+    return this.http.delete<void>(`${this.apiUrl}/weeks/${uuid}`);
   }
 
   // Ajouter un score de joueur à une semaine

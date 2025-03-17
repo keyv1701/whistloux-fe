@@ -92,7 +92,7 @@ export class ChampionshipFacade {
     this.loadingSubject.next(true);
     return this.championshipService.updateChampionshipWeek(week).pipe(
       tap(updatedWeek => {
-        this.loadChampionshipWeeks();
+        this.loadAllWeeksBySeason(week.season);
         if (this.selectedWeekSubject.value?.uuid === week.uuid) {
           this.selectedWeekSubject.next(updatedWeek);
         }
@@ -108,11 +108,11 @@ export class ChampionshipFacade {
   }
 
   // Supprimer une semaine
-  deleteChampionshipWeek(uuid: string): Observable<void> {
+  deleteChampionshipWeek(uuid: string, season: string): Observable<void> {
     this.loadingSubject.next(true);
     return this.championshipService.deleteChampionshipWeek(uuid).pipe(
       tap(() => {
-        this.loadChampionshipWeeks();
+        this.loadAllWeeksBySeason(season);
         if (this.selectedWeekSubject.value?.uuid === uuid) {
           this.selectedWeekSubject.next(null);
         }

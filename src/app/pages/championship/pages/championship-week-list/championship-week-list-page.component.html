@@ -12,7 +12,8 @@
 
       <button (click)="navigateToRankings(selectedSeason)" class="rankings-button">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
         </svg>
         Voir le classement
       </button>
@@ -62,8 +63,13 @@
             <td>{{ week.playerScores?.length }}</td>
             <td>
               <div class="actions">
-                <button class="btn-icon view" (click)="$event.stopPropagation(); navigateToDetail(week.uuid)">
-                  <i class="fas fa-eye"></i>
+                <button class="edit-btn" (click)="$event.stopPropagation(); onEditWeek(week, $event)"
+                        title="Modifier cette semaine">
+                  <span>✏️</span>
+                </button>
+                <button class="delete-btn" (click)="$event.stopPropagation(); onDeleteWeek(week, $event)"
+                        title="Supprimer cette semaine">
+                  <i class="fas fa-trash-alt text-red-500"></i>
                 </button>
               </div>
             </td>
@@ -79,5 +85,22 @@
 <app-championship-week-create
   *ngIf="showCreateForm"
   (close)="onCloseCreate()"
-  (saved)="onWeekCreated($event)">
+  (created)="onWeekCreated($event)">
 </app-championship-week-create>
+
+<app-confirmation
+  *ngIf="showConfirmation"
+  title="Supprimer la semaine de championnat"
+  message="Êtes-vous sûr de vouloir supprimer cette semaine ? Toutes les données associées seront définitivement perdues."
+  confirmButtonText="Supprimer"
+  (confirm)="confirmDelete()"
+  (cancel)="closeConfirmation()">
+</app-confirmation>
+
+<!-- Popup d'édition -->
+<app-championship-week-edit
+  *ngIf="showEditForm"
+  [week]="weekToEdit"
+  (close)="showEditForm = false; weekToEdit = null"
+  (saved)="onWeekUpdated($event)">
+</app-championship-week-edit>
