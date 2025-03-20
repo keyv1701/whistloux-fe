@@ -471,3 +471,16 @@ tr.table-light {
 .toggle-stats-btn.active i {
   transform: rotate(180deg);
 }
+
+.header {
+  @apply mb-8;
+
+  h1 {
+    @apply text-2xl font-bold text-whist-primary relative pb-3 mb-0;
+  }
+
+  h1:after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-16 h-1 bg-whist-primary rounded;
+  }
+}

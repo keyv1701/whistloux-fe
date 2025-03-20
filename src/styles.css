@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Variables globales pour la cohérence */
+:root {
+  --spacing-standard: 1rem;
+  --radius-standard: 0.25rem;
+}
+
 @layer base {
   body {
-    @apply bg-whist-light text-whist-dark;
+    @apply bg-whist-light text-whist-dark font-sans min-h-screen;
   }
 
   h1 {
@@ -21,6 +27,26 @@
 }
 
 @layer components {
+  /* Conteneurs de page */
+  .page-container {
+    @apply p-8 max-w-7xl mx-auto;
+  }
+
+  /* En-têtes de page avec barre soulignée */
+  .page-header {
+    @apply mb-8;
+  }
+
+  .page-header h1 {
+    @apply relative pb-3;
+  }
+
+  .page-header h1:after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-16 h-1 bg-whist-primary rounded;
+  }
+
+  /* Boutons */
   .btn-primary {
     @apply bg-whist-secondary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors;
   }
@@ -29,32 +55,30 @@
     @apply bg-whist-accent hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors;
   }
 
+  /* Cartes et conteneurs */
   .card {
     @apply bg-white rounded-lg shadow-md p-6 mb-4 transition-shadow hover:shadow-lg;
   }
-}
 
-/* Styles pour le player-card */
-.player-avatar {
-  @apply w-10 h-10 rounded-full bg-whist-primary flex items-center justify-center text-white;
-}
+  /* Avatar de joueur */
+  .player-avatar {
+    @apply w-10 h-10 rounded-full bg-whist-primary flex items-center justify-center text-white;
+  }
 
-.player-initials {
-  @apply text-sm font-bold;
-}
+  .player-initials {
+    @apply text-sm font-bold;
+  }
 
-.action-button {
-  @apply p-2 rounded-full transition-colors duration-200;
-}
+  .action-button {
+    @apply p-2 rounded-full transition-colors duration-200;
+  }
 
-/* Styles pour le loader */
-.loader {
-  border: 3px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 3px solid #3498db;
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite;
+  /* Loader */
+  .loader {
+    @apply h-8 w-8 rounded-full border-4 border-gray-200;
+    border-top-color: theme('colors.whist-primary');
+    animation: spin 1s linear infinite;
+  }
 }
 
 @keyframes spin {
