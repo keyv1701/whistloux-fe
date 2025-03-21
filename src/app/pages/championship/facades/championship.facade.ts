@@ -107,7 +107,6 @@ export class ChampionshipFacade {
     );
   }
 
-  // Supprimer une semaine
   deleteChampionshipWeek(uuid: string, season: string): Observable<void> {
     this.loadingSubject.next(true);
     return this.championshipService.deleteChampionshipWeek(uuid).pipe(
@@ -121,6 +120,20 @@ export class ChampionshipFacade {
       catchError(error => {
         this.toastService.error('Erreur lors de la suppression de la semaine de championnat');
         console.error('Erreur lors de la suppression:', error);
+        return of(undefined);
+      }),
+      finalize(() => this.loadingSubject.next(false))
+    );
+  }
+
+  deletePlayerWeekScore(uuid: string, season: string): Observable<void> {
+    this.loadingSubject.next(true);
+    return this.championshipService.deletePlayerWeekScore(uuid).pipe(
+      tap(() => {
+        this.toastService.success('Score supprimée avec succès');
+      }),
+      catchError(error => {
+        this.toastService.error('Erreur lors de la suppression du score');
         return of(undefined);
       }),
       finalize(() => this.loadingSubject.next(false))

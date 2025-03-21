@@ -120,6 +120,7 @@
                 </svg>
               </span>
             </th>
+            <th *ngIf="authFacade.isAuthenticated$ | async" class="px-4 py-2 text-left">Actions</th>
           </tr>
           </thead>
           <tbody>
@@ -129,6 +130,16 @@
             <td>{{ score.round2Points || 0 }}</td>
             <td>{{ score.round3Points || 0 }}</td>
             <td class="total-points">{{ getTotalPoints(score) }}</td>
+            <td *ngIf="authFacade.isAuthenticated$ | async" class="px-4 py-2">
+              <div *ngIf="authFacade.isAuthenticated$ | async" class="actions flex space-x-2">
+                <button class="edit-btn" (click)="onEditClick(score)" title="Modifier cette semaine">
+                  <span>✏️</span>
+                </button>
+                <button class="delete-btn" (click)="onDeleteClick(score)" title="Supprimer cette semaine">
+                  <i class="fas fa-trash-alt text-red-500"></i>
+                </button>
+              </div>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -150,3 +161,12 @@
     </button>
   </div>
 </div>
+
+<app-confirmation
+  *ngIf="showConfirmation"
+  title="Supprimer le score du joueur"
+  message="Êtes-vous sûr de vouloir supprimer ce score ? Cette action est irréversible."
+  confirmButtonText="Supprimer"
+  (confirm)="confirmDelete()"
+  (cancel)="closeConfirmation()">
+</app-confirmation>

@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject, catchError, combineLatest, EMPTY, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, EMPTY, Observable, of, tap } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { PlayerWeekScore } from "../../../../models/championship/player-week-score.model";
 import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeek } from "../../../../models/championship/championship-week.model";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
+import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
+import { ToastService } from "../../../../shared/services/toast.service";
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -15,7 +17,7 @@ type SortDirection = 'asc' | 'desc';
 @Component({
   selector: 'app-championship-week-detail-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent],
   templateUrl: './championship-week-detail-page.component.html',
   styleUrls: ['./championship-week-detail-page.component.css']
 })
@@ -31,10 +33,16 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
 
   playerScores$: Observable<PlayerWeekScore[]>;
 
+  showConfirmation = false;
+  scoreToDelete: any = null;
+
+  private weekUuid!: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private championshipFacade: ChampionshipFacade,
+    private toastService: ToastService,
     public authFacade: AuthFacade
   ) {
     this.selectedWeek$ = this.championshipFacade.selectedWeek$;
@@ -57,6 +65,7 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params['uuid']) {
+        this.weekUuid = params['uuid'];
         this.championshipFacade.loadChampionshipWeek(params['uuid']);
       }
     });
@@ -72,13 +81,6 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     if (playerScore.round2Points) total += playerScore.round2Points;
     if (playerScore.round3Points) total += playerScore.round3Points;
     return total;
-  }
-
-  deletePlayerScore(playerScoreUuid: string): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce score?')) {
-      const weekUuid = this.route.snapshot.params['uuid'];
-      this.championshipFacade.deletePlayerScore(weekUuid, playerScoreUuid).subscribe();
-    }
   }
 
   sortData(column: SortColumn): void {
@@ -148,5 +150,43 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
         })
       ).subscribe();
     }
+  }
+
+  onEditClick(item: any): void {
+    // Code pour gérer l'édition d'un élément
+    console.log('Edit item:', item);
+    // Implémentez la logique d'édition
+  }
+
+  onDeleteClick(score: any): void {
+    this.scoreToDelete = score;
+    this.showConfirmation = true;
+  }
+
+  confirmDelete(): void {
+    if (this.scoreToDelete) {
+      this.championshipFacade.deletePlayerWeekScore(this.scoreToDelete.uuid, this.scoreToDelete.season)
+        .pipe(
+          tap(() => {
+            this.toastService.success(`Le score de ${this.scoreToDelete.playerPseudo} a été supprimé avec succès!`);
+            // Rafraîchir la liste
+            this.championshipFacade.loadChampionshipWeek(this.weekUuid);
+          }),
+          catchError(err => {
+            this.toastService.error(`Erreur lors de la suppression du score: ${err.message || 'Erreur inconnue'}`);
+            return of(null);
+          })
+        )
+        .subscribe(() => {
+          this.closeConfirmation();
+        });
+    } else {
+      this.closeConfirmation();
+    }
+  }
+
+  closeConfirmation(): void {
+    this.showConfirmation = false;
+    this.scoreToDelete = null;
   }
 }

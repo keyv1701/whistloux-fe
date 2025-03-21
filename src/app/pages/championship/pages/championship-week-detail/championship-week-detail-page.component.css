@@ -195,3 +195,44 @@ h2 {
     @apply text-lg;
   }
 }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.edit-btn, .delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.edit-btn {
+  span {
+    font-size: 16px;
+  }
+}
+
+.delete-btn {
+  i {
+    font-size: 16px;
+  }
+
+  &:hover {
+    i {
+      color: #e53e3e;
+    }
+  }
+}

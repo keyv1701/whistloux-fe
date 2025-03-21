@@ -46,6 +46,10 @@ export class ChampionshipService {
     return this.http.delete<void>(`${this.apiUrl}/weeks/${uuid}`);
   }
 
+  deletePlayerWeekScore(uuid: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/score/${uuid}`);
+  }
+
   // Ajouter un score de joueur à une semaine
   addPlayerScore(weekUuid: string, playerScore: PlayerWeekScore): Observable<PlayerWeekScore> {
     return this.http.post<PlayerWeekScore>(`${this.apiUrl}/${weekUuid}/scores`, playerScore);
