@@ -61,9 +61,9 @@
       <thead>
       <tr class="table-primary">
         <th class="text-nowrap sticky-col sortable"
-            [class.sort-asc]="sortColumn === 'playerName' && sortDirection === 'asc'"
-            [class.sort-desc]="sortColumn === 'playerName' && sortDirection === 'desc'"
-            (click)="sortBy('playerName')">
+            [class.sort-asc]="sortColumn === 'playerPseudo' && sortDirection === 'asc'"
+            [class.sort-desc]="sortColumn === 'playerPseudo' && sortDirection === 'desc'"
+            (click)="sortBy('playerPseudo')">
           Joueur
         </th>
         <th class="text-nowrap text-center sortable"
@@ -281,7 +281,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let playerBid of paginatedPlayerBids">
-        <td class="fw-bold sticky-col">{{ playerBid.playerFirstname }} {{ playerBid.playerLastName }}</td>
+        <td class="fw-bold sticky-col">{{ playerBid.playerPseudo }}</td>
         <td class="text-center fw-bold">{{ getTotalBids(playerBid) }}</td>
         <td class="text-center">{{ getTotalBidCount(playerBid) }}</td>
         <td class="text-center">{{ getSuccessPercentage(playerBid) }}</td>

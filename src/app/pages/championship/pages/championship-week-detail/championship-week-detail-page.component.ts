@@ -11,7 +11,7 @@ import { ImportModalComponent } from "../../../../shared/components/import-modal
 import { ToastService } from "../../../../shared/services/toast.service";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 
-type SortColumn = 'playerName' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
+type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
 
 @Component({
@@ -105,10 +105,8 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
       let comparison = 0;
 
       switch (column) {
-        case 'playerName':
-          const nameA = `${a.playerFirstname} ${a.playerLastname}`.toLowerCase();
-          const nameB = `${b.playerFirstname} ${b.playerLastname}`.toLowerCase();
-          comparison = nameA.localeCompare(nameB);
+        case 'playerPseudo':
+          comparison = a.playerPseudo.localeCompare(b.playerPseudo);
           break;
         case 'round1Points':
           comparison = (a.round1Points || 0) - (b.round1Points || 0);

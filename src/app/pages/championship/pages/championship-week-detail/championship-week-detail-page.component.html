@@ -53,15 +53,15 @@
         <table class="scores-table">
           <thead>
           <tr>
-            <th (click)="sortData('playerName')" class="sortable-header">
+            <th (click)="sortData('playerPseudo')" class="sortable-header">
               Joueur
               <span class="sort-icon">
-                <svg *ngIf="sortColumnSubject.value === 'playerName' && sortDirectionSubject.value === 'asc'"
+                <svg *ngIf="sortColumnSubject.value === 'playerPseudo' && sortDirectionSubject.value === 'asc'"
                      xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
                 </svg>
-                <svg *ngIf="sortColumnSubject.value === 'playerName' && sortDirectionSubject.value === 'desc'"
+                <svg *ngIf="sortColumnSubject.value === 'playerPseudo' && sortDirectionSubject.value === 'desc'"
                      xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -132,7 +132,7 @@
           </thead>
           <tbody>
           <tr *ngFor="let score of playerScores$ | async">
-            <td>{{ score.playerFirstname + " " + score.playerLastname }}</td>
+            <td>{{ score.playerPseudo }}</td>
             <td>{{ score.round1Points || 0 }}</td>
             <td>{{ score.round2Points || 0 }}</td>
             <td>{{ score.round3Points || 0 }}</td>

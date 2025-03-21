@@ -42,7 +42,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   Math = Math; // Pour utiliser Math dans le template
 
   // Propriétés pour le tri
-  sortColumn: string = 'playerName';
+  sortColumn: string = 'playerPseudo';
   sortDirection: 'asc' | 'desc' = 'asc';
 
   loading = false;
@@ -153,8 +153,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
       this.filteredPlayerBids = [...this.playerBids];
     } else {
       this.filteredPlayerBids = this.playerBids.filter(playerBid => {
-        const fullName = `${playerBid.playerFirstname} ${playerBid.playerLastName}`.toLowerCase();
-        return fullName.includes(searchTerm);
+        return playerBid.playerPseudo.includes(searchTerm);
       });
     }
 
@@ -187,9 +186,9 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
       let valueB: any;
 
       switch (this.sortColumn) {
-        case 'playerName':
-          valueA = `${a.playerFirstname} ${a.playerLastName}`.toLowerCase();
-          valueB = `${b.playerFirstname} ${b.playerLastName}`.toLowerCase();
+        case 'playerPseudo':
+          valueA = a.playerPseudo.toLowerCase();
+          valueB = b.playerPseudo.toLowerCase();
           break;
         case 'totalBids':
           valueA = this.getTotalBids(a);

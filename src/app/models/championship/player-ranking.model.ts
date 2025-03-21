@@ -1,6 +1,6 @@
 export interface PlayerRanking {
   playerUuid: string;
-  playerName: string;
+  playerPseudo: string;
   rank: number;
   totalScore: number;
   roundsPlayed: number;
