@@ -155,7 +155,19 @@ export class ChampionshipFacade {
     );
   }
 
-  // Mettre à jour un score joueur
+  createPlayerScore(playerScore: PlayerWeekScore, weekUuid: string): Observable<PlayerWeekScore> {
+    return this.championshipService.addPlayerScore(weekUuid, playerScore).pipe(
+      tap(score => {
+        this.loadChampionshipWeek(weekUuid);
+        this.toastService.success('Score créé avec succès');
+      }),
+      catchError(error => {
+        this.toastService.error('Erreur lors de la création du score');
+        return of(null as unknown as PlayerWeekScore);
+      })
+    );
+  }
+
   updatePlayerScore(playerScore: PlayerWeekScore, weekUuid: string): Observable<PlayerWeekScore> {
     return this.championshipService.updatePlayerScore(playerScore).pipe(
       tap(score => {
@@ -164,7 +176,6 @@ export class ChampionshipFacade {
       }),
       catchError(error => {
         this.toastService.error('Erreur lors de la mise à jour du score');
-        console.error('Erreur lors de la mise à jour du score:', error);
         return of(null as unknown as PlayerWeekScore);
       })
     );

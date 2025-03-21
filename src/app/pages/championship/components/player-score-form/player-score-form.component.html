@@ -51,6 +51,25 @@
     </div>
 
     <div class="form-group">
+      <label for="playerPseudo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Joueur
+      </label>
+      <app-autocomplete
+        id="playerPseudo"
+        [placeholder]="'Rechercher un joueur...'"
+        [items$]="pseudos$"
+        [displayFn]="displayPlayerFn"
+        [emptyMessage]="'Aucun joueur trouvé'"
+        (itemSelected)="onSelectPlayer($event)">
+      </app-autocomplete>
+      <div
+        *ngIf="scoreForm.get('playerUuid')?.invalid && scoreForm.get('playerUuid')?.touched"
+        class="text-red-500 text-sm mt-1">
+        Veuillez sélectionner un joueur
+      </div>
+    </div>
+
+    <div class="form-group">
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Total</label>
       <div class="text-lg font-semibold text-gray-900 dark:text-white">{{ calculateTotal() }}</div>
     </div>

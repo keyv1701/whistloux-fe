@@ -2,8 +2,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Player } from "../../../models/player.interface";
+import { Player } from "../../../models/players/player.interface";
 import { environment } from "../../../../environments/environment";
+import { PlayerLight } from "../../../models/players/player-light.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,10 @@ export class PlayerService {
   private apiUrl = `${environment.apiBaseUrl}/players`;
 
   constructor(private http: HttpClient) {
+  }
+
+  getPlayerPseudos(): Observable<PlayerLight[]> {
+    return this.http.get<PlayerLight[]>(`${this.apiUrl}/pseudos`);
   }
 
   getPlayers(): Observable<Player[]> {

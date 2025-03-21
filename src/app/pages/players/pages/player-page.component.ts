@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { PlayerFacade } from "../facades/player.facade";
-import { Player } from "../../../models/player.interface";
+import { Player } from "../../../models/players/player.interface";
 import { Subject } from "rxjs";
 import { PlayerListComponent } from '../components/player-list/player-list.component';
 import { PlayerErrorAlertComponent } from '../components/player-error-alert/player-error-alert.component';

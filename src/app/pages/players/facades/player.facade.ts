@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, finalize, Observable, of, tap } from 'rxjs';
 import { PlayerService } from '../services/player.service';
-import { Player } from "../../../models/player.interface";
+import { Player } from "../../../models/players/player.interface";
 import { ToastService } from "../../../shared/services/toast.service";
 import { ErrorHandlingService } from "../../../shared/services/error-handling.service";
+import { PlayerLight } from "../../../models/players/player-light.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,17 @@ export class PlayerFacade {
     private toastService: ToastService,
     private errorHandlingService: ErrorHandlingService
   ) {
+  }
+
+  loadPlayerPseudos(): Observable<PlayerLight[]> {
+    this.loadingSubject.next(true);
+    return this.playerService.getPlayerPseudos().pipe(
+      catchError(err => {
+        console.error(err);
+        return of([]);
+      }),
+      finalize(() => this.loadingSubject.next(false))
+    );
   }
 
   loadPlayers(): void {

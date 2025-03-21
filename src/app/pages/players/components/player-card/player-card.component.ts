@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Player } from '../../../../models/player.interface';
+import { Player } from '../../../../models/players/player.interface';
 import { catchError, of, tap } from "rxjs";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";

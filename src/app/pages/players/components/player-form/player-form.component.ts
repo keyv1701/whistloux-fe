@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Player } from '../../../../models/player.interface';
+import { Player } from '../../../../models/players/player.interface';
 
 @Component({
   selector: 'app-player-form',

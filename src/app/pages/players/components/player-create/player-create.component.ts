@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Player } from '../../../../models/player.interface';
+import { Player } from '../../../../models/players/player.interface';
 import { PlayerFormComponent } from '../player-form/player-form.component';
 
 @Component({

@@ -11,6 +11,7 @@ import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade
 import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { PlayerScoreEditComponent } from "../../components/player-score-edit/player-score-edit.component";
+import { PlayerScoreCreateComponent } from "../../components/player-score-create/player-score-create.component";
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -18,7 +19,7 @@ type SortDirection = 'asc' | 'desc';
 @Component({
   selector: 'app-championship-week-detail-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent, PlayerScoreEditComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent, PlayerScoreEditComponent, PlayerScoreEditComponent, PlayerScoreCreateComponent],
   templateUrl: './championship-week-detail-page.component.html',
   styleUrls: ['./championship-week-detail-page.component.css']
 })
@@ -39,6 +40,8 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
 
   showScoreEditForm = false;
   scoreToEdit: any = null;
+
+  showScoreCreateForm = false;
 
   private weekUuid!: string;
 
@@ -172,6 +175,25 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
         }),
         catchError(err => {
           this.toastService.error(`Erreur lors de la mise à jour du score: ${err.message || 'Erreur inconnue'}`);
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  onAddScoreClick(): void {
+    this.showScoreCreateForm = true;
+  }
+
+  onScoreCreated(createdScore: any): void {
+    this.championshipFacade.createPlayerScore(createdScore, this.weekUuid)
+      .pipe(
+        tap(updatedWeek => {
+          this.toastService.success(`Le score de ${createdScore.playerPseudo} a été créé avec succès!`);
+          this.showScoreCreateForm = false;
+        }),
+        catchError(err => {
+          this.toastService.error(`Erreur lors de la création du score: ${err.message || 'Erreur inconnue'}`);
           return of(null);
         })
       )

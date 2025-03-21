@@ -7,3 +7,30 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+/* Styles pour la dropdown searchable */
+.dropdown-container {
+  @apply relative w-full;
+}
+
+.dropdown-menu {
+  @apply absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 shadow-lg rounded-md max-h-60 overflow-y-auto;
+  @apply border border-gray-200 dark:border-gray-700;
+}
+
+.dropdown-item {
+  @apply px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors;
+}
+
+.dropdown-empty {
+  @apply px-4 py-2 text-gray-500 dark:text-gray-400;
+}
+
+/* Animation pour le dropdown */
+.dropdown-enter-active, .dropdown-leave-active {
+  @apply transition-all duration-200;
+}
+
+.dropdown-enter-from, .dropdown-leave-to {
+  @apply opacity-0 transform -translate-y-2;
+}

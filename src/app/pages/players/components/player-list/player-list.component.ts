@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Player } from '../../../../models/player.interface';
+import { Player } from '../../../../models/players/player.interface';
 import { PlayerCardComponent } from '../player-card/player-card.component';
 import { PlayerEditComponent } from "../player-edit/player-edit.component";
 import { PlayerCreateComponent } from "../player-create/player-create.component";

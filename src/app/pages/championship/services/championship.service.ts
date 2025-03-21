@@ -52,10 +52,9 @@ export class ChampionshipService {
 
   // Ajouter un score de joueur à une semaine
   addPlayerScore(weekUuid: string, playerScore: PlayerWeekScore): Observable<PlayerWeekScore> {
-    return this.http.post<PlayerWeekScore>(`${this.apiUrl}/${weekUuid}/scores`, playerScore);
+    return this.http.post<PlayerWeekScore>(`${this.apiUrl}/weeks/${weekUuid}/scores`, playerScore);
   }
 
-  // Mettre à jour un score de joueur
   updatePlayerScore(playerScore: PlayerWeekScore): Observable<PlayerWeekScore> {
     return this.http.put<PlayerWeekScore>(`${this.apiUrl}/scores/${playerScore.uuid}`, playerScore);
   }
