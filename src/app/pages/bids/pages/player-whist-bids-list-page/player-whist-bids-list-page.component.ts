@@ -233,9 +233,8 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     this.paginatedPlayerBids = this.filteredPlayerBids.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
-  // Calcule le nombre total d'annonces pour un joueur
   getTotalBids(playerBids: PlayerWhistBids): number {
-    return playerBids.bidDetails.reduce((total, bid) => {
+    return playerBids.weeks.flatMap(week => week.bidDetails).reduce((total, bid) => {
       if (bid.success) {
         // Points positifs pour les annonces réussies
         return total + (WhistBidPoints[bid.bidType] * bid.count);
@@ -246,19 +245,20 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-  // Calcule le nombre d'annonces d'un type spécifique pour un joueur
   getBidTypeCount(playerBids: PlayerWhistBids, bidType: WhistBid, success?: boolean): number {
+    const allBidDetails = playerBids.weeks.flatMap(week => week.bidDetails);
+
     // Si success n'est pas défini, on renvoie le total comme avant
     if (success === undefined) {
-      const bidDetail = playerBids.bidDetails.find(detail => detail.bidType === bidType);
-      return bidDetail ? bidDetail.count : 0;
+      return allBidDetails
+        .filter(detail => detail.bidType === bidType)
+        .reduce((sum, detail) => sum + detail.count, 0);
     }
 
     // Sinon on filtre par success/failure
-    const bidDetail = playerBids.bidDetails.find(detail =>
-      detail.bidType === bidType && detail.success === success
-    );
-    return bidDetail ? bidDetail.count : 0;
+    return allBidDetails
+      .filter(detail => detail.bidType === bidType && detail.success === success)
+      .reduce((sum, detail) => sum + detail.count, 0);
   }
 
   exportToExcel(): void {
@@ -308,19 +308,19 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  // Calcule le nombre total d'annonces (succès + échecs) pour un joueur
   getTotalBidCount(playerBids: PlayerWhistBids): number {
-    return playerBids.bidDetails.reduce((total, bid) => total + bid.count, 0);
+    return playerBids.weeks.flatMap(week => week.bidDetails)
+      .reduce((total, bid) => total + bid.count, 0);
   }
 
-// Calcule le nombre d'annonces réussies pour un joueur
   getSuccessBidCount(playerBids: PlayerWhistBids): number {
-    return playerBids.bidDetails.reduce((total, bid) => {
-      if (bid.success) {
-        return total + bid.count;
-      }
-      return total;
-    }, 0);
+    return playerBids.weeks.flatMap(week => week.bidDetails)
+      .reduce((total, bid) => {
+        if (bid.success) {
+          return total + bid.count;
+        }
+        return total;
+      }, 0);
   }
 
 // Calcule le pourcentage de réussite pour un joueur
@@ -343,24 +343,24 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     return average.toFixed(1);
   }
 
-// Calcule les points gagnés (annonces réussies)
   getPointsWon(playerBids: PlayerWhistBids): number {
-    return playerBids.bidDetails.reduce((total, bid) => {
-      if (bid.success) {
-        return total + (WhistBidPoints[bid.bidType] * bid.count);
-      }
-      return total;
-    }, 0);
+    return playerBids.weeks.flatMap(week => week.bidDetails)
+      .reduce((total, bid) => {
+        if (bid.success) {
+          return total + (WhistBidPoints[bid.bidType] * bid.count);
+        }
+        return total;
+      }, 0);
   }
 
-// Calcule les points perdus (annonces échouées)
   getPointsLost(playerBids: PlayerWhistBids): number {
-    return playerBids.bidDetails.reduce((total, bid) => {
-      if (!bid.success) {
-        return total + (WhistBidPoints[bid.bidType] * bid.count);
-      }
-      return total;
-    }, 0);
+    return playerBids.weeks.flatMap(week => week.bidDetails)
+      .reduce((total, bid) => {
+        if (!bid.success) {
+          return total + (WhistBidPoints[bid.bidType] * bid.count);
+        }
+        return total;
+      }, 0);
   }
 
 

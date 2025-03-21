@@ -1,8 +1,8 @@
-import { WhistBidDetail } from './whist-bid-detail.model';
+import { WhistBidsWeek } from "./whist-bids-week.model";
 
 export interface PlayerWhistBids {
   season: string;
   playerUuid: string;
   playerPseudo: string;
-  bidDetails: WhistBidDetail[];
+  weeks: WhistBidsWeek[];
 }
