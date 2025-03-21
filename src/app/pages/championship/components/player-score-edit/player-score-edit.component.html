@@ -1,0 +1,11 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" (click)="close.emit()">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4" (click)="$event.stopPropagation()">
+    <app-player-score-form
+      [playerScore]="playerScore"
+      formTitle="Modifier le score de {{ playerScore?.playerPseudo }}"
+      submitButtonText="Enregistrer"
+      (formSubmit)="onFormSubmit($event)"
+      (cancel)="close.emit()">
+    </app-player-score-form>
+  </div>
+</div>

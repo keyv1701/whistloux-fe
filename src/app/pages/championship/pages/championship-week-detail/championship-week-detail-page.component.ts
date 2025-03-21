@@ -10,6 +10,7 @@ import { ChampionshipWeek } from "../../../../models/championship/championship-w
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
 import { ToastService } from "../../../../shared/services/toast.service";
+import { PlayerScoreEditComponent } from "../../components/player-score-edit/player-score-edit.component";
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -17,7 +18,7 @@ type SortDirection = 'asc' | 'desc';
 @Component({
   selector: 'app-championship-week-detail-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent, PlayerScoreEditComponent],
   templateUrl: './championship-week-detail-page.component.html',
   styleUrls: ['./championship-week-detail-page.component.css']
 })
@@ -35,6 +36,9 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
 
   showConfirmation = false;
   scoreToDelete: any = null;
+
+  showScoreEditForm = false;
+  scoreToEdit: any = null;
 
   private weekUuid!: string;
 
@@ -152,10 +156,26 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     }
   }
 
-  onEditClick(item: any): void {
-    // Code pour gérer l'édition d'un élément
-    console.log('Edit item:', item);
-    // Implémentez la logique d'édition
+  onEditClick(score: any): void {
+    this.scoreToEdit = score;
+    this.showScoreEditForm = true;
+  }
+
+  onScoreUpdated(updatedScore: any): void {
+
+    this.championshipFacade.updatePlayerScore(updatedScore, this.weekUuid)
+      .pipe(
+        tap(updatedWeek => {
+          this.toastService.success(`Le score de ${updatedScore.playerPseudo} a été mis à jour avec succès!`);
+          this.showScoreEditForm = false;
+          this.scoreToEdit = null;
+        }),
+        catchError(err => {
+          this.toastService.error(`Erreur lors de la mise à jour du score: ${err.message || 'Erreur inconnue'}`);
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 
   onDeleteClick(score: any): void {

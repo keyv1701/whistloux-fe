@@ -1,5 +1,5 @@
 export interface PlayerWeekScore {
-  uuid?: string;
+  uuid: string;
   playerUuid: string;
   playerPseudo: string;
   round1Points: number | null;

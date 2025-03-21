@@ -47,7 +47,7 @@ export class ChampionshipService {
   }
 
   deletePlayerWeekScore(uuid: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/score/${uuid}`);
+    return this.http.delete<void>(`${this.apiUrl}/scores/${uuid}`);
   }
 
   // Ajouter un score de joueur à une semaine
@@ -56,8 +56,8 @@ export class ChampionshipService {
   }
 
   // Mettre à jour un score de joueur
-  updatePlayerScore(weekUuid: string, playerScore: PlayerWeekScore): Observable<PlayerWeekScore> {
-    return this.http.put<PlayerWeekScore>(`${this.apiUrl}/${weekUuid}/scores/${playerScore.uuid}`, playerScore);
+  updatePlayerScore(playerScore: PlayerWeekScore): Observable<PlayerWeekScore> {
+    return this.http.put<PlayerWeekScore>(`${this.apiUrl}/scores/${playerScore.uuid}`, playerScore);
   }
 
   // Supprimer un score de joueur

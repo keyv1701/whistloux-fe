@@ -156,8 +156,8 @@ export class ChampionshipFacade {
   }
 
   // Mettre à jour un score joueur
-  updatePlayerScore(weekUuid: string, playerScore: PlayerWeekScore): Observable<PlayerWeekScore> {
-    return this.championshipService.updatePlayerScore(weekUuid, playerScore).pipe(
+  updatePlayerScore(playerScore: PlayerWeekScore, weekUuid: string): Observable<PlayerWeekScore> {
+    return this.championshipService.updatePlayerScore(playerScore).pipe(
       tap(score => {
         this.loadChampionshipWeek(weekUuid);
         this.toastService.success('Score mis à jour avec succès');

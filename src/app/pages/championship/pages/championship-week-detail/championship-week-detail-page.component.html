@@ -170,3 +170,10 @@
   (confirm)="confirmDelete()"
   (cancel)="closeConfirmation()">
 </app-confirmation>
+
+<app-player-score-edit
+  *ngIf="showScoreEditForm"
+  [playerScore]="scoreToEdit"
+  (close)="showScoreEditForm = false; scoreToEdit = null"
+  (saved)="onScoreUpdated($event)">
+</app-player-score-edit>
