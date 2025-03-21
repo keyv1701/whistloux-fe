@@ -7,8 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import { PlayerWeekScore } from "../../../../models/championship/player-week-score.model";
 import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeek } from "../../../../models/championship/championship-week.model";
-import { ImportModalComponent } from "../../../../shared/components/import-modal/import-modal.component";
-import { ToastService } from "../../../../shared/services/toast.service";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
@@ -17,7 +15,7 @@ type SortDirection = 'asc' | 'desc';
 @Component({
   selector: 'app-championship-week-detail-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ImportModalComponent],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './championship-week-detail-page.component.html',
   styleUrls: ['./championship-week-detail-page.component.css']
 })
@@ -33,13 +31,10 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
 
   playerScores$: Observable<PlayerWeekScore[]>;
 
-  showImportDialog = false;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private championshipFacade: ChampionshipFacade,
-    private toastService: ToastService,
     public authFacade: AuthFacade
   ) {
     this.selectedWeek$ = this.championshipFacade.selectedWeek$;
@@ -153,33 +148,5 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
         })
       ).subscribe();
     }
-  }
-
-  openImportDialog(): void {
-    this.showImportDialog = true;
-  }
-
-  closeImportDialog(): void {
-    this.showImportDialog = false;
-  }
-
-  importData(file: File): void {
-    const weekUuid = this.route.snapshot.params['uuid'];
-    if (weekUuid) {
-      this.championshipFacade.importChampionshipFromExcel(weekUuid, file).pipe(
-        tap((response) => {
-          this.toastService.success(
-            `Importation réussie ! ${response.imported} enregistrements importés.`
-          );
-        }),
-        catchError((error) => {
-          this.toastService.error(
-            `Erreur lors de l'importation : ${error.error?.message || 'Une erreur est survenue'}`
-          );
-          return EMPTY;
-        })
-      ).subscribe();
-    }
-    this.closeImportDialog();
   }
 }

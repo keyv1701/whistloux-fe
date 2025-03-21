@@ -29,14 +29,6 @@
       <div class="scores-header">
         <h2>Scores des joueurs</h2>
         <div class="action-buttons">
-          <button *ngIf="authFacade.isAuthenticated$ | async" (click)="openImportDialog()" class="import-button">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-            </svg>
-            Importer des données
-          </button>
           <button *ngIf="authFacade.isAuthenticated$ | async" (click)="exportToExcel()" class="export-button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
@@ -158,12 +150,3 @@
     </button>
   </div>
 </div>
-
-<app-import-modal
-  [isOpen]="showImportDialog"
-  [title]="'Importer des scores'"
-  [acceptTypes]="'.xls,.xlsx,.csv'"
-  [description]="'Sélectionnez un fichier XLS, XLSX ou CSV contenant les données de scores à importer.'"
-  (closeModal)="closeImportDialog()"
-  (importConfirmed)="importData($event)"
-></app-import-modal>

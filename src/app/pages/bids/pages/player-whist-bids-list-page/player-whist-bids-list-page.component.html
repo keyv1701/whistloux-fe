@@ -32,10 +32,6 @@
                     [disabled]="loading">
               <i class="bi bi-file-earmark-excel me-2"></i>Exporter la saison
             </button>
-            <button *ngIf="authFacade.isAuthenticated$ | async" class="btn btn-primary" (click)="openImportDialog()"
-                    [disabled]="loading">
-              <i class="bi bi-upload me-2"></i>Importer
-            </button>
           </div>
         </div>
       </form>
@@ -443,12 +439,3 @@
   </div>
 
 </div>
-
-<app-import-modal
-  [isOpen]="showImportDialog"
-  [title]="'Importer des annonces'"
-  [acceptTypes]="'.xlsx'"
-  [description]="'Sélectionnez un fichier Excel (.xlsx) contenant les données d\'annonces à importer.'"
-  (closeModal)="closeImportDialog()"
-  (importConfirmed)="importData($event)"
-></app-import-modal>

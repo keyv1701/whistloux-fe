@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EMPTY, Subject } from 'rxjs';
-import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
+import { catchError, takeUntil, tap } from 'rxjs/operators';
 import { PlayerWhistBidsFacade } from '../../facades/player-whist-bids.facade';
 import { PlayerWhistBids } from '../../../../models/bids/player-whist-bids.model';
 import { WhistBid, WhistBidPoints } from "../../../../models/bids/whist-bid.enum";
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ImportModalComponent } from "../../../../shared/components/import-modal/import-modal.component";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 
@@ -20,7 +19,6 @@ import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    ImportModalComponent,
     FormsModule
   ]
 })
@@ -53,8 +51,6 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   seasons: string[] = [];
   protected readonly WhistBid = WhistBid;
   selectedPlayerUuid: string | null = null;
-
-  showImportDialog = false;
 
   constructor(
     private fb: FormBuilder,
@@ -269,41 +265,6 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
           this.toastService.error('Erreur lors de l\'exportation');
           return EMPTY;
         })
-      )
-      .subscribe();
-  }
-
-  openImportDialog(): void {
-    this.showImportDialog = true;
-  }
-
-  closeImportDialog(): void {
-    this.showImportDialog = false;
-  }
-
-  importData(file: File): void {
-    const currentSeason = this.filterForm.get('season')?.value;
-
-    if (!currentSeason) {
-      this.toastService.error('Veuillez sélectionner une saison pour importer des données.');
-      this.closeImportDialog();
-      return;
-    }
-
-    this.playerWhistBidsFacade.importSeasonBidsFromExcel(currentSeason, file)
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(() => {
-          this.toastService.success('Importation réussie !');
-          this.loadBidsBySeason(currentSeason);
-        }),
-        catchError(error => {
-          this.toastService.error(
-            `Erreur lors de l'importation : ${error.error?.message || 'Une erreur est survenue'}`
-          );
-          return EMPTY;
-        }),
-        finalize(() => this.closeImportDialog())
       )
       .subscribe();
   }

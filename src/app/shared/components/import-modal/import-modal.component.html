@@ -71,14 +71,6 @@
       <div class="flex items-center space-x-2 rounded-b border-t border-gray-200 p-6">
         <button
           type="button"
-          [disabled]="!selectedFile"
-          (click)="onImport()"
-          class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:bg-blue-300 disabled:cursor-not-allowed"
-        >
-          Importer
-        </button>
-        <button
-          type="button"
           (click)="onClose()"
           class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-200"
         >

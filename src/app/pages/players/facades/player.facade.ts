@@ -134,21 +134,4 @@ export class PlayerFacade {
       finalize(() => this.loadingSubject.next(false))
     ).subscribe();
   }
-
-  importPlayersFromExcel(file: File): Observable<string> {
-    return this.playerService.importPlayersFromExcel(file).pipe(
-      tap(message => {
-        this.toastService.success('Import réussi');
-        // Rafraîchir la liste des joueurs après l'import
-        this.loadPlayers();
-      }),
-      catchError(error => {
-        this.errorHandlingService.handleHttpError(
-          error,
-          'Une erreur est survenue lors de l\'importation'
-        );
-        throw error;
-      })
-    );
-  }
 }
