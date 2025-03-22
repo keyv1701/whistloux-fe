@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EMPTY, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { catchError, takeUntil, tap } from 'rxjs/operators';
 import { PlayerWhistBidsFacade } from '../../facades/player-whist-bids.facade';
 import { PlayerWhistBids } from '../../../../models/bids/player-whist-bids.model';
@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ToastService } from "../../../../shared/services/toast.service";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
+import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
 
 @Component({
   selector: 'app-player-whist-bids-list-page',
@@ -19,7 +20,8 @@ import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    ConfirmationComponent
   ]
 })
 export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
@@ -47,10 +49,18 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   error: string | null = null;
   currentSeason = '2025';
 
+  availableSeasons: number[] = [2025];
+
   filterForm: FormGroup;
   seasons: string[] = [];
   protected readonly WhistBid = WhistBid;
   selectedPlayerUuid: string | null = null;
+
+  showDeleteConfirmation = false;
+  playerBidsToDelete: any = null;
+
+  showEditForm = false;
+  playerBidsToEdit: any = null;
 
   constructor(
     private fb: FormBuilder,
@@ -405,6 +415,50 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
 
   toggleStatistics(): void {
     this.showStatistics = !this.showStatistics;
+  }
+
+  onEditBids(playerBid: any): void {
+    this.showEditForm = true;
+    this.playerBidsToEdit = playerBid;
+  }
+
+  onDeleteWeek(playerBid: any): void {
+    this.playerBidsToDelete = playerBid;
+    this.showDeleteConfirmation = true;
+  }
+
+  confirmDelete(): void {
+    // console.log('confirmDelete');
+    // this.closeDeleteConfirmation();
+    if (this.playerBidsToDelete) {
+      this.playerWhistBidsFacade.deletePlayerBids(this.currentSeason, this.playerBidsToDelete.playerUuid)
+        .pipe(
+          tap(() => {
+            this.toastService.success(`L'annonce de ${this.playerBidsToDelete.playerPseudo} a été supprimée avec succès!`);
+            // Rafraîchir la liste
+            this.loadBidsBySeason(this.filterForm.get('season')?.value);
+          }),
+          catchError(err => {
+            this.toastService.error(`Erreur lors de la suppression de la semaine: ${err.message || 'Erreur inconnue'}`);
+            return of(null);
+          })
+        )
+        .subscribe(() => {
+          this.closeDeleteConfirmation();
+        });
+    } else {
+      this.closeDeleteConfirmation();
+    }
+  }
+
+  closeDeleteConfirmation(): void {
+    this.showDeleteConfirmation = false;
+    this.playerBidsToDelete = null;
+  }
+
+  onSeasonChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.loadBidsBySeason(value);
   }
 
 }
