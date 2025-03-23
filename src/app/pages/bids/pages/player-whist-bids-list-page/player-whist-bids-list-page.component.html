@@ -33,11 +33,20 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 d-flex justify-content-end">
-            <button *ngIf="authFacade.isAuthenticated$ | async" class="btn btn-success me-2" (click)="exportToExcel()"
-                    [disabled]="loading">
-              <i class="bi bi-file-earmark-excel me-2"></i>Exporter la saison
-            </button>
+          <div class="col-md-6">
+            <div class="d-flex justify-content-end gap-2">
+              <button *ngIf="authFacade.isAuthenticated$ | async"
+                      class="btn bg-whist-primary text-white"
+                      (click)="addBids()">
+                <i class="bi bi-plus-circle me-2"></i>Ajouter les annonces d'un joueur
+              </button>
+              <button *ngIf="authFacade.isAuthenticated$ | async"
+                      class="btn btn-success"
+                      (click)="exportToExcel()"
+                      [disabled]="loading">
+                <i class="bi bi-file-earmark-excel me-2"></i>Exporter la saison
+              </button>
+            </div>
           </div>
         </div>
       </form>

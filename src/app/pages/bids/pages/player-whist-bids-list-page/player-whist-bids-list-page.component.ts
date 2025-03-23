@@ -62,6 +62,8 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   showEditForm = false;
   playerBidsToEdit: any = null;
 
+  showCreateForm = false;
+
   constructor(
     private fb: FormBuilder,
     private playerWhistBidsFacade: PlayerWhistBidsFacade,
@@ -459,6 +461,10 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   onSeasonChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     this.loadBidsBySeason(value);
+  }
+
+  addBids(): void {
+    this.showCreateForm = true;
   }
 
 }
