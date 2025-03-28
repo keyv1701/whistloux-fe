@@ -1,17 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from "@angular/common";
 import { Observable, Subject } from "rxjs";
 import { PlayerWeekScore } from "../../../../models/championship/player-week-score.model";
 import { PlayerLight } from "../../../../models/players/player-light.interface";
 import { AutocompleteComponent } from "../../../../shared/components/app-autocomplete/app-autocomplete.component";
+import { PlayerWhistFormComponent } from "../../../bids/pages/player-whist-form/player-whist-form.component";
+import { PlayerWhistBids } from "../../../../models/bids/player-whist-bids.model";
 
 @Component({
   selector: 'app-player-score-form',
   standalone: true,
   templateUrl: './player-score-form.component.html',
   imports: [
-    ReactiveFormsModule, CommonModule, AutocompleteComponent
+    ReactiveFormsModule, CommonModule, AutocompleteComponent, PlayerWhistFormComponent
   ],
   styleUrls: ['./player-score-form.component.scss']
 })
@@ -21,10 +23,12 @@ export class PlayerScoreFormComponent implements OnInit {
   @Input() submitButtonText: string = 'Enregistrer';
   @Input() pseudos$: Observable<PlayerLight[]> | null = null;
 
+
   @Output() formSubmit = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
 
   scoreForm!: FormGroup;
+  bidForm!: FormGroup;
   loading = false;
 
   showDropdown = false;
@@ -33,19 +37,26 @@ export class PlayerScoreFormComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder) {
+    this.initializeScoreForm(this.playerScore);
+    this.initializeBidForm();
   }
 
   ngOnInit(): void {
-    this.initForm(this.playerScore);
   }
 
-  private initForm(playerScore: PlayerWeekScore): void {
+  private initializeScoreForm(playerScore: PlayerWeekScore): void {
     this.scoreForm = this.fb.group({
       round1Points: [this.playerScore?.round1Points || 0, [Validators.required, Validators.min(0)]],
       round2Points: [this.playerScore?.round2Points || 0, [Validators.required, Validators.min(0)]],
       round3Points: [this.playerScore?.round3Points || 0, [Validators.required, Validators.min(0)]],
       playerUuid: [playerScore ? playerScore.playerUuid : null, Validators.required],
       playerPseudoDisplay: ['']
+    });
+  }
+
+  private initializeBidForm(playerWhistBids?: PlayerWhistBids): void {
+    this.bidForm = this.fb.group({
+      bidDetails: this.fb.array([])
     });
   }
 
@@ -89,5 +100,10 @@ export class PlayerScoreFormComponent implements OnInit {
 
   onCancel(): void {
     this.cancel.emit();
+  }
+
+  onBidDetailsChange(bidDetails: FormArray): void {
+    // Logique à exécuter lorsque les détails d'annonces changent
+    console.log('Détails des annonces mis à jour:', bidDetails.value);
   }
 }

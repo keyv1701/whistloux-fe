@@ -1,0 +1,28 @@
+.bids-container {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.bids-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bids-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bids-container::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 20px;
+}
+
+/* Animation pour l'ajout/suppression d'annonces */
+.bid-detail-item {
+  transition: all 0.3s ease;
+}
+
+.bid-detail-item:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}

@@ -1,0 +1,84 @@
+<div class="mt-6">
+  <h3 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-3">Détails des annonces</h3>
+
+  <form [formGroup]="parentForm">
+    <div class="bids-container pr-2 mb-4">
+      <div class="space-y-4">
+        <div formArrayName="bidDetails">
+          <div *ngFor="let bidGroup of bidDetailsArray.controls; let i = index" [formGroupName]="i"
+               class="bid-detail-item grid grid-cols-1 md:grid-cols-3 gap-3 p-4 bg-gray-50 dark:bg-gray-700 rounded-md relative border border-gray-200 dark:border-gray-600">
+
+            <!-- Type d'annonce -->
+            <div class="form-group">
+              <label [for]="'bidType-' + i" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type
+                d'annonce</label>
+              <select
+                [id]="'bidType-' + i"
+                formControlName="bidType"
+                class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 focus:ring-2 focus:ring-indigo-500 dark:text-white"
+              >
+                <option [ngValue]="null">Sélectionner une annonce</option>
+                <option *ngFor="let bidType of whistBidTypes" [ngValue]="bidType">
+                  {{ bidType }} ({{ getBidPoints(bidType) }} pts)
+                </option>
+              </select>
+            </div>
+
+            <!-- Nombre -->
+            <div class="form-group">
+              <label [for]="'count-' + i"
+                     class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre</label>
+              <input
+                type="number"
+                [id]="'count-' + i"
+                formControlName="count"
+                class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 focus:ring-2 focus:ring-indigo-500 dark:text-white"
+                min="1"
+              >
+            </div>
+
+            <!-- Réussite -->
+            <div class="form-group flex items-center mt-6">
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  [id]="'success-' + i"
+                  formControlName="success"
+                  class="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mr-2"
+                >
+                <label [for]="'success-' + i"
+                       class="text-sm font-medium text-gray-700 dark:text-gray-300">Réussite</label>
+              </div>
+
+              <!-- Bouton de suppression -->
+              <button
+                type="button"
+                class="ml-auto text-red-500 hover:text-red-700 transition-colors p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900"
+                (click)="removeBidDetail(i)"
+                *ngIf="bidDetailsArray.length > 0"
+                aria-label="Supprimer cette annonce"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Bouton pour ajouter une annonce -->
+  <button
+    type="button"
+    class="w-full mt-2 inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-100 rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors dark:text-indigo-300 dark:bg-indigo-900 dark:hover:bg-indigo-800"
+    (click)="addBidDetail()"
+  >
+    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+    </svg>
+    Ajouter une annonce
+  </button>
+</div>

@@ -74,6 +74,11 @@
       <div class="text-lg font-semibold text-gray-900 dark:text-white">{{ calculateTotal() }}</div>
     </div>
 
+    <app-player-whist-form
+      [parentForm]="bidForm"
+      (formChange)="onBidDetailsChange($event)"
+    ></app-player-whist-form>
+
     <div class="flex justify-end space-x-4 pt-4">
       <button
         type="button"
