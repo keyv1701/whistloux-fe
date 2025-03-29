@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-autocomplete',
@@ -11,7 +11,7 @@ import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operato
   templateUrl: './app-autocomplete.component.html',
   styleUrls: ['./app-autocomplete.component.css']
 })
-export class AutocompleteComponent<T> implements OnInit {
+export class AutocompleteComponent<T> implements OnInit, OnDestroy {
   @Input() id: string = '';
   @Input() placeholder: string = '';
   @Input() items$: Observable<T[]> | null = null;
@@ -27,35 +27,19 @@ export class AutocompleteComponent<T> implements OnInit {
   showDropdown = false;
   filteredItems: T[] = [];
   loading = false;
-  private searchTerms = new Subject<string>();
+
+  private readonly searchTerms = new Subject<string>();
+  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    // Si une valeur initiale est fournie, l'utiliser
-    if (this.initialValue) {
-      this.inputControl.setValue(this.initialValue);
-    }
-    this.searchTerms.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term => {
-        this.loading = true;
-        return this.items$ ? this.items$.pipe(
-          map(items => items.filter(item =>
-            this.displayFn(item).toLowerCase().includes(term.toLowerCase())
-          ))
-        ) : [];
-      })
-    ).subscribe(items => {
-      this.filteredItems = items;
-      this.loading = false;
-    });
+    this.initializeInputControl();
+    this.setupSearchObservable();
+    this.configureDisabledState();
+  }
 
-    // Mettre à jour le statut disabled du FormControl
-    if (this.disabled) {
-      this.inputControl.disable();
-    } else {
-      this.inputControl.enable();
-    }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onInput(event: Event): void {
@@ -77,7 +61,6 @@ export class AutocompleteComponent<T> implements OnInit {
   }
 
   onBlur(): void {
-    // Délai pour permettre la sélection avant fermeture
     setTimeout(() => this.showDropdown = false, 200);
   }
 
@@ -87,5 +70,48 @@ export class AutocompleteComponent<T> implements OnInit {
     this.inputControl.setValue(this.displayFn(item));
     this.itemSelected.emit(item);
     this.showDropdown = false;
+  }
+
+  private initializeInputControl(): void {
+    if (this.initialValue) {
+      this.inputControl.setValue(this.initialValue);
+    }
+  }
+
+  private configureDisabledState(): void {
+    if (this.disabled) {
+      this.inputControl.disable();
+    } else {
+      this.inputControl.enable();
+    }
+  }
+
+  private setupSearchObservable(): void {
+    this.searchTerms.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.loading = true),
+      switchMap(searchTerm => this.filterItems(searchTerm)),
+      tap(() => this.loading = false)
+    ).subscribe(items => {
+      this.filteredItems = items;
+    });
+  }
+
+  private filterItems(searchTerm: string): Observable<T[]> {
+    if (!this.items$) {
+      return of([]);
+    }
+
+    return this.items$.pipe(
+      map(items => this.filterItemsBySearchTerm(items, searchTerm))
+    );
+  }
+
+  private filterItemsBySearchTerm(items: T[], searchTerm: string): T[] {
+    return items.filter(item =>
+      this.displayFn(item).toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
 }
