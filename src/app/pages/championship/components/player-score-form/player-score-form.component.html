@@ -56,8 +56,10 @@
       </label>
       <app-autocomplete
         id="playerPseudo"
+        [disabled]="hasPlayerDetails"
         [placeholder]="'Rechercher un joueur...'"
         [items$]="pseudos$"
+        [initialValue]="playerScore?.playerPseudo || ''"
         [displayFn]="displayPlayerFn"
         [emptyMessage]="'Aucun joueur trouvé'"
         (itemSelected)="onSelectPlayer($event)">

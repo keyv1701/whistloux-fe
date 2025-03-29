@@ -18,6 +18,8 @@ export class AutocompleteComponent<T> implements OnInit {
   @Input() displayFn: (item: T) => string = (item: any) => item?.toString() || '';
   @Input() emptyMessage: string = 'Aucun résultat trouvé';
   @Input() minChars: number = 0;
+  @Input() disabled: boolean = false;
+  @Input() initialValue: string = '';
 
   @Output() itemSelected = new EventEmitter<T>();
 
@@ -28,6 +30,10 @@ export class AutocompleteComponent<T> implements OnInit {
   private searchTerms = new Subject<string>();
 
   ngOnInit(): void {
+    // Si une valeur initiale est fournie, l'utiliser
+    if (this.initialValue) {
+      this.inputControl.setValue(this.initialValue);
+    }
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -43,15 +49,26 @@ export class AutocompleteComponent<T> implements OnInit {
       this.filteredItems = items;
       this.loading = false;
     });
+
+    // Mettre à jour le statut disabled du FormControl
+    if (this.disabled) {
+      this.inputControl.disable();
+    } else {
+      this.inputControl.enable();
+    }
   }
 
   onInput(event: Event): void {
+    if (this.disabled) return;
+
     const value = (event.target as HTMLInputElement).value;
     this.searchTerms.next(value);
     this.showDropdown = value.length >= this.minChars;
   }
 
   onFocus(): void {
+    if (this.disabled) return;
+
     const currentValue = this.inputControl.value || '';
     if (currentValue.length >= this.minChars) {
       this.searchTerms.next(currentValue);
@@ -65,6 +82,8 @@ export class AutocompleteComponent<T> implements OnInit {
   }
 
   selectItem(item: T): void {
+    if (this.disabled) return;
+
     this.inputControl.setValue(this.displayFn(item));
     this.itemSelected.emit(item);
     this.showDropdown = false;

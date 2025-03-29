@@ -1,4 +1,3 @@
-// player-score-edit.component.ts
 import { Component, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { PlayerScoreFormComponent } from "../player-score-form/player-score-form.component";
 

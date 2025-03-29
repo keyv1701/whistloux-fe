@@ -35,13 +35,16 @@ export class PlayerScoreFormComponent implements OnInit {
 
   private searchTerms = new Subject<string>();
 
-
   constructor(private fb: FormBuilder) {
+  }
+
+  ngOnInit(): void {
     this.initializeScoreForm(this.playerScore);
     this.initializeBidForm();
   }
 
-  ngOnInit(): void {
+  get hasPlayerDetails(): boolean {
+    return !!this.playerScore && !!this.playerScore.playerUuid;
   }
 
   private initializeScoreForm(playerScore: PlayerWeekScore): void {
@@ -50,7 +53,7 @@ export class PlayerScoreFormComponent implements OnInit {
       round2Points: [this.playerScore?.round2Points || 0, [Validators.required, Validators.min(0)]],
       round3Points: [this.playerScore?.round3Points || 0, [Validators.required, Validators.min(0)]],
       playerUuid: [playerScore ? playerScore.playerUuid : null, Validators.required],
-      playerPseudoDisplay: ['']
+      playerPseudoDisplay: [playerScore ? playerScore.playerPseudo : null]
     });
   }
 
