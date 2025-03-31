@@ -12,6 +12,8 @@ import { ConfirmationComponent } from "../../../../shared/components/confirmatio
 import { ToastService } from "../../../../shared/services/toast.service";
 import { PlayerScoreEditComponent } from "../../components/player-score-edit/player-score-edit.component";
 import { PlayerScoreCreateComponent } from "../../components/player-score-create/player-score-create.component";
+import { PlayerWhistBidsFacade } from "../../../bids/facades/player-whist-bids.facade";
+import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -45,10 +47,13 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
 
   private weekUuid!: string;
 
+  private selectedWeek: ChampionshipWeek | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private championshipFacade: ChampionshipFacade,
+    private playerWhistBidsFacade: PlayerWhistBidsFacade,
     private toastService: ToastService,
     public authFacade: AuthFacade
   ) {
@@ -57,6 +62,7 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
 
     const baseScores$ = this.selectedWeek$.pipe(
       filter(week => !!week),
+      tap(week => this.selectedWeek = week),
       map(week => week?.playerScores || [])
     );
 
@@ -165,7 +171,30 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   }
 
   onScoreUpdated(updatedScore: any): void {
+    this.updatePlayerScore(updatedScore);
+    this.updatePlayerWhistBids(updatedScore);
+  }
 
+  private updatePlayerWhistBids(updatedScore: any) {
+    const whistBidsWeek: WhistBidsWeek = {
+      uuid: '',
+      date: this.selectedWeek!.date,
+      bidDetails: updatedScore.bidDetails
+    }
+    this.playerWhistBidsFacade.updatePlayerBidsWeek(this.selectedWeek!.season, updatedScore.playerUuid, this.selectedWeek!.date.toString(), whistBidsWeek).pipe(
+      tap(updatedWeek => {
+        this.toastService.success(`Le score de ${updatedScore.playerPseudo} a été mis à jour avec succès!`);
+        this.showScoreEditForm = false;
+        this.scoreToEdit = null;
+      }),
+      catchError(err => {
+        this.toastService.error(`Erreur lors de la mise à jour du score: ${err.message || 'Erreur inconnue'}`);
+        return of(null);
+      })
+    ).subscribe();
+  }
+
+  private updatePlayerScore(updatedScore: any): void {
     this.championshipFacade.updatePlayerScore(updatedScore, this.weekUuid)
       .pipe(
         tap(updatedWeek => {

@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PlayerWhistBids } from '../../../models/bids/player-whist-bids.model';
 import { environment } from '../../../../environments/environment';
-import {WhistBidDetail} from "../../../models/bids/whist-bid-detail.model";
+import { WhistBidDetail } from "../../../models/bids/whist-bid-detail.model";
+import { WhistBidsWeek } from "../../../models/bids/whist-bids-week.model";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import {WhistBidDetail} from "../../../models/bids/whist-bid-detail.model";
 export class PlayerWhistBidsService {
   private apiUrl = `${environment.apiBaseUrl}/whist-bids`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getBidsBySeason(season: string): Observable<PlayerWhistBids[]> {
     return this.http.get<PlayerWhistBids[]>(`${this.apiUrl}/season/${season}`);
@@ -31,6 +33,13 @@ export class PlayerWhistBidsService {
 
   updatePlayerBids(season: string, playerUuid: string, updatedBids: PlayerWhistBids): Observable<PlayerWhistBids> {
     return this.http.put<PlayerWhistBids>(`${this.apiUrl}/season/${season}/player/${playerUuid}`, updatedBids);
+  }
+
+  updatePlayerBidsWeek(season: string, playerUuid: string, weekDate: string, updatedWeek: WhistBidsWeek): Observable<PlayerWhistBids> {
+    return this.http.put<PlayerWhistBids>(
+      `${this.apiUrl}/season/${season}/player/${playerUuid}/week/${weekDate}`,
+      updatedWeek
+    );
   }
 
   deletePlayerBids(season: string, playerUuid: string): Observable<void> {

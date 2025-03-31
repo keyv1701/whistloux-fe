@@ -95,6 +95,7 @@ export class PlayerScoreFormComponent implements OnInit {
       total: this.calculateTotal(),
       playerUuid: this.scoreForm.get('playerUuid')?.value,
       playerPseudo: this.scoreForm.get('playerPseudoDisplay')?.value,
+      bidDetails: this.bidForm.get('bidDetails')?.value
     };
 
     this.loading = true;

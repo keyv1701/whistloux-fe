@@ -4,6 +4,7 @@ import { PlayerWhistBids } from '../../../models/bids/player-whist-bids.model';
 import { WhistBidDetail } from '../../../models/bids/whist-bid-detail.model';
 import { PlayerWhistBidsService } from '../services/player-whist-bids.service';
 import { map, tap } from 'rxjs/operators';
+import { WhistBidsWeek } from "../../../models/bids/whist-bids-week.model";
 
 @Injectable({
   providedIn: 'root'
@@ -94,6 +95,21 @@ export class PlayerWhistBidsFacade {
         tap(updatedPlayerBids => this.updateStateAfterModification(updatedPlayerBids)),
         catchError(error => {
           this.errorSubject.next('Erreur lors de la mise à jour des annonces');
+          return throwError(() => error);
+        }),
+        finalize(() => this.loadingSubject.next(false))
+      );
+  }
+
+  updatePlayerBidsWeek(season: string, playerUuid: string, weekDate: string, updatedWeek: WhistBidsWeek): Observable<PlayerWhistBids> {
+    this.loadingSubject.next(true);
+    this.errorSubject.next(null);
+
+    return this.playerWhistBidsService.updatePlayerBidsWeek(season, playerUuid, weekDate, updatedWeek)
+      .pipe(
+        tap(updatedPlayerBids => this.updateStateAfterModification(updatedPlayerBids)),
+        catchError(error => {
+          this.errorSubject.next('Erreur lors de la mise à jour des annonces de la semaine');
           return throwError(() => error);
         }),
         finalize(() => this.loadingSubject.next(false))
