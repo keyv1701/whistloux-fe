@@ -55,6 +55,17 @@ export class PlayerWhistBidsFacade {
       .subscribe();
   }
 
+  loadBidsByPlayerAndDate(playerUuid: string, season: string, date: string): Observable<WhistBidsWeek> {
+    return this.playerWhistBidsService.getBidsByPlayerAndDate(playerUuid, season, date)
+      .pipe(
+        catchError(error => {
+          this.errorSubject.next('Erreur lors du chargement des annonces pour le joueur');
+          return EMPTY;
+        }),
+        finalize(() => this.loadingSubject.next(false))
+      );
+  }
+
   loadBidsBySeasonAndPlayer(season: string, playerUuid: string): void {
     this.loadingSubject.next(true);
     this.errorSubject.next(null);

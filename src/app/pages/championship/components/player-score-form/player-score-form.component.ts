@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from "@angular/common";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, Subscription } from "rxjs";
 import { PlayerWeekScore } from "../../../../models/championship/player-week-score.model";
 import { PlayerLight } from "../../../../models/players/player-light.interface";
 import { AutocompleteComponent } from "../../../../shared/components/app-autocomplete/app-autocomplete.component";
 import { PlayerWhistFormComponent } from "../../../bids/pages/player-whist-form/player-whist-form.component";
-import { PlayerWhistBids } from "../../../../models/bids/player-whist-bids.model";
+import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
+import { WhistBidDetail } from "../../../../models/bids/whist-bid-detail.model";
 
 @Component({
   selector: 'app-player-score-form',
@@ -17,11 +18,12 @@ import { PlayerWhistBids } from "../../../../models/bids/player-whist-bids.model
   ],
   styleUrls: ['./player-score-form.component.scss']
 })
-export class PlayerScoreFormComponent implements OnInit {
+export class PlayerScoreFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() playerScore: any = null;
   @Input() formTitle: string = 'Score du joueur';
   @Input() submitButtonText: string = 'Enregistrer';
   @Input() pseudos$: Observable<PlayerLight[]> | null = null;
+  @Input() bids: WhistBidsWeek | null = null;
 
 
   @Output() formSubmit = new EventEmitter<any>();
@@ -32,6 +34,8 @@ export class PlayerScoreFormComponent implements OnInit {
   loading = false;
 
   showDropdown = false;
+  private bidsSubscription: Subscription | null = null;
+
 
   private searchTerms = new Subject<string>();
 
@@ -41,6 +45,19 @@ export class PlayerScoreFormComponent implements OnInit {
   ngOnInit(): void {
     this.initializeScoreForm(this.playerScore);
     this.initializeBidForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Vérifier si l'input 'bids' a changé
+    if (changes['bids'] && changes['bids'].currentValue) {
+      this.updateBidFormWithData(changes['bids'].currentValue);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.bidsSubscription) {
+      this.bidsSubscription.unsubscribe();
+    }
   }
 
   get hasPlayerDetails(): boolean {
@@ -57,10 +74,32 @@ export class PlayerScoreFormComponent implements OnInit {
     });
   }
 
-  private initializeBidForm(playerWhistBids?: PlayerWhistBids): void {
+  private initializeBidForm(): void {
+    const bidDetailsArray: FormArray = this.fb.array([]);
+
     this.bidForm = this.fb.group({
-      bidDetails: this.fb.array([])
+      bidDetails: bidDetailsArray
     });
+  }
+
+  private updateBidFormWithData(whistBidsWeek: WhistBidsWeek): void {
+    if (!whistBidsWeek || !whistBidsWeek.bidDetails || whistBidsWeek.bidDetails.length === 0) {
+      return;
+    }
+
+    const bidDetailsFA: FormArray = this.fb.array([]);
+
+    whistBidsWeek.bidDetails.forEach(bid => {
+      bidDetailsFA.push(this.createBidsDetailFormGroup(bid));
+    });
+
+    if (this.bidForm) {
+      this.bidForm.setControl('bidDetails', bidDetailsFA);
+    } else {
+      this.bidForm = this.fb.group({
+        bidDetails: bidDetailsFA
+      });
+    }
   }
 
   onSelectPlayer(player: PlayerLight): void {
@@ -109,5 +148,13 @@ export class PlayerScoreFormComponent implements OnInit {
   onBidDetailsChange(bidDetails: FormArray): void {
     // Logique à exécuter lorsque les détails d'annonces changent
     console.log('Détails des annonces mis à jour:', bidDetails.value);
+  }
+
+  private createBidsDetailFormGroup(detail: WhistBidDetail): FormGroup {
+    return this.fb.group({
+      bidType: [detail.bidType, Validators.required],
+      count: [detail.count, Validators.required],
+      success: [detail.success]
+    });
   }
 }

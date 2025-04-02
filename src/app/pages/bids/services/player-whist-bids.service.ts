@@ -23,6 +23,10 @@ export class PlayerWhistBidsService {
     return this.http.get<PlayerWhistBids[]>(`${this.apiUrl}/player/${playerUuid}`);
   }
 
+  getBidsByPlayerAndDate(playerUuid: string, season: string, date: string): Observable<WhistBidsWeek> {
+    return this.http.get<WhistBidsWeek>(`${this.apiUrl}/player/${playerUuid}/season/${season}/date/${date}`);
+  }
+
   getBidsBySeasonAndPlayer(season: string, playerUuid: string): Observable<PlayerWhistBids> {
     return this.http.get<PlayerWhistBids>(`${this.apiUrl}/season/${season}/player/${playerUuid}`);
   }

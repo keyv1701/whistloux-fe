@@ -182,6 +182,7 @@
 <app-player-score-edit
   *ngIf="showScoreEditForm"
   [playerScore]="scoreToEdit"
+  [bids]="bidsToEdit"
   (close)="showScoreEditForm = false; scoreToEdit = null"
   (saved)="onScoreUpdated($event)">
 </app-player-score-edit>

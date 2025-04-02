@@ -42,6 +42,7 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
 
   showScoreEditForm = false;
   scoreToEdit: any = null;
+  bidsToEdit: WhistBidsWeek | null = null;
 
   showScoreCreateForm = false;
 
@@ -168,6 +169,12 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   onEditClick(score: any): void {
     this.scoreToEdit = score;
     this.showScoreEditForm = true;
+    this.playerWhistBidsFacade.loadBidsByPlayerAndDate(score.playerUuid, this.selectedWeek!.season, this.selectedWeek!.date.toString()).pipe(
+      tap(bids => {
+          this.bidsToEdit = bids;
+        }
+      )
+    ).subscribe();
   }
 
   onScoreUpdated(updatedScore: any): void {

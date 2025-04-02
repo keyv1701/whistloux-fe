@@ -4,7 +4,7 @@
   <form [formGroup]="parentForm">
     <div class="bids-container pr-2 mb-4">
       <div class="space-y-4">
-        <div formArrayName="bidDetails">
+        <div formArrayName="bidDetails" *ngIf="bidDetailsArray && bidDetailsArray.length > 0">
           <div *ngFor="let bidGroup of bidDetailsArray.controls; let i = index" [formGroupName]="i"
                class="bid-detail-item grid grid-cols-1 md:grid-cols-3 gap-3 p-4 bg-gray-50 dark:bg-gray-700 rounded-md relative border border-gray-200 dark:border-gray-600">
 

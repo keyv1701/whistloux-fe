@@ -19,6 +19,7 @@
     <div class="overflow-y-auto p-4 flex-grow">
       <app-player-score-form
         [playerScore]="playerScore"
+        [bids]="bids"
         [formTitle]="''"
         [submitButtonText]="'Enregistrer les modifications'"
         (formSubmit)="onFormSubmit($event)"

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { PlayerScoreFormComponent } from "../player-score-form/player-score-form.component";
+import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
 
 @Component({
   standalone: true,
@@ -12,6 +13,7 @@ import { PlayerScoreFormComponent } from "../player-score-form/player-score-form
 })
 export class PlayerScoreEditComponent implements OnInit {
   @Input() playerScore: any;
+  @Input() bids: WhistBidsWeek | null = null;
   @Output() close = new EventEmitter<void>();
   @Output() saved = new EventEmitter<any>();
 
