@@ -281,4 +281,19 @@ export class ChampionshipFacade {
     );
   }
 
+  exportMonthlyChampionshipRankingsToExcel(season: string, month: number): Observable<Blob> {
+    this.loadingSubject.next(true);
+    return this.championshipService.exportMonthlyChampionshipRankingsToExcel(season, month).pipe(
+      tap(() => {
+        this.toastService.success('Classement mensuel exporté avec succès');
+      }),
+      catchError(error => {
+        this.toastService.error("Erreur lors de l'exportation du classement mensuel");
+        console.error("Erreur lors de l'exportation du classement mensuel:", error);
+        return throwError(() => error);
+      }),
+      finalize(() => this.loadingSubject.next(false))
+    );
+  }
+
 }

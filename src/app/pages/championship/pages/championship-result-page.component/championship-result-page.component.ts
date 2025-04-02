@@ -73,4 +73,20 @@ export class ChampionshipResultPageComponent implements OnInit {
   loadMonthlyRankings(): void {
     this.championshipFacade.loadMonthlyChampionshipRankings(this.selectedSeason, this.selectedMonth).subscribe();
   }
+
+  exportMonthlyRankings(): void {
+    this.championshipFacade.exportMonthlyChampionshipRankingsToExcel(this.selectedSeason, this.selectedMonth)
+      .subscribe((blob: Blob) => {
+        // Créer un lien temporaire pour télécharger le fichier
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const filename = `classement_mensuel_${this.selectedSeason}_${this.months[this.selectedMonth - 1].name}.xlsx`;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      });
+  }
 }

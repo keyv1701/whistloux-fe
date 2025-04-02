@@ -105,4 +105,11 @@ export class ChampionshipService {
   getMonthlyChampionshipRankings(season: string, month: number): Observable<PlayerRanking[]> {
     return this.http.get<PlayerRanking[]>(`${this.apiUrl}/championship/rankings/monthly?season=${season}&month=${month}`);
   }
+
+  exportMonthlyChampionshipRankingsToExcel(season: string, month: number): Observable<Blob> {
+    return this.http.get(
+      `${this.apiUrl}/championship/rankings/monthly/export?season=${season}&month=${month}`,
+      {responseType: 'blob'}
+    );
+  }
 }

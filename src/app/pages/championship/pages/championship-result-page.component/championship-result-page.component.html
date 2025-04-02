@@ -29,12 +29,24 @@
 
     <ng-template #content>
       <div class="rankings-container" *ngIf="(monthlyRankings$ | async)?.length; else emptyMonthly">
-        <div class="mb-4 text-sm text-gray-600 flex items-center p-2 border border-gray-200 rounded bg-white">
-          <div class="inline-block w-3.5 h-3.5 bg-red-100 mr-2 border border-gray-200"></div>
-          <p class="m-0">
-            <span class="font-medium">Note :</span> Les lignes avec cet indicateur représentent des joueurs n'ayant pas
-            atteint le minimum requis de 6 manches pour être éligibles au classement officiel.
-          </p>
+        <div class="flex justify-between items-center mb-4">
+          <div class="text-sm text-gray-600 flex items-center p-2 border border-gray-200 rounded bg-white">
+            <div class="inline-block w-3.5 h-3.5 bg-red-100 mr-2 border border-gray-200"></div>
+            <p class="m-0">
+              <span class="font-medium">Note :</span> Les lignes avec cet indicateur représentent des joueurs n'ayant
+              pas
+              atteint le minimum requis de 6 manches pour être éligibles au classement officiel.
+            </p>
+          </div>
+          <button (click)="exportMonthlyRankings()"
+                  class="export-button bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                    d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                    clip-rule="evenodd"/>
+            </svg>
+            Exporter en Excel
+          </button>
         </div>
         <table class="rankings-table">
           <thead>

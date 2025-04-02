@@ -188,3 +188,15 @@
 .ineligible-marker {
   @apply inline-block w-3.5 h-3.5 bg-red-100 bg-opacity-40 mr-1.5 align-middle border border-gray-200;
 }
+
+.export-button {
+  transition: all 0.2s ease;
+}
+
+.export-button:hover svg {
+  transform: translateY(2px);
+}
+
+.export-button:active {
+  transform: scale(0.98);
+}
