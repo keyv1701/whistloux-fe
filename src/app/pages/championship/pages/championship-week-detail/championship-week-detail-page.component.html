@@ -48,6 +48,13 @@
         </div>
       </div>
 
+      <div class="legend-container">
+        <div class="legend-item">
+          <span class="warning-icon">⚠️</span>
+          <span>Les lignes marquées indiquent que les points des rounds ne correspondent pas avec les points des annonces</span>
+        </div>
+      </div>
+
       <!-- Tableau des scores -->
       <div class="scores-table-container" *ngIf="(playerScores$ | async)?.length; else noScores">
         <table class="scores-table">
@@ -132,8 +139,13 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let score of playerScores$ | async">
-            <td>{{ score.playerPseudo }}</td>
+          <tr *ngFor="let score of playerScores$ | async"
+              [class.incomplete-announcements]="!score.announcementComplete">
+            <td>
+              <span *ngIf="!score.announcementComplete" class="warning-icon"
+                    title="Points des annonces incohérents">⚠️</span>
+              {{ score.playerPseudo }}
+            </td>
             <td>{{ score.round1Points || 0 }}</td>
             <td>{{ score.round2Points || 0 }}</td>
             <td>{{ score.round3Points || 0 }}</td>

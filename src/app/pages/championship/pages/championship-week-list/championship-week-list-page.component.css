@@ -160,3 +160,30 @@ table td {
 }
 
 
+/* Style pour les lignes incomplètes */
+.incomplete-week {
+  background-color: rgba(255, 244, 230, 0.5);
+}
+
+/* Style pour l'icône d'avertissement */
+.warning-icon {
+  color: #ff8800;
+  margin-right: 5px;
+  font-size: 1.1em;
+}
+
+/* Style pour la légende */
+.legend-container {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border-left: 4px solid #ff8800;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  color: #555;
+}
