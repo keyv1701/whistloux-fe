@@ -45,7 +45,7 @@
       <div *ngIf="authFacade.isAuthenticated$ | async" class="legend-container">
         <div class="legend-item">
           <span class="warning-icon">⚠️</span>
-          <span>Semaines avec des annonces incomplètes ou des points manquants</span>
+          <span>Semaines avec l'indicateur ⚠️ ne sont pas finalisées et ne sont pas prises en compte dans le classement des annonces</span>
         </div>
       </div>
 
@@ -64,10 +64,10 @@
           <tr *ngFor="let week of championshipWeeks$ | async"
               (click)="navigateToDetail(week.uuid)"
               class="week-row"
-              [class.incomplete-week]="!week.allAnnouncementsComplete && !week.encodingComplete">
+              [class.incomplete-week]="!week.encodingComplete">
             <td>
               <span
-                *ngIf="(authFacade.isAuthenticated$ | async) && !week.allAnnouncementsComplete && !week.encodingComplete"
+                *ngIf="(authFacade.isAuthenticated$ | async) && !week.encodingComplete"
                 class="warning-icon"
                 title="Annonces incomplètes">⚠️</span>
               {{ week.weekNumber }}

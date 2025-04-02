@@ -51,7 +51,7 @@
       <div *ngIf="authFacade.isAuthenticated$ | async" class="legend-container">
         <div class="legend-item">
           <span class="warning-icon">⚠️</span>
-          <span>Les lignes marquées indiquent que les points des rounds ne correspondent pas avec les points des annonces</span>
+          <span>Les lignes marquées indiquent qu'aucune annonce n'a été ajoutée pour ce joueur</span>
         </div>
       </div>
 
@@ -140,9 +140,9 @@
           </thead>
           <tbody>
           <tr *ngFor="let score of playerScores$ | async"
-              [class.incomplete-announcements]="!score.announcementComplete">
+              [class.incomplete-announcements]="!score.hasBids">
             <td>
-              <span *ngIf="(authFacade.isAuthenticated$ | async) && !score.announcementComplete" class="warning-icon"
+              <span *ngIf="(authFacade.isAuthenticated$ | async) && !score.hasBids" class="warning-icon"
                     title="Points des annonces incohérents">⚠️</span>
               {{ score.playerPseudo | pseudo }}
             </td>

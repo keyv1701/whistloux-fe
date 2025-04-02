@@ -5,5 +5,5 @@ export interface PlayerWeekScore {
   round1Points: number | null;
   round2Points: number | null;
   round3Points: number | null;
-  announcementComplete: boolean;
+  hasBids: boolean;
 }

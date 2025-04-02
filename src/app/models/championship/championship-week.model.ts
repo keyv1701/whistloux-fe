@@ -7,7 +7,6 @@ export interface ChampionshipWeek {
   weekNumber: number;
   season: string;
   description: string;
-  allAnnouncementsComplete: boolean;
   encodingComplete: boolean;
   playerScores?: PlayerWeekScore[];
 }
