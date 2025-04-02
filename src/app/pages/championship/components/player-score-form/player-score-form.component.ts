@@ -66,9 +66,9 @@ export class PlayerScoreFormComponent implements OnInit, OnChanges, OnDestroy {
 
   private initializeScoreForm(playerScore: PlayerWeekScore): void {
     this.scoreForm = this.fb.group({
-      round1Points: [this.playerScore?.round1Points || 0, [Validators.required, Validators.min(0)]],
-      round2Points: [this.playerScore?.round2Points || 0, [Validators.required, Validators.min(0)]],
-      round3Points: [this.playerScore?.round3Points || 0, [Validators.required, Validators.min(0)]],
+      round1Points: [this.playerScore?.round1Points || 0, [Validators.required]],
+      round2Points: [this.playerScore?.round2Points || 0, [Validators.required]],
+      round3Points: [this.playerScore?.round3Points || 0, [Validators.required]],
       playerUuid: [playerScore ? playerScore.playerUuid : null, Validators.required],
       playerPseudoDisplay: [playerScore ? playerScore.playerPseudo : null]
     });
