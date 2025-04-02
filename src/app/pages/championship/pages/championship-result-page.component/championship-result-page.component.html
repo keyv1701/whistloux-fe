@@ -29,6 +29,13 @@
 
     <ng-template #content>
       <div class="rankings-container" *ngIf="(monthlyRankings$ | async)?.length; else emptyMonthly">
+        <div class="mb-4 text-sm text-gray-600 flex items-center p-2 border border-gray-200 rounded bg-white">
+          <div class="inline-block w-3.5 h-3.5 bg-red-100 mr-2 border border-gray-200"></div>
+          <p class="m-0">
+            <span class="font-medium">Note :</span> Les lignes avec cet indicateur représentent des joueurs n'ayant pas
+            atteint le minimum requis de 6 manches pour être éligibles au classement officiel.
+          </p>
+        </div>
         <table class="rankings-table">
           <thead>
           <tr>
@@ -41,7 +48,9 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let player of monthlyRankings$ | async; let i = index" [ngClass]="{'podium': player.rank <= 3}">
+          <tr *ngFor="let player of monthlyRankings$ | async; let i = index"
+              [ngClass]="{'podium': player.rank <= 3, 'ineligible-player': !player.eligible}">
+
             <td class="rank-cell">
               <div class="rank-badge" [ngClass]="'rank-' + player.rank">{{ player.rank }}</div>
             </td>

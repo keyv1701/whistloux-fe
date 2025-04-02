@@ -122,6 +122,10 @@
   @apply w-[90px];
 }
 
+.rank-badge:not(.rank-1):not(.rank-2):not(.rank-3) {
+  @apply bg-blue-300;
+}
+
 .player-col {
   @apply w-1/4;
 }
@@ -169,4 +173,18 @@
   .rankings-table td {
     @apply py-3 px-2 text-sm;
   }
+}
+
+/* Style pour les joueurs non éligibles */
+.ineligible-player {
+  @apply bg-red-100 bg-opacity-40 !important;
+}
+
+/* Style pour la légende */
+.championship-legend {
+  @apply mb-4 text-sm text-gray-600;
+}
+
+.ineligible-marker {
+  @apply inline-block w-3.5 h-3.5 bg-red-100 bg-opacity-40 mr-1.5 align-middle border border-gray-200;
 }
