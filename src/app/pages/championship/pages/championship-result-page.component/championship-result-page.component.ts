@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ChampionshipFacade } from '../../facades/championship.facade';
 import { PlayerRanking } from '../../../../models/championship/player-ranking.model';
+import { take } from "rxjs/operators";
 
 @Component({
   selector: 'app-championship-result-page',
@@ -19,6 +20,9 @@ export class ChampionshipResultPageComponent implements OnInit {
 
   seasons: string[] = [];
   selectedSeason: string = new Date().getFullYear().toString();
+
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   months = [
     {value: 1, name: 'Janvier'},
@@ -88,5 +92,52 @@ export class ChampionshipResultPageComponent implements OnInit {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       });
+  }
+
+  sortData(column: string): void {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+
+    this.sortMonthlyRankings(this.sortColumn, this.sortDirection);
+  }
+
+  sortMonthlyRankings(column: string, direction: 'asc' | 'desc'): void {
+    this.championshipFacade.monthlyRankings$.pipe(
+      take(1),
+      tap(rankings => {
+        const sortedRankings = [...rankings].sort((a, b) => {
+          let comparison = 0;
+
+          switch (column) {
+            case 'rank':
+              comparison = a.rank - b.rank;
+              break;
+            case 'playerPseudo':
+              comparison = a.playerPseudo.localeCompare(b.playerPseudo, 'fr', {sensitivity: 'base'});
+              break;
+            case 'totalScore':
+              comparison = a.totalScore - b.totalScore;
+              break;
+            case 'roundsPlayed':
+              comparison = a.roundsPlayed - b.roundsPlayed;
+              break;
+            case 'worstRoundScore':
+              comparison = a.worstRoundScore - b.worstRoundScore;
+              break;
+            default:
+              return 0;
+          }
+
+          return direction === 'asc' ? comparison : -comparison;
+        });
+
+        // On met à jour le BehaviorSubject dans la façade
+        (this.championshipFacade as any).monthlyRankingsSubject.next(sortedRankings);
+      })
+    ).subscribe();
   }
 }

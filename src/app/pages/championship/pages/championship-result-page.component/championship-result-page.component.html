@@ -51,12 +51,102 @@
         <table class="rankings-table">
           <thead>
           <tr>
-            <th class="rank-col">Position</th>
-            <th class="player-col">Joueur</th>
-            <th class="score-col">Score total</th>
-            <th class="rounds-col">Manches jouées</th>
+            <th class="rank-col cursor-pointer hover:bg-gray-100" (click)="sortData('rank')">
+              <div class="flex items-center justify-between">
+                Position
+                <span class="ml-1" *ngIf="sortColumn === 'rank'">
+      <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+           fill="currentColor">
+        <path fill-rule="evenodd"
+              d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"/>
+      </svg>
+      <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+           fill="currentColor">
+        <path fill-rule="evenodd"
+              d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"/>
+      </svg>
+    </span>
+              </div>
+            </th>
+            <th class="player-col cursor-pointer hover:bg-gray-100" (click)="sortData('playerPseudo')">
+              <div class="flex items-center justify-between">
+                Joueur
+                <span class="ml-1" *ngIf="sortColumn === 'playerPseudo'">
+          <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+               fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"/>
+          </svg>
+          <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+               fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"/>
+          </svg>
+        </span>
+              </div>
+            </th>
+            <th class="score-col cursor-pointer hover:bg-gray-100" (click)="sortData('totalScore')">
+              <div class="flex items-center justify-between">
+                Score total
+                <span class="ml-1" *ngIf="sortColumn === 'totalScore'">
+          <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+               fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"/>
+          </svg>
+          <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+               fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"/>
+          </svg>
+        </span>
+              </div>
+            </th>
+            <th class="rounds-col cursor-pointer hover:bg-gray-100" (click)="sortData('roundsPlayed')">
+              <div class="flex items-center justify-between">
+                Manches jouées
+                <span class="ml-1" *ngIf="sortColumn === 'roundsPlayed'">
+          <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+               fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"/>
+          </svg>
+          <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+               fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"/>
+          </svg>
+        </span>
+              </div>
+            </th>
             <th class="best-scores-col">Meilleurs scores</th>
-            <th class="worst-score-col">Plus mauvais score</th>
+            <th class="worst-score-col cursor-pointer hover:bg-gray-100" (click)="sortData('worstRoundScore')">
+              <div class="flex items-center justify-between">
+                Plus mauvais score
+                <span class="ml-1" *ngIf="sortColumn === 'worstRoundScore'">
+          <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+               fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"/>
+          </svg>
+          <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+               fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"/>
+          </svg>
+        </span>
+              </div>
+            </th>
           </tr>
           </thead>
           <tbody>

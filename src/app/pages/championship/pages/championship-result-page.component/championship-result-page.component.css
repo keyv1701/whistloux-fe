@@ -200,3 +200,15 @@
 .export-button:active {
   transform: scale(0.98);
 }
+
+.rankings-table th.cursor-pointer {
+  @apply relative transition-all;
+}
+
+.rankings-table th.cursor-pointer:hover {
+  @apply bg-gray-50 bg-opacity-40;
+}
+
+.rankings-table th.cursor-pointer:after {
+  @apply absolute inset-0 w-full h-full content-[''] bg-opacity-0 pointer-events-none;
+}
