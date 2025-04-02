@@ -6,7 +6,7 @@
     <div class="main-info">
       <div class="name-container">
         <h3 class="name">{{ player.firstName }} {{ player.lastName }}</h3>
-        <span *ngIf="player.pseudo" class="pseudo">({{ player.pseudo }})</span>
+        <span *ngIf="player.pseudo" class="pseudo">({{ player.pseudo | pseudo }})</span>
       </div>
       <p class="email">{{ player.email }}</p>
       <div class="status-badges">

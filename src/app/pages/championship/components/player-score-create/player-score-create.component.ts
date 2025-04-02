@@ -3,6 +3,8 @@ import { PlayerScoreFormComponent } from "../player-score-form/player-score-form
 import { Observable } from "rxjs";
 import { PlayerLight } from "../../../../models/players/player-light.interface";
 import { PlayerFacade } from "../../../players/facades/player.facade";
+import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
+import { map } from "rxjs/operators";
 
 @Component({
   standalone: true,
@@ -21,9 +23,15 @@ export class PlayerScoreCreateComponent implements OnInit, OnDestroy {
 
   constructor(
     private renderer: Renderer2,
-    private playerFacade: PlayerFacade
+    private playerFacade: PlayerFacade,
+    private pseudoPipe: PseudoPipe
   ) {
-    this.pseudos$ = this.playerFacade.loadPlayerPseudos();
+    this.pseudos$ = this.playerFacade.loadPlayerPseudos().pipe(
+      map(players => players.map(player => ({
+        ...player,
+        pseudo: this.pseudoPipe.transform(player.pseudo)
+      })))
+    );
   }
 
   ngOnInit(): void {

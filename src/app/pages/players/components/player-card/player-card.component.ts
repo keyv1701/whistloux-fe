@@ -6,11 +6,12 @@ import { ToastService } from "../../../../shared/services/toast.service";
 import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
 import { PlayerFacade } from "../../facades/player.facade";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
+import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
 
 @Component({
   selector: 'app-player-card',
   standalone: true,
-  imports: [CommonModule, ConfirmationComponent],
+  imports: [CommonModule, ConfirmationComponent, PseudoPipe],
   templateUrl: './player-card.component.html',
   styleUrls: ['./player-card.component.css']
 })

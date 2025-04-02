@@ -31,7 +31,7 @@ export class PlayerWhistFormComponent implements OnInit {
   createBidDetailGroup(): FormGroup {
     return this.fb.group({
       bidType: [null, Validators.required],
-      count: [0, [Validators.required, Validators.min(1)]],
+      count: [1, [Validators.required, Validators.min(1)]],
       success: [false]
     });
   }

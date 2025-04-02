@@ -292,7 +292,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let playerBid of paginatedPlayerBids">
-        <td class="fw-bold sticky-col">{{ playerBid.playerPseudo }}</td>
+        <td class="fw-bold sticky-col">{{ playerBid.playerPseudo | pseudo }}</td>
         <td class="text-center fw-bold">{{ getTotalBids(playerBid) }}</td>
         <td class="text-center">{{ getTotalBidCount(playerBid) }}</td>
         <td class="text-center">{{ getSuccessPercentage(playerBid) }}</td>

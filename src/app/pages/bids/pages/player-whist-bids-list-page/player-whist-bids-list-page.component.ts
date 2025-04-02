@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { ToastService } from "../../../../shared/services/toast.service";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
+import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
 
 @Component({
   selector: 'app-player-whist-bids-list-page',
@@ -21,7 +22,8 @@ import { ConfirmationComponent } from "../../../../shared/components/confirmatio
     ReactiveFormsModule,
     RouterModule,
     FormsModule,
-    ConfirmationComponent
+    ConfirmationComponent,
+    PseudoPipe
   ]
 })
 export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {

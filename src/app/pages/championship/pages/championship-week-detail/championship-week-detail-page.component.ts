@@ -14,6 +14,7 @@ import { PlayerScoreEditComponent } from "../../components/player-score-edit/pla
 import { PlayerScoreCreateComponent } from "../../components/player-score-create/player-score-create.component";
 import { PlayerWhistBidsFacade } from "../../../bids/facades/player-whist-bids.facade";
 import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
+import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -21,7 +22,7 @@ type SortDirection = 'asc' | 'desc';
 @Component({
   selector: 'app-championship-week-detail-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent, PlayerScoreEditComponent, PlayerScoreEditComponent, PlayerScoreCreateComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent, PlayerScoreEditComponent, PlayerScoreEditComponent, PlayerScoreCreateComponent, PseudoPipe],
   templateUrl: './championship-week-detail-page.component.html',
   styleUrls: ['./championship-week-detail-page.component.css']
 })
