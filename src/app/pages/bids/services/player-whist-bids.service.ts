@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { PlayerWhistBids } from '../../../models/bids/player-whist-bids.model';
 import { environment } from '../../../../environments/environment';
 import { WhistBidDetail } from "../../../models/bids/whist-bid-detail.model";
 import { WhistBidsWeek } from "../../../models/bids/whist-bids-week.model";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -65,5 +66,20 @@ export class PlayerWhistBidsService {
     formData.append('file', file);
 
     return this.http.post<any>(`${this.apiUrl}/season/${season}/import/excel`, formData);
+  }
+
+  getLastFinalizedDate(season: string): Observable<Date | null> {
+    return this.http.get<string>(`${this.apiUrl}/last-finalized-date/${season}`, {
+      responseType: 'text' as 'json'
+    }).pipe(
+      map(dateStr => dateStr ? new Date(dateStr) : null),
+      catchError(error => {
+        // Gestion du cas 204 No Content
+        if (error.status === 204) {
+          return of(null);
+        }
+        return throwError(() => error);
+      })
+    );
   }
 }

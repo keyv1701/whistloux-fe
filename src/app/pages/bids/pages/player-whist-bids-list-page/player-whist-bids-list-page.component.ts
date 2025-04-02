@@ -48,6 +48,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   loading = false;
   error: string | null = null;
   currentSeason = '2025';
+  lastFinalizedDate: Date | null = null;
 
   availableSeasons: number[] = [2025];
 
@@ -76,7 +77,85 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.playerWhistBidsFacade.getLastFinalizedDate(this.currentSeason).pipe(
+      takeUntil(this.destroy$),
+      tap(date => {
+        this.lastFinalizedDate = date;
+      }),
+      catchError(error => {
+        this.toastService.error('Erreur lors de la récupération de la date de saison');
+        return EMPTY;
+      })
+    ).subscribe()
+
     // S'abonner aux données des annonces
+    this.subscribeToBidsChanges();
+
+    // S'abonner à l'état de chargement
+    this.subscribeToLoading();
+
+    // S'abonner aux erreurs
+    this.subscribeToErrors();
+
+    // Charger les données pour la saison actuelle
+    this.loadBidsBySeason(this.filterForm.get('season')?.value);
+
+    // Écouter les changements de saison
+    this.subscribeToSeasonChanges();
+
+    // Écouter les changements de joueur sélectionné
+    this.subscribeToPlayerChanges();
+
+    this.calculateTotalPages();
+    this.updatePaginatedPlayerBids();
+  }
+
+  private subscribeToSeasonChanges() {
+    this.filterForm.get('season')?.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(season => this.loadBidsBySeason(season))
+      )
+      .subscribe();
+  }
+
+  private subscribeToPlayerChanges() {
+    this.filterForm.get('player')?.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(player => {
+          this.selectedPlayerUuid = player;
+          this.applyFilters();
+        })
+      )
+      .subscribe();
+  }
+
+  private subscribeToErrors() {
+    this.playerWhistBidsFacade.error$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(error => {
+          this.error = error;
+          if (error) {
+            this.toastService.error(error);
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  private subscribeToLoading() {
+    this.playerWhistBidsFacade.loading$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(loading => this.loading = loading)
+      )
+      .subscribe();
+  }
+
+  private subscribeToBidsChanges() {
     this.playerWhistBidsFacade.playerBids$
       .pipe(
         takeUntil(this.destroy$),
@@ -89,52 +168,6 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-
-    // S'abonner à l'état de chargement
-    this.playerWhistBidsFacade.loading$
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(loading => this.loading = loading)
-      )
-      .subscribe();
-
-    // S'abonner aux erreurs
-    this.playerWhistBidsFacade.error$
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(error => {
-          this.error = error;
-          if (error) {
-            this.toastService.error(error);
-          }
-        })
-      )
-      .subscribe();
-
-    // Charger les données pour la saison actuelle
-    this.loadBidsBySeason(this.filterForm.get('season')?.value);
-
-    // Écouter les changements de saison
-    this.filterForm.get('season')?.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(season => this.loadBidsBySeason(season))
-      )
-      .subscribe();
-
-    // Écouter les changements de joueur sélectionné
-    this.filterForm.get('player')?.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(player => {
-          this.selectedPlayerUuid = player;
-          this.applyFilters();
-        })
-      )
-      .subscribe();
-
-    this.calculateTotalPages();
-    this.updatePaginatedPlayerBids();
   }
 
   ngOnDestroy(): void {

@@ -63,6 +63,11 @@
   </div>
 
   <div *ngIf="filteredPlayerBids.length > 0" class="table-responsive card shadow-sm">
+    <div *ngIf="lastFinalizedDate" class="mt-2 mb-4 text-center">
+      <span class="px-4 py-2 bg-blue-100 text-blue-800 font-medium rounded-md">
+        Annonces calculées jusqu'au {{ lastFinalizedDate | date:'dd/MM/yyyy' }}
+      </span>
+    </div>
     <table class="table table-striped table-hover mb-0">
       <thead>
       <tr class="table-primary">

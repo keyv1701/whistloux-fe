@@ -234,4 +234,8 @@ export class PlayerWhistBidsFacade {
       finalize(() => this.loadingSubject.next(false))
     );
   }
+
+  getLastFinalizedDate(season: string): Observable<Date | null> {
+    return this.playerWhistBidsService.getLastFinalizedDate(season);
+  }
 }
