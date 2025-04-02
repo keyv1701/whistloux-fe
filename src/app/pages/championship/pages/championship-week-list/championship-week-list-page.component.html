@@ -42,7 +42,7 @@
     </ng-container>
 
     <ng-template #weekTable>
-      <div class="legend-container">
+      <div *ngIf="authFacade.isAuthenticated$ | async" class="legend-container">
         <div class="legend-item">
           <span class="warning-icon">⚠️</span>
           <span>Semaines avec des annonces incomplètes ou des points manquants</span>
@@ -66,8 +66,10 @@
               class="week-row"
               [class.incomplete-week]="!week.allAnnouncementsComplete && !week.encodingComplete">
             <td>
-              <span *ngIf="!week.allAnnouncementsComplete && !week.encodingComplete" class="warning-icon"
-                    title="Annonces incomplètes">⚠️</span>
+              <span
+                *ngIf="(authFacade.isAuthenticated$ | async) && !week.allAnnouncementsComplete && !week.encodingComplete"
+                class="warning-icon"
+                title="Annonces incomplètes">⚠️</span>
               {{ week.weekNumber }}
             </td>
             <td>{{ week.date | date:'dd/MM/yyyy' }}</td>
