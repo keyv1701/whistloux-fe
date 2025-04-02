@@ -32,7 +32,7 @@ export class PlayerWhistFormComponent implements OnInit {
     return this.fb.group({
       bidType: [null, Validators.required],
       count: [1, [Validators.required, Validators.min(1)]],
-      success: [false]
+      success: [true]
     });
   }
 

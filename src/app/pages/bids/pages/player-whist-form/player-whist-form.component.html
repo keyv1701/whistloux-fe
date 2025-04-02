@@ -47,7 +47,9 @@
                   class="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mr-2"
                 >
                 <label [for]="'success-' + i"
-                       class="text-sm font-medium text-gray-700 dark:text-gray-300">Réussite</label>
+                       class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {{ bidGroup.get('success')?.value ? 'Réussite' : 'Echec' }}
+                </label>
               </div>
 
               <!-- Bouton de suppression -->
