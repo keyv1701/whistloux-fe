@@ -33,7 +33,6 @@ export class ChampionshipWeekFormComponent implements OnInit {
 
   private initForm(): void {
     this.weekForm = this.fb.group({
-      weekNumber: [this.week?.weekNumber || '', [Validators.required, Validators.min(1)]],
       date: [this.week?.date || '', Validators.required],
       description: [this.week?.description || ''],
       encodingComplete: [this.week?.encodingComplete || false],
