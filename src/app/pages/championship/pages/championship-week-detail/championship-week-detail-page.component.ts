@@ -194,6 +194,7 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
         this.toastService.success(`Le score de ${updatedScore.playerPseudo} a été mis à jour avec succès!`);
         this.showScoreEditForm = false;
         this.scoreToEdit = null;
+        this.championshipFacade.loadChampionshipWeek(this.weekUuid);
       }),
       catchError(err => {
         this.toastService.error(`Erreur lors de la mise à jour du score: ${err.message || 'Erreur inconnue'}`);
@@ -223,6 +224,11 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   }
 
   onScoreCreated(createdScore: any): void {
+    this.createPlayerScore(createdScore);
+    this.updatePlayerWhistBids(createdScore);
+  }
+
+  private createPlayerScore(createdScore: any) {
     this.championshipFacade.createPlayerScore(createdScore, this.weekUuid)
       .pipe(
         tap(updatedWeek => {

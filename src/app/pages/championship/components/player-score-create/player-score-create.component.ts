@@ -11,7 +11,8 @@ import { map } from "rxjs/operators";
   selector: 'app-player-score-create',
   templateUrl: './player-score-create.component.html',
   imports: [
-    PlayerScoreFormComponent
+    PlayerScoreFormComponent,
+    PseudoPipe
   ],
   styleUrls: ['./player-score-create.component.css']
 })
@@ -23,13 +24,12 @@ export class PlayerScoreCreateComponent implements OnInit, OnDestroy {
 
   constructor(
     private renderer: Renderer2,
-    private playerFacade: PlayerFacade,
-    private pseudoPipe: PseudoPipe
+    private playerFacade: PlayerFacade
   ) {
     this.pseudos$ = this.playerFacade.loadPlayerPseudos().pipe(
       map(players => players.map(player => ({
         ...player,
-        pseudo: this.pseudoPipe.transform(player.pseudo)
+        pseudo: new PseudoPipe().transform(player.pseudo)
       })))
     );
   }

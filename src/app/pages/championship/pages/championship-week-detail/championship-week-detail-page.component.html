@@ -202,5 +202,5 @@
 <app-player-score-create
   *ngIf="showScoreCreateForm"
   (close)="showScoreCreateForm = false;"
-  (saved)="onScoreCreated($event)">
+  (created)="onScoreCreated($event)">
 </app-player-score-create>
