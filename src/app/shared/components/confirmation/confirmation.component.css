@@ -66,7 +66,6 @@
 
 .confirm-btn {
   padding: 8px 16px;
-  background-color: #e53e3e;
   color: white;
   border: none;
   border-radius: 4px;
@@ -74,10 +73,39 @@
   font-weight: 500;
 }
 
-.cancel-btn:hover {
-  background-color: #cbd5e0;
+/* Couleurs spécifiques pour le bouton de confirmation */
+.confirm-btn-danger {
+  background-color: #e53e3e;
 }
 
-.confirm-btn:hover {
+.confirm-btn-danger:hover {
   background-color: #c53030;
+}
+
+.confirm-btn-primary {
+  background-color: #3182ce;
+}
+
+.confirm-btn-primary:hover {
+  background-color: #2b6cb0;
+}
+
+.confirm-btn-warning {
+  background-color: #ecc94b;
+}
+
+.confirm-btn-warning:hover {
+  background-color: #d69e2e;
+}
+
+.confirm-btn-success {
+  background-color: #48bb78;
+}
+
+.confirm-btn-success:hover {
+  background-color: #38a169;
+}
+
+.cancel-btn:hover {
+  background-color: #cbd5e0;
 }

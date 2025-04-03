@@ -13,6 +13,7 @@ export class ConfirmationComponent {
   @Input() message: string = 'Êtes-vous sûr de vouloir effectuer cette action ?';
   @Input() confirmButtonText: string = 'Confirmer';
   @Input() cancelButtonText: string = 'Annuler';
+  @Input() confirmButtonColor: 'primary' | 'danger' | 'warning' | 'success' = 'danger';
 
   @Output() confirm = new EventEmitter<void>();
   @Output() cancel = new EventEmitter<void>();

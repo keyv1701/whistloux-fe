@@ -9,7 +9,10 @@
     </div>
     <div class="confirmation-footer">
       <button class="cancel-btn" (click)="onCancel()">{{ cancelButtonText }}</button>
-      <button class="confirm-btn" (click)="onConfirm()">{{ confirmButtonText }}</button>
+      <button class="confirm-btn"
+              [ngClass]="'confirm-btn-' + confirmButtonColor"
+              (click)="onConfirm()">{{ confirmButtonText }}
+      </button>
     </div>
   </div>
 </div>
