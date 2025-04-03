@@ -22,6 +22,7 @@ import {
 } from "./pages/bids/pages/player-whist-bids-list-page/player-whist-bids-list-page.component";
 import { RgpdComponent } from "./pages/rgpd/rgpd.component";
 import { RulesComponent } from "./pages/rules/rules.component";
+import { ChangePasswordComponent } from "./pages/change-password/pages/change-password.component";
 
 export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -32,6 +33,7 @@ export const routes: Routes = [
   {path: 'about', component: AboutComponent},
   {path: 'rgpd', component: RgpdComponent},
   {path: 'rules', component: RulesComponent},
+  {path: 'change-password', component: ChangePasswordComponent},
   {
     path: 'tournaments', children: [
       {path: '', component: TournamentPageComponent},

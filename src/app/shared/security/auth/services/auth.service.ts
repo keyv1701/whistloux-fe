@@ -72,4 +72,34 @@ export class AuthService {
   getCurrentUser(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/me`);
   }
+
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    // Première étape: récupérer l'utilisateur courant pour avoir son nom d'utilisateur
+    return this.getCurrentUser().pipe(
+      switchMap(user => {
+        // Deuxième étape: obtenir le sel de l'utilisateur
+        return this.requestSalt(user.username).pipe(
+          map(salt => {
+            // Hasher les deux mots de passe avec le sel
+            const hashedCurrentPassword = this.hashPassword(currentPassword, salt);
+            const hashedNewPassword = this.hashPassword(newPassword, salt);
+
+            // Retourner ces informations pour l'étape suivante
+            return {
+              username: user.username,
+              hashedCurrentPassword,
+              hashedNewPassword
+            };
+          }),
+          switchMap(data => {
+            // Troisième étape: envoyer la requête de changement de mot de passe
+            return this.http.post(`${this.apiUrl}/change-password`, {
+              currentPassword: data.hashedCurrentPassword,
+              newPassword: data.hashedNewPassword
+            });
+          })
+        );
+      })
+    );
+  }
 }

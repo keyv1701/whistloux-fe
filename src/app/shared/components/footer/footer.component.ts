@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthFacade } from "../../security/auth/facades/auth.facade";
 
 @Component({
   selector: 'app-footer',
@@ -10,4 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class FooterComponent {
   currentYear: number = new Date().getFullYear();
+
+  constructor(public authFacade: AuthFacade) {
+  }
 }

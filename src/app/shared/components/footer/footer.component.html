@@ -29,6 +29,8 @@
           <li><a href="/rgpd" class="footer-link">RGPD</a></li>
           <li><a href="/about" class="footer-link">À propos</a></li>
           <li><a href="/contact" class="footer-link">Contact</a></li>
+          <li *ngIf="authFacade.isAuthenticated$ | async"><a href="/change-password" class="footer-link">Changer le mot
+            de passe</a></li>
         </ul>
       </div>
 
