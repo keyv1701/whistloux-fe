@@ -188,7 +188,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
       this.filteredPlayerBids = [...this.playerBids];
     } else {
       this.filteredPlayerBids = this.playerBids.filter(playerBid => {
-        return playerBid.playerPseudo.includes(searchTerm);
+        return playerBid.playerPseudo.toUpperCase().includes(searchTerm.toUpperCase());
       });
     }
 
