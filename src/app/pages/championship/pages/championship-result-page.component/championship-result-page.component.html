@@ -169,7 +169,7 @@
               <div class="rank-badge" [ngClass]="'rank-' + player.rank">{{ player.rank }}</div>
             </td>
             <td>
-              {{ player.playerPseudo }}
+              {{ player.playerPseudo | pseudo }}
               <i *ngIf="isLotteryWinner(player.playerUuid)" class="fas fa-trophy ml-2 text-amber-400"
                  title="Gagnant de la loterie"></i>
             </td>
@@ -209,7 +209,7 @@
 <app-confirmation
   *ngIf="showAddConfirmation"
   [title]="'Confirmation'"
-  [message]="'Voulez-vous désigner ' + playerToSetAsWinner?.playerPseudo + ' comme gagnant de la loterie pour le mois ' + months[selectedMonth-1].name + ' ?'"
+  [message]="'Voulez-vous désigner ce joueur comme gagnant de la loterie pour le mois ' + months[selectedMonth-1].name + ' ?'"
   [confirmButtonText]="'Confirmer'"
   [cancelButtonText]="'Annuler'"
   [confirmButtonColor]="'success'"
@@ -221,7 +221,7 @@
 <app-confirmation
   *ngIf="showRemoveConfirmation"
   [title]="'Confirmation'"
-  [message]="'Voulez-vous retirer ' + playerToRemoveAsWinner?.playerPseudo + ' des gagnants de la loterie pour le mois ' + months[selectedMonth-1].name + ' ?'"
+  [message]="'Voulez-vous retirer ce joueur des gagnants de la loterie pour le mois ' + months[selectedMonth-1].name + ' ?'"
   [confirmButtonText]="'Confirmer'"
   [cancelButtonText]="'Annuler'"
   [confirmButtonColor]="'danger'"

@@ -11,11 +11,12 @@ import { LotteryWinner } from "../../../../models/lottery-winner/lottery-winner.
 import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { ToastService } from "../../../../shared/services/toast.service";
+import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
 
 @Component({
   selector: 'app-championship-result-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmationComponent],
+  imports: [CommonModule, FormsModule, ConfirmationComponent, PseudoPipe],
   templateUrl: './championship-result-page.component.html',
   styleUrls: ['./championship-result-page.component.css']
 })
@@ -85,7 +86,12 @@ export class ChampionshipResultPageComponent implements OnInit {
           this.lotteryWinners = winners;
         }),
         catchError(error => {
-          this.toastService.error('Erreur lors du chargement des gagnants de la loterie');
+          if (error.error?.message) {
+            this.toastService.error(error.error.message);
+          } else {
+            this.toastService.error('Erreur lors du chargement des gagnants de la loterie');
+          }
+
           return of([]);
         })
       ).subscribe();
@@ -206,7 +212,11 @@ export class ChampionshipResultPageComponent implements OnInit {
           this.loadLotteryWinners();
         }),
         catchError((error) => {
-          this.toastService.error('Une erreur est survenue lors de la désignation du gagnant de la loterie');
+          if (error.error?.message) {
+            this.toastService.error(error.error.message);
+          } else {
+            this.toastService.error('Une erreur est survenue lors de la désignation du gagnant de la loterie');
+          }
           return of(null);
         }),
         finalize(() => {
