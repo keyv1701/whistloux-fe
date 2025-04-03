@@ -160,7 +160,7 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
           window.URL.revokeObjectURL(url);
         }),
         catchError((error) => {
-          console.error('Erreur lors de l\'export Excel:', error);
+          this.toastService.error('Une erreur est survenue lors de la création de l\'excel');
           return EMPTY;
         })
       ).subscribe();
@@ -197,7 +197,11 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
         this.championshipFacade.loadChampionshipWeek(this.weekUuid);
       }),
       catchError(err => {
-        this.toastService.error(`Erreur lors de la mise à jour du score: ${err.message || 'Erreur inconnue'}`);
+        if (err.error?.message) {
+          this.toastService.error(err.error.message);
+        } else {
+          this.toastService.error(`Erreur lors de la mise à jour du score: ${err.message || 'Erreur inconnue'}`);
+        }
         return of(null);
       })
     ).subscribe();
@@ -236,7 +240,12 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
           this.showScoreCreateForm = false;
         }),
         catchError(err => {
-          this.toastService.error(`Erreur lors de la création du score: ${err.message || 'Erreur inconnue'}`);
+          if (err.error?.message) {
+            this.toastService.error(err.error.message);
+          } else {
+            this.toastService.error(`Erreur lors de la création du score: ${err.message || 'Erreur inconnue'}`);
+          }
+
           return of(null);
         })
       )
