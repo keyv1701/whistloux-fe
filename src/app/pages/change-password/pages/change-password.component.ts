@@ -62,8 +62,11 @@ export class ChangePasswordComponent implements OnInit {
           this.router.navigate(['/home']);
         }),
         catchError((error) => {
-          this.toastService.error('Erreur lors du changement de mot de passe. Veuillez réessayer.');
-          console.error('Erreur de changement de mot de passe', error);
+          if (error.error?.message) {
+            this.toastService.error(error.error.message);
+          } else {
+            this.toastService.error('Erreur lors du changement de mot de passe. Veuillez réessayer.');
+          }
           return EMPTY;
         }),
         finalize(() => this.isLoading = false)
