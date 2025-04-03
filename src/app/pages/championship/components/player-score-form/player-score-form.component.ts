@@ -146,8 +146,6 @@ export class PlayerScoreFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onBidDetailsChange(bidDetails: FormArray): void {
-    // Logique à exécuter lorsque les détails d'annonces changent
-    console.log('Détails des annonces mis à jour:', bidDetails.value);
   }
 
   private createBidsDetailFormGroup(detail: WhistBidDetail): FormGroup {

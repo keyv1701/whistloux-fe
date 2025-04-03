@@ -15,6 +15,7 @@ import { PlayerScoreCreateComponent } from "../../components/player-score-create
 import { PlayerWhistBidsFacade } from "../../../bids/facades/player-whist-bids.facade";
 import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
+import { WhistBidDetail } from "../../../../models/bids/whist-bid-detail.model";
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -172,10 +173,37 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     this.showScoreEditForm = true;
     this.playerWhistBidsFacade.loadBidsByPlayerAndDate(score.playerUuid, this.selectedWeek!.season, this.selectedWeek!.date.toString()).pipe(
       tap(bids => {
-          this.bidsToEdit = bids;
+          this.bidsToEdit = this.expandBidDetails(bids);
         }
       )
     ).subscribe();
+  }
+
+  private expandBidDetails(bids: WhistBidsWeek | null): WhistBidsWeek | null {
+    if (!bids) return null;
+
+    const expandedBidDetails: WhistBidDetail[] = [];
+
+    bids.bidDetails.forEach(detail => {
+      // Si le count est supérieur à 1, créer plusieurs éléments distincts
+      if (detail.count > 1) {
+        for (let i = 0; i < detail.count; i++) {
+          expandedBidDetails.push({
+            bidType: detail.bidType,
+            count: 1,
+            success: detail.success
+          });
+        }
+      } else {
+        // Sinon, ajouter l'élément tel quel
+        expandedBidDetails.push({...detail});
+      }
+    });
+
+    return {
+      ...bids,
+      bidDetails: expandedBidDetails
+    };
   }
 
   onScoreUpdated(updatedScore: any): void {
