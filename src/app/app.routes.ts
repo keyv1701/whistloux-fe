@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
 import { PlayerPageComponent } from './pages/players/pages/player-page.component';
 import { TournamentPageComponent } from './pages/tournaments/pages/tournament-page/tournament-page.component';
 import { LoginComponent } from "./pages/login/components/login.component";
@@ -23,10 +22,14 @@ import {
 import { RgpdComponent } from "./pages/rgpd/rgpd.component";
 import { RulesComponent } from "./pages/rules/rules.component";
 import { ChangePasswordComponent } from "./pages/change-password/pages/change-password.component";
+import { MigrationComponent } from "./pages/migration/migration.component";
+import { HomeComponent } from "./pages/home/home.component";
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '', redirectTo: 'migration', pathMatch: 'full'},
+  // {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
+  {path: 'migration', component: MigrationComponent},
   {path: 'login', component: LoginComponent},
   {path: 'players', component: PlayerPageComponent},
   {path: 'contact', component: ContactComponent},

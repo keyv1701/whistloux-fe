@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header *ngIf="!isMigrationPage"></app-header>
 <main class="main-content">
   <app-toast
     [visible]="(toast$ | async) !== null"
@@ -9,4 +9,4 @@
   </app-toast>
   <router-outlet></router-outlet>
 </main>
-<app-footer></app-footer>
+<app-footer *ngIf="!isMigrationPage"></app-footer>
