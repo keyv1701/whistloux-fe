@@ -8,12 +8,11 @@ import { PlayerCreateComponent } from "../player-create/player-create.component"
 import { PlayerFacade } from "../../facades/player.facade";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { tap } from "rxjs";
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-list',
   standalone: true,
-  imports: [CommonModule, PlayerCardComponent, FormsModule, PlayerEditComponent, PlayerCreateComponent, TranslatePipe],
+  imports: [CommonModule, PlayerCardComponent, FormsModule, PlayerEditComponent, PlayerCreateComponent],
   templateUrl: './player-list.component.html',
   styleUrls: ['./player-list.component.css']
 })

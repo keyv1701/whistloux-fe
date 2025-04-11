@@ -2,14 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChampionshipWeek } from '../../../../models/championship/championship-week.model';
 import { CommonModule } from "@angular/common";
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-championship-week-form',
   standalone: true,
   templateUrl: './championship-week-form.component.html',
   imports: [
-    ReactiveFormsModule, CommonModule, TranslatePipe
+    ReactiveFormsModule, CommonModule
   ],
   styleUrls: ['./championship-week-form.component.css']
 })

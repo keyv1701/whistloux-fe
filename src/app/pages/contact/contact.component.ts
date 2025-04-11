@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule],
   templateUrl: './contact.component.html',
 })
 export class ContactComponent implements OnInit {

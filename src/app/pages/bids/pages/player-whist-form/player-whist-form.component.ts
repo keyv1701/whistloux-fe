@@ -2,14 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WhistBid, WhistBidPoints } from "../../../../models/bids/whist-bid.enum";
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-whist-form',
   templateUrl: './player-whist-form.component.html',
   styleUrls: ['./player-whist-form.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe]
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class PlayerWhistFormComponent implements OnInit {
   @Input() parentForm!: FormGroup;

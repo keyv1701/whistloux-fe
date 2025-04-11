@@ -16,7 +16,7 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
           </svg>
-          <span class="sr-only">{{ 'import-modal.close' | translate }}</span>
+          <span class="sr-only">Fermer</span>
         </button>
       </div>
 
@@ -38,11 +38,10 @@
                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                 </svg>
                 <p class="mb-2 text-sm text-gray-500">
-                  <span
-                    class="font-semibold">{{ 'import-modal.click-to-select' | translate }}</span> {{ 'import-modal.or-drag-drop' | translate }}
+                  <span class="font-semibold">Cliquez pour sélectionner</span> ou glissez-déposez
                 </p>
                 <p class="text-xs text-gray-500">
-                  {{ 'import-modal.supported-files' | translate }}
+                  Fichiers supportés: XLS, XLSX, CSV
                 </p>
               </div>
               <input
@@ -75,7 +74,7 @@
           (click)="onClose()"
           class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-200"
         >
-          {{ 'import-modal.cancel' | translate }}
+          Annuler
         </button>
       </div>
     </div>

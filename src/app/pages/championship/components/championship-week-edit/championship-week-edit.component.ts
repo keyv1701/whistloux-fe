@@ -5,15 +5,13 @@ import { of } from 'rxjs';
 import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeek } from "../../../../models/championship/championship-week.model";
 import { ChampionshipWeekFormComponent } from "../championship-week-form/championship-week-form.component";
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-championship-week-edit',
   standalone: true,
   templateUrl: './championship-week-edit.component.html',
   imports: [
-    ChampionshipWeekFormComponent,
-    TranslatePipe
+    ChampionshipWeekFormComponent
   ],
   styleUrls: ['./championship-week-edit.component.css']
 })

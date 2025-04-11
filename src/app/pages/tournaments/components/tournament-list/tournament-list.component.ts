@@ -9,7 +9,6 @@ import { TournamentFacade } from "../../facades/tournament.facade";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { tap } from "rxjs";
 import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-tournament-list',
@@ -24,8 +23,7 @@ import { TranslatePipe } from "@ngx-translate/core";
     TimeFormatPipe,
     TournamentEditComponent,
     TournamentCreateComponent,
-    ConfirmationComponent,
-    TranslatePipe
+    ConfirmationComponent
   ],
   templateUrl: './tournament-list.component.html',
   styleUrls: ['./tournament-list.component.css']

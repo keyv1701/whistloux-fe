@@ -1,27 +1,24 @@
 <div class="tournament-detail-container" *ngIf="tournament">
   <div class="tournament-header">
     <h1 class="tournament-title">{{ tournament.name }}</h1>
-    <div
-      class="tournament-organization">{{ 'tournament.detail.organizedBy' | translate }} {{ tournament.organization }}
-    </div>
+    <div class="tournament-organization">Organisé par: {{ tournament.organization }}</div>
   </div>
 
   <div class="tournament-card main-info">
-    <h2>{{ 'tournament.detail.generalInfo' | translate }}</h2>
+    <h2>Informations générales</h2>
     <div class="info-row">
-      <div class="info-label">{{ 'tournament.detail.date' | translate }}</div>
+      <div class="info-label">Date</div>
       <div class="info-value">
         {{ formatDate(tournament.date) }}
-        <span class="date-status"
-              *ngIf="!tournament.isDateConfirmed">({{ 'tournament.detail.provisionalDate' | translate }})</span>
+        <span class="date-status" *ngIf="!tournament.isDateConfirmed">(Date provisoire)</span>
       </div>
     </div>
     <div class="info-row">
-      <div class="info-label">{{ 'tournament.detail.startTime' | translate }}</div>
+      <div class="info-label">Heure du début</div>
       <div class="info-value">{{ tournament.startTime | timeFormat }}</div>
     </div>
     <div class="info-row">
-      <div class="info-label">{{ 'tournament.detail.venue' | translate }}</div>
+      <div class="info-label">Lieu</div>
       <div class="info-value">
         {{ tournament.venue }}<br>
         {{ tournament.address }}<br>
@@ -29,7 +26,7 @@
       </div>
     </div>
     <div class="info-row">
-      <div class="info-label">{{ 'tournament.detail.participants' | translate }}</div>
+      <div class="info-label">Participants</div>
       <div class="info-value">
         <div class="registration-count">{{ tournament.registrationsCount }} / {{ tournament.maxPlayers }}</div>
         <div class="available-spots" [class.full]="tournament.registrationsCount >= tournament.maxPlayers">
@@ -38,95 +35,92 @@
       </div>
     </div>
     <div class="info-row">
-      <div class="info-label">{{ 'tournament.detail.entryFee' | translate }}</div>
+      <div class="info-label">Tarif</div>
       <div class="info-value">{{ tournament.entryFee }} €</div>
     </div>
     <div class="info-row" *ngIf="tournament.registrationDeadline">
-      <div class="info-label">{{ 'tournament.detail.registrationDeadline' | translate }}</div>
+      <div class="info-label">Inscription jusqu'au</div>
       <div class="info-value">{{ formatDate(tournament.registrationDeadline) }}</div>
     </div>
   </div>
 
   <div class="tournament-card format-info">
-    <h2>{{ 'tournament.detail.tournamentFormat' | translate }}</h2>
+    <h2>Format du tournoi</h2>
     <div class="info-row">
-      <div class="info-label">{{ 'tournament.detail.rounds' | translate }}</div>
+      <div class="info-label">Nombre de rondes</div>
       <div class="info-value">{{ tournament.rounds }}</div>
     </div>
     <div class="info-row">
-      <div class="info-label">{{ 'tournament.detail.handsPerRound' | translate }}</div>
+      <div class="info-label">Mains par ronde</div>
       <div class="info-value">{{ tournament.handsPerRound }}</div>
     </div>
   </div>
 
   <div class="tournament-card description" *ngIf="tournament.description">
-    <h2>{{ 'tournament.detail.description' | translate }}</h2>
+    <h2>Description</h2>
     <div class="description-content">{{ tournament.description }}</div>
   </div>
 
   <div class="tournament-card prizes" *ngIf="tournament.prizes">
-    <h2>{{ 'tournament.detail.prizes' | translate }}</h2>
+    <h2>Prix et récompenses</h2>
     <div class="prizes-content">{{ tournament.prizes }}</div>
   </div>
 
   <div class="tournament-card included-items" *ngIf="tournament.includedItems">
-    <h2>{{ 'tournament.detail.includedItems' | translate }}</h2>
+    <h2>Inclus dans l'inscription</h2>
     <div class="included-items-content">{{ tournament.includedItems }}</div>
   </div>
 
   <div class="tournament-card parking-info" *ngIf="tournament.parkingInfo">
-    <h2>{{ 'tournament.detail.parkingInfo' | translate }}</h2>
+    <h2>Informations de stationnement</h2>
     <div class="parking-content">{{ tournament.parkingInfo }}</div>
   </div>
 
   <div class="tournament-card contacts" *ngIf="tournament.contacts && tournament.contacts.length > 0">
-    <h2>{{ 'tournament.detail.contacts' | translate }}</h2>
+    <h2>Contacts</h2>
     <div class="contact-list">
       <div class="contact-item" *ngFor="let contact of tournament.contacts">
         <div class="contact-name">{{ contact.name }}</div>
         <div class="contact-role" *ngIf="contact.role">{{ contact.role }}</div>
         <div class="contact-details">
-          <div *ngIf="contact.email">{{ 'tournament.detail.contact.email' | translate }} {{ contact.email }}</div>
-          <div *ngIf="contact.phone">{{ 'tournament.detail.contact.phone' | translate }} {{ contact.phone }}</div>
+          <div *ngIf="contact.email">Email: {{ contact.email }}</div>
+          <div *ngIf="contact.phone">Tél: {{ contact.phone }}</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="tournament-card registration-info" *ngIf="tournament.registrationInfo">
-    <h2>{{ 'tournament.detail.registrationInfo' | translate }}</h2>
+    <h2>Informations d'inscription</h2>
     <div class="info-row" *ngIf="tournament.registrationInfo.email">
-      <div class="info-label">{{ 'tournament.detail.registrationInfo.email' | translate }}</div>
+      <div class="info-label">Email</div>
       <div class="info-value">{{ tournament.registrationInfo.email }}</div>
     </div>
     <div class="info-row" *ngIf="tournament.registrationInfo.phone">
-      <div class="info-label">{{ 'tournament.detail.registrationInfo.phone' | translate }}</div>
+      <div class="info-label">Téléphone</div>
       <div class="info-value">{{ tournament.registrationInfo.phone }}</div>
     </div>
   </div>
 
   <div class="tournament-card registrations" *ngIf="tournament.registrations && tournament.registrations.length > 0">
-    <h2>{{ 'tournament.detail.registrationsList' | translate:{count: tournament.registrationsCount} }}</h2>
+    <h2>Liste des inscrits ({{ tournament.registrationsCount }})</h2>
     <div class="registrations-list">
       <div class="registration-item" *ngFor="let registration of tournament.registrations">
         <div class="registration-name">{{ registration.firstName }} {{ registration.name }}</div>
-        <div
-          class="registration-date">{{ 'tournament.detail.registrationDateLabel' | translate }} {{ formatDate(registration.registrationDate) }}
-        </div>
+        <div class="registration-date">Inscrit le {{ formatDate(registration.registrationDate) }}</div>
       </div>
     </div>
   </div>
 
   <div class="tournament-actions">
-    <a
-      href="mailto:info@lewhistloux.be?subject={{ 'tournament.detail.registrationEmailSubject' | translate:{ date: formatDate(tournament.date) } }}"
-      class="register-button"
-      *ngIf="isRegistrationAvailable()">
-      {{ 'tournament.detail.registerButton' | translate }}
+    <a href="mailto:info@lewhistloux.be?subject=Inscription pour le tournoi du {{ formatDate(tournament.date) }}"
+       class="register-button"
+       *ngIf="isRegistrationAvailable()">
+      S'inscrire
     </a>
   </div>
 </div>
 
 <div class="tournament-not-found" *ngIf="!tournament">
-  {{ 'tournament.detail.notFound' | translate }}
+  Aucun tournoi sélectionné ou le tournoi demandé n'existe pas.
 </div>

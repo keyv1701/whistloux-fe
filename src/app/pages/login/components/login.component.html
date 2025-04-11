@@ -1,10 +1,10 @@
 <div class="login-container">
   <div class="login-card">
-    <h2 class="login-title">{{ 'login.title' | translate }}</h2>
+    <h2 class="login-title">Connexion</h2>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <div class="form-group">
-        <label for="username">{{ 'login.username.label' | translate }}</label>
+        <label for="username">Nom d'utilisateur</label>
         <div class="relative">
           <input
             type="text"
@@ -13,21 +13,20 @@
             autocomplete="username"
             [ngClass]="{'pl-10': !loginForm.get('username')?.value, 'pl-3': loginForm.get('username')?.value}"
           >
-          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                *ngIf="!loginForm.get('username')?.value">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path
-                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-            </svg>
-          </span>
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" *ngIf="!loginForm.get('username')?.value">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+      </svg>
+    </span>
         </div>
         <div class="error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
-          {{ 'login.username.error' | translate }}
+          Le nom d'utilisateur est requis
         </div>
       </div>
 
       <div class="form-group">
-        <label for="password">{{ 'login.password.label' | translate }}</label>
+        <label for="password">Mot de passe</label>
         <div class="relative">
           <input
             type="password"
@@ -36,16 +35,15 @@
             autocomplete="current-password"
             [ngClass]="{'pl-10': !loginForm.get('password')?.value, 'pl-3': loginForm.get('password')?.value}"
           >
-          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                *ngIf="!loginForm.get('password')?.value">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path
-                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
-            </svg>
-          </span>
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" *ngIf="!loginForm.get('password')?.value">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+      </svg>
+    </span>
         </div>
         <div class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          {{ 'login.password.error' | translate }}
+          Le mot de passe est requis
         </div>
       </div>
 
@@ -58,14 +56,14 @@
         [disabled]="loginForm.invalid || isLoading"
         class="login-button"
       >
-        <span *ngIf="!isLoading">{{ 'login.submitButton' | translate }}</span>
+        <span *ngIf="!isLoading">Se connecter</span>
         <span *ngIf="isLoading" class="flex items-center justify-center gap-2">
           <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor"
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          {{ 'login.loadingText' | translate }}
+          Connexion...
         </span>
       </button>
     </form>

@@ -5,12 +5,11 @@ import { TournamentDetailComponent } from '../../components/tournament-detail/to
 import { Tournament } from '../../../../models/tournament/tournament';
 import { Observable, of, switchMap } from 'rxjs';
 import { TournamentFacade } from "../../facades/tournament.facade";
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-tournament-detail-page',
   standalone: true,
-  imports: [CommonModule, TournamentDetailComponent, TranslatePipe],
+  imports: [CommonModule, TournamentDetailComponent],
   templateUrl: './tournament-detail-page.component.html',
   styleUrls: ['./tournament-detail-page.component.css']
 })

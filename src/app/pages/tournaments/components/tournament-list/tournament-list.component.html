@@ -1,19 +1,20 @@
+<!-- tournament-list.component.html -->
 <div class="tournament-list-container">
   <div *ngIf="tournaments.length === 0" class="no-data">
-    {{ 'tournament.list.noTournament' | translate }}
+    Aucun tournoi disponible.
   </div>
 
   <button *ngIf="authFacade.isAuthenticated$ | async"
           (click)="onCreateTournament()"
           class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
     <span class="mr-1">+</span>
-    <span>{{ 'tournament.list.addButton' | translate }}</span>
+    <span>Ajouter un tournoi</span>
   </button>
 
   <div class="tournament-grid">
     <div *ngFor="let tournament of tournaments" class="tournament-card">
       <div class="tournament-header">
-        <h3>{{ tournament.name || ('tournament.list.defaultName' | translate) }}</h3>
+        <h3>{{ tournament.name || 'Tournoi' }}</h3>
       </div>
 
       <div class="tournament-card-body">
@@ -31,15 +32,13 @@
           </div>
           <div class="detail-item">
             <i class="fas fa-users"></i>
-            <span>{{ tournament.registrationsCount || 0 }}
-              /{{ tournament.maxPlayers }} {{ 'tournament.list.participantsLabel' | translate }}</span>
+            <span>{{ tournament.registrationsCount || 0 }}/{{ tournament.maxPlayers }} participants</span>
           </div>
         </div>
       </div>
 
       <div class="tournament-card-actions">
-        <button class="preview-btn" (click)="onSelect(tournament)">{{ 'tournament.list.previewButton' | translate }}
-        </button>
+        <button class="preview-btn" (click)="onSelect(tournament)">En savoir plus</button>
         <button *ngIf="authFacade.isAuthenticated$ | async" class="edit-btn" (click)="onEdit(tournament, $event)">
           <span>✏️</span>
         </button>
@@ -66,9 +65,9 @@
 
 <app-confirmation
   *ngIf="showConfirmation"
-  [title]="'tournament.list.confirm.title' | translate"
-  [message]="'tournament.list.confirm.message' | translate"
-  [confirmButtonText]="'tournament.list.confirm.button' | translate"
+  title="Supprimer le tournoi"
+  message="Êtes-vous sûr de vouloir supprimer ce tournoi ? Cette action est irréversible."
+  confirmButtonText="Supprimer"
   (confirm)="confirmDelete()"
   (cancel)="closeConfirmation()">
 </app-confirmation>

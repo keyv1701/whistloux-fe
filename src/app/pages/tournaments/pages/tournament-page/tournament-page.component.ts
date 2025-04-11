@@ -8,12 +8,11 @@ import { Tournament } from '../../../../models/tournament/tournament';
 import { Observable, of, switchMap } from 'rxjs';
 import { NullToEmptyPipe } from "../../../../shared/pipes/null-to-empty.pipe";
 import { TournamentFacade } from "../../facades/tournament.facade";
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-tournament-view',
   standalone: true,
-  imports: [CommonModule, RouterModule, TournamentDetailComponent, TournamentListComponent, NullToEmptyPipe, TranslatePipe],
+  imports: [CommonModule, RouterModule, TournamentDetailComponent, TournamentListComponent, NullToEmptyPipe],
   templateUrl: './tournament-page.component.html',
   styleUrls: ['./tournament-page.component.css']
 })

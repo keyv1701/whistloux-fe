@@ -1,15 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { PlayerScoreFormComponent } from "../player-score-form/player-score-form.component";
 import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   standalone: true,
   selector: 'app-player-score-edit',
   templateUrl: './player-score-edit.component.html',
   imports: [
-    PlayerScoreFormComponent,
-    TranslatePipe
+    PlayerScoreFormComponent
   ],
   styleUrls: ['./player-score-edit.component.css']
 })

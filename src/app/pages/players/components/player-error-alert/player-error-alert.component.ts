@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-error-alert',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule],
   templateUrl: './player-error-alert.component.html',
   styleUrls: ['./player-error-alert.component.css']
 })

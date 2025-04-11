@@ -10,25 +10,24 @@
       </div>
       <p class="email">{{ player.email }}</p>
       <div class="status-badges">
-        <span class="badge"
-              [ngClass]="{'success': player.pay && player.pay > 0, 'warning': !player.pay || player.pay <= 0}">
-          <span class="dot"
-                [ngClass]="{'success': player.pay && player.pay > 0, 'warning': !player.pay || player.pay <= 0}"></span>
-          {{ player.pay && player.pay > 0 ? ('player.card.feePaid' | translate) : ('player.card.notSubscribed' | translate) }}
-        </span>
+  <span class="badge" [ngClass]="{'success': player.pay && player.pay > 0, 'warning': !player.pay || player.pay <= 0}">
+    <span class="dot"
+          [ngClass]="{'success': player.pay && player.pay > 0, 'warning': !player.pay || player.pay <= 0}"></span>
+    {{ player.pay && player.pay > 0 ? 'Cotisation payée' : 'Non cotisant' }}
+  </span>
         <span *ngIf="player.validUntil" class="badge"
               [ngClass]="{'success': !isExpired(player.validUntil), 'danger': isExpired(player.validUntil)}">
-          <span class="dot"
-                [ngClass]="{'success': !isExpired(player.validUntil), 'danger': isExpired(player.validUntil)}"></span>
-          {{ isExpired(player.validUntil) ? ('player.card.expired' | translate) : ('player.card.active' | translate) }}
-        </span>
+    <span class="dot"
+          [ngClass]="{'success': !isExpired(player.validUntil), 'danger': isExpired(player.validUntil)}"></span>
+          {{ isExpired(player.validUntil) ? 'Expiré' : 'Actif' }}
+  </span>
       </div>
     </div>
     <div *ngIf="authFacade.isAuthenticated$ | async" class="actions">
-      <button class="edit-btn" (click)="onEditClick($event)" [attr.title]="'player.card.edit.title' | translate">
+      <button class="edit-btn" (click)="onEditClick($event)" title="Modifier ce joueur">
         <span>✏️</span>
       </button>
-      <button class="delete-btn" (click)="onDeleteClick($event)" [attr.title]="'player.card.delete.title' | translate">
+      <button class="delete-btn" (click)="onDeleteClick($event)" title="Supprimer ce joueur">
         <i class="fas fa-trash-alt text-red-500"></i>
       </button>
     </div>
@@ -45,7 +44,7 @@
           </svg>
         </div>
         <div class="info-content">
-          <span class="label">{{ 'player.card.birthDate.label' | translate }}</span>
+          <span class="label">Date de naissance</span>
           <span class="value">{{ formatBirthDate() }}</span>
         </div>
       </div>
@@ -58,7 +57,7 @@
           </svg>
         </div>
         <div class="info-content">
-          <span class="label">{{ 'player.card.contact.label' | translate }}</span>
+          <span class="label">Contact</span>
           <div class="value">
             <div *ngIf="player.gsm" class="contact-detail">{{ player.gsm }}</div>
             <div *ngIf="player.phoneNumber" class="contact-detail">{{ player.phoneNumber }}</div>
@@ -75,7 +74,7 @@
           </svg>
         </div>
         <div class="info-content">
-          <span class="label">{{ 'player.card.address.label' | translate }}</span>
+          <span class="label">Adresse</span>
           <span class="value">{{ player.address }}</span>
         </div>
       </div>
@@ -89,13 +88,11 @@
           </svg>
         </div>
         <div class="info-content">
-          <span class="label">{{ 'player.card.validity.label' | translate }}</span>
+          <span class="label">Période de validité</span>
           <div class="value">
-            <div
-              *ngIf="player.validSince">{{ 'player.card.validity.from' | translate }} {{ formatDate(player.validSince) }}
-            </div>
+            <div *ngIf="player.validSince">Du {{ formatDate(player.validSince) }}</div>
             <div *ngIf="player.validUntil" [class.expired]="isExpired(player.validUntil)">
-              {{ 'player.card.validity.to' | translate }} {{ formatDate(player.validUntil) }}
+              Au {{ formatDate(player.validUntil) }}
             </div>
           </div>
         </div>
@@ -106,9 +103,9 @@
 
 <app-confirmation
   *ngIf="showConfirmation"
-  [title]="'player.card.confirm.title' | translate"
-  [message]="'player.card.confirm.message' | translate"
-  [confirmButtonText]="'player.card.confirm.button' | translate"
+  title="Supprimer le joueur"
+  message="Êtes-vous sûr de vouloir supprimer ce joueur ? Cette action est irréversible."
+  confirmButtonText="Supprimer"
   (confirm)="confirmDelete()"
   (cancel)="closeConfirmation()">
 </app-confirmation>

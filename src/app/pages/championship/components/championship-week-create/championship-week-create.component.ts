@@ -4,15 +4,13 @@ import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeekFormComponent } from "../championship-week-form/championship-week-form.component";
-import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-championship-week-create',
   standalone: true,
   templateUrl: './championship-week-create.component.html',
   imports: [
-    ChampionshipWeekFormComponent,
-    TranslatePipe
+    ChampionshipWeekFormComponent
   ],
   styleUrls: ['./championship-week-create.component.css']
 })
