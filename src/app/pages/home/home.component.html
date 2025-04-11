@@ -1,6 +1,6 @@
 <section class="py-16">
   <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12">Découvrez notre club de Whist</h2>
+    <h2 class="text-3xl font-bold text-center mb-12">{{ 'home.club.title' | translate }}</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="card text-center">
@@ -11,10 +11,11 @@
                   d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
         </div>
-        <h3 class="text-xl font-bold mb-2">Championnat Hebdomadaire</h3>
-        <p class="text-gray-600">Participez à notre championnat tous les samedis et suivez les scores en direct.</p>
-        <a href="/championship" class="mt-3 text-whist-secondary hover:underline font-medium inline-block">Voir les
-          scores →</a>
+        <h3 class="text-xl font-bold mb-2">{{ 'home.club.weeklyChampionship.title' | translate }}</h3>
+        <p class="text-gray-600">{{ 'home.club.weeklyChampionship.description' | translate }}</p>
+        <a href="/championship" class="mt-3 text-whist-secondary hover:underline font-medium inline-block">
+          {{ 'home.club.weeklyChampionship.cta' | translate }}
+        </a>
       </div>
 
       <div class="card text-center">
@@ -25,10 +26,11 @@
                   d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
           </svg>
         </div>
-        <h3 class="text-xl font-bold mb-2">Tournois Organisés</h3>
-        <p class="text-gray-600">Consultez notre calendrier de tournois et inscrivez-vous aux prochains événements.</p>
-        <a href="/tournaments" class="mt-3 text-whist-secondary hover:underline font-medium inline-block">Calendrier des
-          tournois →</a>
+        <h3 class="text-xl font-bold mb-2">{{ 'home.club.tournaments.title' | translate }}</h3>
+        <p class="text-gray-600">{{ 'home.club.tournaments.description' | translate }}</p>
+        <a href="/tournaments" class="mt-3 text-whist-secondary hover:underline font-medium inline-block">
+          {{ 'home.club.tournaments.cta' | translate }}
+        </a>
       </div>
 
       <div class="card text-center">
@@ -39,11 +41,11 @@
                   d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
         </div>
-        <h3 class="text-xl font-bold mb-2">Classement des Annonces</h3>
-        <p class="text-gray-600">Suivez le classement des meilleures annonces et progressez dans votre maîtrise du
-          jeu.</p>
-        <a href="/whist-bids" class="mt-3 text-whist-secondary hover:underline font-medium inline-block">Voir le
-          classement →</a>
+        <h3 class="text-xl font-bold mb-2">{{ 'home.club.bidsRanking.title' | translate }}</h3>
+        <p class="text-gray-600">{{ 'home.club.bidsRanking.description' | translate }}</p>
+        <a href="/whist-bids" class="mt-3 text-whist-secondary hover:underline font-medium inline-block">
+          {{ 'home.club.bidsRanking.cta' | translate }}
+        </a>
       </div>
     </div>
   </div>
@@ -51,34 +53,43 @@
 
 <section class="bg-gray-100 py-16">
   <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12">Événements à venir</h2>
+    <h2 class="text-3xl font-bold text-center mb-12">{{ 'home.upcomingEvents.title' | translate }}</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <div class="card">
         <div class="mb-4">
-          <span class="bg-whist-primary text-white px-3 py-1 rounded-full text-sm">30 Juillet</span>
+          <span
+            class="bg-whist-primary text-white px-3 py-1 rounded-full text-sm">{{ 'home.upcomingEvents.monthlyTournament.date' | translate }}</span>
         </div>
-        <h3 class="text-xl font-bold mb-2">Tournoi mensuel</h3>
-        <p class="text-gray-600 mb-4">Notre tournoi mensuel avec plus de 50 participants et des prix exceptionnels.</p>
-        <a href="#" class="text-whist-secondary hover:underline font-medium">En savoir plus →</a>
+        <h3 class="text-xl font-bold mb-2">{{ 'home.upcomingEvents.monthlyTournament.title' | translate }}</h3>
+        <p class="text-gray-600 mb-4">{{ 'home.upcomingEvents.monthlyTournament.description' | translate }}</p>
+        <a href="#" class="text-whist-secondary hover:underline font-medium">
+          {{ 'home.upcomingEvents.monthlyTournament.cta' | translate }}
+        </a>
       </div>
 
       <div class="card">
         <div class="mb-4">
-          <span class="bg-whist-primary text-white px-3 py-1 rounded-full text-sm">15 Août</span>
+          <span
+            class="bg-whist-primary text-white px-3 py-1 rounded-full text-sm">{{ 'home.upcomingEvents.discoveryEvening.date' | translate }}</span>
         </div>
-        <h3 class="text-xl font-bold mb-2">Soirée découverte</h3>
-        <p class="text-gray-600 mb-4">Venez découvrir le Whist lors d'une soirée d'initiation conviviale.</p>
-        <a href="#" class="text-whist-secondary hover:underline font-medium">En savoir plus →</a>
+        <h3 class="text-xl font-bold mb-2">{{ 'home.upcomingEvents.discoveryEvening.title' | translate }}</h3>
+        <p class="text-gray-600 mb-4">{{ 'home.upcomingEvents.discoveryEvening.description' | translate }}</p>
+        <a href="#" class="text-whist-secondary hover:underline font-medium">
+          {{ 'home.upcomingEvents.discoveryEvening.cta' | translate }}
+        </a>
       </div>
 
       <div class="card">
         <div class="mb-4">
-          <span class="bg-whist-primary text-white px-3 py-1 rounded-full text-sm">10 Septembre</span>
+          <span
+            class="bg-whist-primary text-white px-3 py-1 rounded-full text-sm">{{ 'home.upcomingEvents.regionalChampionship.date' | translate }}</span>
         </div>
-        <h3 class="text-xl font-bold mb-2">Championnat régional</h3>
-        <p class="text-gray-600 mb-4">Le grand championnat de la région avec les meilleurs joueurs.</p>
-        <a href="#" class="text-whist-secondary hover:underline font-medium">En savoir plus →</a>
+        <h3 class="text-xl font-bold mb-2">{{ 'home.upcomingEvents.regionalChampionship.title' | translate }}</h3>
+        <p class="text-gray-600 mb-4">{{ 'home.upcomingEvents.regionalChampionship.description' | translate }}</p>
+        <a href="#" class="text-whist-secondary hover:underline font-medium">
+          {{ 'home.upcomingEvents.regionalChampionship.cta' | translate }}
+        </a>
       </div>
     </div>
   </div>
@@ -86,9 +97,8 @@
 
 <section class="py-16">
   <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-8">Rejoignez notre communauté</h2>
-    <p class="text-center text-lg mb-8">Participez aux discussions, partagez vos expériences et restez informé des
-      dernières actualités</p>
+    <h2 class="text-3xl font-bold text-center mb-8">{{ 'home.community.title' | translate }}</h2>
+    <p class="text-center text-lg mb-8">{{ 'home.community.subtitle' | translate }}</p>
 
     <div class="flex justify-center">
       <a href="https://www.facebook.com/groups/117508751983577/" target="_blank"
@@ -98,7 +108,7 @@
                 d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
                 clip-rule="evenodd"></path>
         </svg>
-        Rejoindre le groupe Facebook
+        {{ 'home.community.cta' | translate }}
       </a>
     </div>
   </div>
@@ -106,7 +116,7 @@
 
 <section class="bg-gray-100 py-16">
   <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12">Nos avantages</h2>
+    <h2 class="text-3xl font-bold text-center mb-12">{{ 'home.advantages.title' | translate }}</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="card flex items-start p-6">
@@ -117,9 +127,8 @@
           </svg>
         </div>
         <div>
-          <h3 class="text-xl font-bold mb-2">Accès à toutes les parties</h3>
-          <p class="text-gray-600">Participez librement à toutes nos parties hebdomadaires et améliorez votre
-            niveau.</p>
+          <h3 class="text-xl font-bold mb-2">{{ 'home.advantages.access.title' | translate }}</h3>
+          <p class="text-gray-600">{{ 'home.advantages.access.description' | translate }}</p>
         </div>
       </div>
 
@@ -130,9 +139,8 @@
           </svg>
         </div>
         <div>
-          <h3 class="text-xl font-bold mb-2">Conseils personnalisés</h3>
-          <p class="text-gray-600">Bénéficiez de l'expertise de nos joueurs confirmés pour progresser dans votre
-            jeu.</p>
+          <h3 class="text-xl font-bold mb-2">{{ 'home.advantages.tips.title' | translate }}</h3>
+          <p class="text-gray-600">{{ 'home.advantages.tips.description' | translate }}</p>
         </div>
       </div>
 
@@ -143,9 +151,8 @@
           </svg>
         </div>
         <div>
-          <h3 class="text-xl font-bold mb-2">Ambiance conviviale</h3>
-          <p class="text-gray-600">Rejoignez une communauté passionnée où le plaisir du jeu et le respect sont au
-            premier plan.</p>
+          <h3 class="text-xl font-bold mb-2">{{ 'home.advantages.atmosphere.title' | translate }}</h3>
+          <p class="text-gray-600">{{ 'home.advantages.atmosphere.description' | translate }}</p>
         </div>
       </div>
 
@@ -157,19 +164,24 @@
           </svg>
         </div>
         <div>
-          <h3 class="text-xl font-bold mb-2">Tarifs accessibles</h3>
-          <p class="text-gray-600">Des cotisations adaptées pour permettre à tous de profiter de notre passion
-            commune.</p>
+          <h3 class="text-xl font-bold mb-2">{{ 'home.advantages.pricing.title' | translate }}</h3>
+          <p class="text-gray-600">{{ 'home.advantages.pricing.description' | translate }}</p>
         </div>
       </div>
     </div>
   </div>
 </section>
-<div *ngIf="showPopup" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-  <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto text-center">
-    <h2 class="text-xl font-semibold mb-4">Avis Important</h2>
-    <p class="mb-4">Le site est actuellement en cours de migration et en phase de test. Certaines instabilités
-      temporaires peuvent survenir.</p>
-    <button (click)="closePopup()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Fermer</button>
+
+<section class="py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-8">{{ 'home.popup.title' | translate }}</h2>
+    <p class="text-center text-lg mb-8">{{ 'home.popup.message' | translate }}</p>
+
+    <div class="flex justify-center">
+      <a href="#" (click)="closePopup()"
+         class="flex items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        {{ 'home.popup.cta' | translate }}
+      </a>
+    </div>
   </div>
-</div>
+</section>

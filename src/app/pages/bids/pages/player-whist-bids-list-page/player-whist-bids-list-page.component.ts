@@ -11,6 +11,7 @@ import { ToastService } from "../../../../shared/services/toast.service";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-whist-bids-list-page',
@@ -23,7 +24,8 @@ import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
     RouterModule,
     FormsModule,
     ConfirmationComponent,
-    PseudoPipe
+    PseudoPipe,
+    TranslatePipe
   ]
 })
 export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {

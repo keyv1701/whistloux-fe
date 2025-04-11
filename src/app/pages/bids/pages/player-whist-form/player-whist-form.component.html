@@ -1,5 +1,6 @@
 <div class="mt-6">
-  <h3 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-3">Détails des annonces</h3>
+  <h3
+    class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-3">{{ 'player.whist.form.bidDetailsTitle' | translate }}</h3>
 
   <form [formGroup]="parentForm">
     <div class="bids-container pr-2 mb-4">
@@ -8,21 +9,20 @@
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div *ngFor="let bidGroup of bidDetailsArray.controls; let i = index" [formGroupName]="i"
                  class="bid-detail-item p-4 bg-gray-50 dark:bg-gray-700 rounded-md relative border border-gray-200 dark:border-gray-600">
-
               <div class="flex flex-col space-y-3">
                 <!-- Type d'annonce -->
                 <div class="form-group">
                   <label [for]="'bidType-' + i" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Type d'annonce
+                    {{ 'player.whist.form.bidTypeLabel' | translate }}
                   </label>
                   <select
                     [id]="'bidType-' + i"
                     formControlName="bidType"
                     class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 focus:ring-2 focus:ring-indigo-500 dark:text-white"
                   >
-                    <option [ngValue]="null">Sélectionner une annonce</option>
+                    <option [ngValue]="null">{{ 'player.whist.form.selectBidOption' | translate }}</option>
                     <option *ngFor="let bidType of whistBidTypes" [ngValue]="bidType">
-                      {{ bidType }} ({{ getBidPoints(bidType) }} pts)
+                      {{ bidType }} ({{ getBidPoints(bidType) }} {{ 'player.whist.form.pointsSuffix' | translate }})
                     </option>
                   </select>
                 </div>
@@ -36,9 +36,8 @@
                       formControlName="success"
                       class="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mr-2"
                     >
-                    <label [for]="'success-' + i"
-                           class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {{ bidGroup.get('success')?.value ? 'Réussite' : 'Echec' }}
+                    <label [for]="'success-' + i" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {{ bidGroup.get('success')?.value ? ('player.whist.form.success' | translate) : ('player.whist.form.failure' | translate) }}
                     </label>
                   </div>
 
@@ -48,7 +47,7 @@
                     class="text-red-500 hover:text-red-700 transition-colors p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900 ml-2"
                     (click)="removeBidDetail(i)"
                     *ngIf="bidDetailsArray.length > 0"
-                    aria-label="Supprimer cette annonce"
+                    [attr.aria-label]="'player.whist.form.removeBidLabel' | translate"
                   >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -71,8 +70,9 @@
     (click)="addBidDetail()"
   >
     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
     </svg>
-    Ajouter une annonce
+    {{ 'player.whist.form.addBidLabel' | translate }}
   </button>
 </div>

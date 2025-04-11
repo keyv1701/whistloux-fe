@@ -1,112 +1,86 @@
 <div class="bg-gradient-to-b from-white to-gray-100">
   <div class="container mx-auto px-4 py-12">
     <header class="text-center mb-10">
-      <h1 class="text-4xl font-bold mb-4">Règlement du Club</h1>
+      <h1 class="text-4xl font-bold mb-4 text-center">{{ 'rules.title' | translate }}</h1>
       <div class="w-24 h-1 bg-whist-primary mx-auto mb-6"></div>
       <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-        Retrouvez ci-dessous les règles officielles adoptées par notre club pour assurer le bon déroulement des parties.
+        {{ 'rules.subtitle' | translate }}
       </p>
     </header>
 
     <div class="bg-white rounded-lg shadow-lg p-8 mb-10">
       <div class="prose prose-lg max-w-none">
         <section class="mb-8">
-          <h2 class="text-2xl font-bold text-whist-secondary mb-4">Organisation des tables</h2>
+          <h2 class="text-2xl font-bold text-whist-secondary mb-4">{{ 'rules.tables.title' | translate }}</h2>
           <div class="p-4 bg-gray-50 rounded-lg mb-6">
             <ul class="list-disc pl-6 space-y-2">
-              <li>Les joueurs se placent de manière aléatoire à table.</li>
-              <li>Les joueurs choisissent entre eux le joueur qui marque les points. Ils se placeront dans l'ordre
-                croissant de leur numéro attribué.
-              </li>
-              <li>Le joueur qui commence à donner est celui qui suit le marqueur. On continue à donner dans le sens
-                d'une horloge.
-              </li>
-              <li>Les cartes sont données en 3 fois : 4,5,4 OU 4,4,5 OU 5,4,4.</li>
+              <li>{{ 'rules.tables.list.item1' | translate }}</li>
+              <li>{{ 'rules.tables.list.item2' | translate }}</li>
+              <li>{{ 'rules.tables.list.item3' | translate }}</li>
+              <li>{{ 'rules.tables.list.item4' | translate }}</li>
             </ul>
           </div>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-bold text-whist-secondary mb-4">Règles spéciales</h2>
+          <h2 class="text-2xl font-bold text-whist-secondary mb-4">{{ 'rules.special.title' | translate }}</h2>
           <div class="p-4 bg-gray-50 rounded-lg mb-6">
-            <p class="font-semibold mb-2">Le Brimborion</p>
-            <p class="mb-4">Nous jouons le BRIMBORION au dernier tour de table :</p>
+            <p class="font-semibold mb-2">{{ 'rules.special.brimborion.title' | translate }}</p>
+            <p class="mb-4">{{ 'rules.special.brimborion.paragraph' | translate }}</p>
             <ul class="list-disc pl-6 space-y-2">
-              <li>Le donneur donnera 17 cartes à ses partenaires de jeu</li>
-              <li>Ceux-ci donneront chacun 4 cartes au donneur ou 5ème joueur</li>
-              <li>Le donneur ou 5ème joueur mélangera les cartes reçues</li>
+              <li>{{ 'rules.special.brimborion.list.item1' | translate }}</li>
+              <li>{{ 'rules.special.brimborion.list.item2' | translate }}</li>
+              <li>{{ 'rules.special.brimborion.list.item3' | translate }}</li>
             </ul>
           </div>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-bold text-whist-secondary mb-4">Déroulement des annonces</h2>
+          <h2 class="text-2xl font-bold text-whist-secondary mb-4">{{ 'rules.announcements.title' | translate }}</h2>
           <div class="p-4 bg-gray-50 rounded-lg mb-6">
             <ul class="list-disc pl-6 space-y-2">
-              <li>La chronologie des annonces suit l'ordre de la grille de points.</li>
-              <li>Si un trou est annoncé, tous les autres joueurs devront déclarer 'passe tous jeux' sauf si une annonce
-                supérieure est possible (à partir d'abondance 9).
-              </li>
-              <li>Pour une grande misère, l'appel à l'arbitre est obligatoire. Si l'arbitre refuse l'annonce, le joueur
-                passe.
-              </li>
-              <li>Si un autre joueur propose une annonce supérieure à celle acceptée par le 1er arbitre, il devra faire
-                appel à un 2ème arbitre.
-              </li>
-              <li>Les joueurs ayant fait appel à l'arbitre pourront surenchérir sous le contrôle de l'arbitre.</li>
-              <li>Après deux jeux ratés 'seul', un arbitre devra être également appelé.</li>
+              <li>{{ 'rules.announcements.list.item1' | translate }}</li>
+              <li>{{ 'rules.announcements.list.item2' | translate }}</li>
+              <li>{{ 'rules.announcements.list.item3' | translate }}</li>
+              <li>{{ 'rules.announcements.list.item4' | translate }}</li>
+              <li>{{ 'rules.announcements.list.item5' | translate }}</li>
+              <li>{{ 'rules.announcements.list.item6' | translate }}</li>
             </ul>
           </div>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-bold text-whist-secondary mb-4">Règles d'abondance</h2>
+          <h2 class="text-2xl font-bold text-whist-secondary mb-4">{{ 'rules.abundance.title' | translate }}</h2>
           <div class="p-4 bg-gray-50 rounded-lg mb-6">
             <ul class="list-disc pl-6 space-y-2">
-              <li>Pas d'obligation d'annoncer la couleur immédiatement en cas d'abondance.</li>
-              <li>Le joueur qui a l'abondance annoncera sa couleur d'atout avant de jouer.</li>
-              <li>En cas de 2 abondances annoncées, le 1er joueur l'ayant annoncé déclare sa couleur en premier.</li>
-              <li>Le 2ème joueur annoncera ensuite sa couleur, ou passera.</li>
-              <li>En cas d'annonce supérieure du 2ème, le 1er joueur ayant l'abondance devra soit passer, soit proposer
-                une annonce supérieure.
-              </li>
-              <li>S'il est inférieur en couleur, il passera mais ne sera pas obligé de dire sa couleur.</li>
+              <li>{{ 'rules.abundance.list.item1' | translate }}</li>
+              <li>{{ 'rules.abundance.list.item2' | translate }}</li>
+              <li>{{ 'rules.abundance.list.item3' | translate }}</li>
+              <li>{{ 'rules.abundance.list.item4' | translate }}</li>
+              <li>{{ 'rules.abundance.list.item5' | translate }}</li>
+              <li>{{ 'rules.abundance.list.item6' | translate }}</li>
             </ul>
           </div>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-bold text-whist-secondary mb-4">Emballages et annonces spéciales</h2>
+          <h2 class="text-2xl font-bold text-whist-secondary mb-4">{{ 'rules.packaging.title' | translate }}</h2>
           <div class="p-4 bg-gray-50 rounded-lg mb-6">
-            <p class="mb-4"><span class="font-semibold">Emballages :</span> Un joueur n'ayant pas été emballé peut
-              emballer une couleur supérieure si c'est possible. L'emballeur pourra jouer un jeu seul s'il quitte
-              l'emballage.</p>
-
-            <p class="mb-4"><span class="font-semibold">Petite misère ou piccolo :</span> En cas d'annonce par le 1er
-              joueur à parler, les autres joueurs ne pourront plus proposer pour être emballés. Ils devront faire
-              immédiatement une annonce supérieure ou passer. Si la misère ou piccolo est annoncée en 2, 3 ou 4,
-              l'emballage à 12 ou 13 a lieu. Par contre, un joueur ne pourra pas maintenir sa couleur.</p>
-
-            <p class="mb-4"><span class="font-semibold">Petite misère étalée :</span> Le joueur qui l'annonce étalera
-              son jeu avant de jouer la 5ème carte. Les cartes écartées ne sont pas considérées comme un pli joué.</p>
-
-            <p class="mb-4"><span class="font-semibold">Grande misère étalée et ouverte :</span> Le ou les joueurs
-              étaleront leurs cartes dans l'ordre croissant ou décroissant, sans respecter l'ordre chronologique des
-              couleurs, avant de jouer la 5ème carte.</p>
-
-            <p class="mb-4"><span class="font-semibold">Chelems :</span> Si 2 petits chelems ou 2 solo chelems sont
-              annoncés dans la même donne, c'est l'ordre des couleurs qui prime et sera supérieur au chelem sans atout.
-            </p>
+            <p class="mb-4">{{ 'rules.packaging.paragraph1' | translate }}</p>
+            <p class="mb-4">{{ 'rules.packaging.paragraph2' | translate }}</p>
+            <p class="mb-4">{{ 'rules.packaging.paragraph3' | translate }}</p>
+            <p class="mb-4">{{ 'rules.packaging.paragraph4' | translate }}</p>
+            <p class="mb-4">{{ 'rules.packaging.paragraph5' | translate }}</p>
           </div>
         </section>
       </div>
     </div>
 
     <div class="text-center">
-      <p class="text-lg text-gray-600 mb-6">Avez-vous des questions concernant notre règlement?</p>
+      <p class="text-lg text-gray-600 mb-6">{{ 'rules.footer.question' | translate }}</p>
       <a href="/contact"
          class="px-6 py-3 bg-whist-primary text-white rounded-lg hover:bg-whist-secondary transition-colors">
-        Contactez-nous
+        {{ 'rules.footer.cta' | translate }}
       </a>
     </div>
   </div>

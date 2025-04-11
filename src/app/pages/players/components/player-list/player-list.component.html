@@ -6,11 +6,10 @@
         type="text"
         [(ngModel)]="searchText"
         (input)="onSearch()"
-        placeholder="Rechercher un joueur..."
+        placeholder="{{ 'player.list.searchPlaceholder' | translate }}"
         class="flex-grow p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-
       <div class="flex items-center ml-4">
-        <span class="mr-2 text-sm text-gray-600">Éléments par page:</span>
+        <span class="mr-2 text-sm text-gray-600">{{ 'player.list.itemsPerPage' | translate }}</span>
         <select
           [ngModel]="itemsPerPage"
           (change)="changePageSize($event)"
@@ -24,13 +23,13 @@
       (click)="onCreatePlayer()"
       class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
       <span class="mr-1">+</span>
-      <span>Ajouter un joueur</span>
+      <span>{{ 'player.list.addButton' | translate }}</span>
     </button>
   </div>
 
   <!-- Message si aucun joueur -->
   <div *ngIf="filteredPlayers.length === 0" class="text-center py-8 text-gray-500">
-    Aucun joueur trouvé
+    {{ 'player.list.noPlayers' | translate }}
   </div>
 
   <!-- Liste des joueurs -->
@@ -97,8 +96,13 @@
 
   <!-- Information sur la pagination -->
   <div *ngIf="filteredPlayers.length > 0" class="text-center mt-2 text-sm text-gray-600">
-    Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }}
-    à {{ Math.min(currentPage * itemsPerPage, filteredPlayers.length) }} sur {{ filteredPlayers.length }} joueurs
+    {{
+      'player.list.paginationInfo' | translate:{
+        start: (currentPage - 1) * itemsPerPage + 1,
+        end: Math.min(currentPage * itemsPerPage, filteredPlayers.length),
+        total: filteredPlayers.length
+      }
+    }}
   </div>
 </div>
 

@@ -3,26 +3,23 @@
   <div class="container mx-auto px-4 py-12">
     <!-- En-tête -->
     <div class="mb-10">
-      <h1 class="text-3xl font-bold text-gray-800 mb-3">Contact</h1>
+      <h1 class="text-3xl font-bold text-gray-800 mb-3">{{ 'contact.header.title' | translate }}</h1>
       <div class="w-20 h-1 bg-blue-500 mb-8"></div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
       <!-- Informations de contact -->
       <div class="bg-white rounded-lg shadow-lg p-8">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Nous contacter</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">{{ 'contact.section.contactHeader' | translate }}</h2>
 
         <p class="text-gray-600 mb-6">
-          Le président et son équipe essaient de développer et maintenir une ambiance amicale et conviviale dans
-          laquelle
-          les membres aiment se retrouver le week-end pour se détendre. Si vous voulez plus d'informations, n'hésitez
-          pas à
-          nous contacter par mail.
+          {{ 'contact.section.contactDescription' | translate }}
         </p>
 
         <div class="space-y-4">
           <div class="flex items-start">
             <div class="flex-shrink-0 mt-1">
+              <!-- Icône E-mail (non modifiée) -->
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -30,10 +27,10 @@
               </svg>
             </div>
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900">E-mail</p>
+              <p class="text-sm font-medium text-gray-900">{{ 'contact.email.label' | translate }}</p>
               <p class="text-sm text-gray-600">
                 <a href="mailto:info&#64;lewhistloux.be" class="text-blue-600 hover:underline">
-                  info&#64;lewhistloux.be
+                  {{ 'contact.email.linkText' | translate }}
                 </a>
               </p>
             </div>
@@ -41,6 +38,7 @@
 
           <div class="flex items-start">
             <div class="flex-shrink-0 mt-1">
+              <!-- Icône Téléphone (non modifiée) -->
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -48,14 +46,15 @@
               </svg>
             </div>
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900">Téléphone</p>
-              <p class="text-sm text-gray-600">Président: +32 491 259 021</p>
-              <p class="text-sm text-gray-600">Trésorier: +32 478 550 950</p>
+              <p class="text-sm font-medium text-gray-900">{{ 'contact.phone.label' | translate }}</p>
+              <p class="text-sm text-gray-600">{{ 'contact.phone.president' | translate }}</p>
+              <p class="text-sm text-gray-600">{{ 'contact.phone.treasurer' | translate }}</p>
             </div>
           </div>
 
           <div class="flex items-start">
             <div class="flex-shrink-0 mt-1">
+              <!-- Icône Localisation (non modifiée) -->
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -65,14 +64,15 @@
               </svg>
             </div>
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900">Localisation</p>
-              <p class="text-sm text-gray-600">École communale de Marbais</p>
-              <p class="text-sm text-gray-600">Rue du Berceau 18, 1495 Villers-la-Ville</p>
+              <p class="text-sm font-medium text-gray-900">{{ 'contact.location.label' | translate }}</p>
+              <p class="text-sm text-gray-600">{{ 'contact.location.address1' | translate }}</p>
+              <p class="text-sm text-gray-600">{{ 'contact.location.address2' | translate }}</p>
             </div>
           </div>
 
           <div class="flex items-start">
             <div class="flex-shrink-0 mt-1">
+              <!-- Icône Réseaux sociaux (non modifiée) -->
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -80,13 +80,11 @@
               </svg>
             </div>
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900">Réseaux sociaux</p>
+              <p class="text-sm font-medium text-gray-900">{{ 'contact.social.label' | translate }}</p>
               <p class="text-sm text-gray-600">
-                <a href="https://www.facebook.com/groups/117508751983577/"
-                   class="text-blue-600 hover:underline"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                  Groupe Facebook
+                <a href="https://www.facebook.com/groups/117508751983577/" class="text-blue-600 hover:underline"
+                   target="_blank" rel="noopener noreferrer">
+                  {{ 'contact.social.facebook' | translate }}
                 </a>
               </p>
             </div>
@@ -105,7 +103,7 @@
                     allowfullscreen=""
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
-                    title="Localisation du Whistloux"
+                    title="{{ 'contact.map.title' | translate }}"
                     class="w-full h-full">
             </iframe>
           </div>

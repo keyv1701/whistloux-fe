@@ -5,6 +5,7 @@ import { PlayerLight } from "../../../../models/players/player-light.interface";
 import { PlayerFacade } from "../../../players/facades/player.facade";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
 import { map } from "rxjs/operators";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   standalone: true,
@@ -12,7 +13,8 @@ import { map } from "rxjs/operators";
   templateUrl: './player-score-create.component.html',
   imports: [
     PlayerScoreFormComponent,
-    PseudoPipe
+    PseudoPipe,
+    TranslatePipe
   ],
   styleUrls: ['./player-score-create.component.css']
 })

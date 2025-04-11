@@ -1,67 +1,51 @@
 <div class="championship-week-list-container">
   <div class="header">
-    <h1>À propos du Whistloux</h1>
+    <h1>{{ 'about.title' | translate }}</h1>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
     <!-- Contenu principal -->
     <div class="md:col-span-2 space-y-6">
       <section>
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notre histoire</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ 'about.history.title' | translate }}</h2>
         <p class="text-gray-600 leading-relaxed">
-          Fondé par des passionnés de jeux de cartes, Le Whistloux est un club convivial qui réunit depuis plus de 20
-          ans les amateurs de whist à Marbais. Notre club a débuté avec quelques tables dans une salle communale et
-          s'est
-          progressivement développé pour devenir un point de rencontre incontournable pour les joueurs de whist de la
-          région.
+          {{ 'about.history.content' | translate }}
         </p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notre philosophie</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ 'about.philosophy.title' | translate }}</h2>
         <p class="text-gray-600 leading-relaxed mb-4">
-          Au Whistloux, nous croyons que les jeux de cartes sont bien plus qu'un simple passe-temps. Ils sont un
-          moyen de créer des liens, de développer des stratégies et de partager des moments conviviaux. Le président et
-          son
-          équipe s'efforcent de maintenir une ambiance amicale et chaleureuse où chacun, du débutant au joueur
-          expérimenté,
-          peut trouver sa place.
+          {{ 'about.philosophy.content1' | translate }}
         </p>
         <p class="text-gray-600 leading-relaxed">
-          Notre club se veut inclusif et accueillant. Les nouveaux membres sont toujours les bienvenus et
-          peuvent compter sur les joueurs plus expérimentés pour les guider dans l'apprentissage des règles et
-          des stratégies du whist.
+          {{ 'about.philosophy.content2' | translate }}
         </p>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Nos événements réguliers</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ 'about.events.title' | translate }}</h2>
         <div class="bg-blue-50 rounded-lg p-6 border border-blue-100">
           <div class="mb-4">
-            <h3 class="font-bold text-blue-800">Championnat hebdomadaire</h3>
-            <p class="text-gray-700">Tous les samedis, nos membres se retrouvent pour participer au championnat.
-              Une occasion idéale de perfectionner votre jeu tout en passant un moment agréable entre passionnés.</p>
+            <h3 class="font-bold text-blue-800">{{ 'about.events.championship.title' | translate }}</h3>
+            <p class="text-gray-700">{{ 'about.events.championship.content' | translate }}</p>
           </div>
           <div>
-            <h3 class="font-bold text-blue-800">Tournoi mensuel</h3>
-            <p class="text-gray-700">Une fois par mois, le samedi, nous organisons un tournoi spécial ouvert à tous.
-              Ces tournois sont l'occasion de rencontrer d'autres joueurs, parfois venus de clubs voisins, et de
-              concourir dans une ambiance festive et conviviale.</p>
+            <h3 class="font-bold text-blue-800">{{ 'about.events.tournament.title' | translate }}</h3>
+            <p class="text-gray-700">{{ 'about.events.tournament.content' | translate }}</p>
           </div>
         </div>
       </section>
 
       <section>
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Rejoignez-nous</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ 'about.join.title' | translate }}</h2>
         <p class="text-gray-600 leading-relaxed">
-          Que vous soyez débutant curieux ou joueur chevronné, notre club vous accueille à bras ouverts.
-          Venez découvrir le plaisir du whist dans une atmosphère détendue et amicale. Nous nous réunissons chaque
-          semaine à l'école communale de Marbais et serons ravis de vous compter parmi nous.
+          {{ 'about.join.content' | translate }}
         </p>
         <div class="mt-6">
           <a href="/contact"
              class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
-            Nous contacter
+            {{ 'about.join.contact_button' | translate }}
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -74,22 +58,22 @@
     <!-- Sidebar avec infos et photo -->
     <div class="md:col-span-1">
       <div class="bg-gray-50 rounded-lg shadow-sm p-6 sticky top-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Informations pratiques</h3>
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">{{ 'about.info.title' | translate }}</h3>
 
         <div class="space-y-4">
           <div>
-            <h4 class="font-semibold text-gray-700">Horaires</h4>
-            <p class="text-gray-600">Ouvert tous les samedis à partir de 19h</p>
+            <h4 class="font-semibold text-gray-700">{{ 'about.info.hours.title' | translate }}</h4>
+            <p class="text-gray-600">{{ 'about.info.hours.content' | translate }}</p>
           </div>
 
           <div>
-            <h4 class="font-semibold text-gray-700">Lieu</h4>
-            <p class="text-gray-600">École communale de Marbais<br>Rue du Berceau 18<br>1495 Villers-la-Ville</p>
+            <h4 class="font-semibold text-gray-700">{{ 'about.info.location.title' | translate }}</h4>
+            <p class="text-gray-600">{{ 'about.info.location.content' | translate }}</p>
           </div>
 
           <div>
-            <h4 class="font-semibold text-gray-700">Cotisation</h4>
-            <p class="text-gray-600">Contactez-nous pour plus d'informations</p>
+            <h4 class="font-semibold text-gray-700">{{ 'about.info.fee.title' | translate }}</h4>
+            <p class="text-gray-600">{{ 'about.info.fee.content' | translate }}</p>
           </div>
         </div>
       </div>

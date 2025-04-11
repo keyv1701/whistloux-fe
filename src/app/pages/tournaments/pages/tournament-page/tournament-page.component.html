@@ -1,8 +1,10 @@
 <div class="tournament-view-container">
   <div class="tournament-header">
-    <h1>Tournois à venir</h1>
+    <h1>{{ 'tournament.page.title' | translate }}</h1>
     <div *ngIf="selectedUuid" class="back-link">
-      <button (click)="backToList()" class="back-btn">← Retour à la liste</button>
+      <button (click)="backToList()" class="back-btn">
+        {{ 'tournament.page.backButton' | translate }}
+      </button>
     </div>
   </div>
 
