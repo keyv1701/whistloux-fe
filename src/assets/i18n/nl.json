@@ -1,0 +1,15 @@
+{
+  "header.logo.alt": "Whist Logo",
+  "header.title": "Le Whistloux",
+  "header.nav.home": "Startpagina",
+  "header.nav.rules": "Reglement",
+  "header.nav.players": "Spelers",
+  "header.nav.championship": "Kampioenschap",
+  "header.nav.tournaments": "Toernooien",
+  "header.nav.bids": "Biedingen",
+  "header.nav.about": "Over ons",
+  "header.nav.contact": "Contact",
+  "header.nav.tournaments_admin": "Toernooien Beheer",
+  "header.auth.login": "Inloggen",
+  "header.auth.logout": "Uitloggen"
+}

@@ -1,0 +1,15 @@
+{
+  "header.logo.alt": "Logo Whist",
+  "header.title": "Le Whistloux",
+  "header.nav.home": "Accueil",
+  "header.nav.rules": "Règlement",
+  "header.nav.players": "Joueurs",
+  "header.nav.championship": "Championnat",
+  "header.nav.tournaments": "Tournois",
+  "header.nav.bids": "Annonces",
+  "header.nav.about": "À propos",
+  "header.nav.contact": "Contact",
+  "header.nav.tournaments_admin": "Administration Tournois",
+  "header.auth.login": "Connexion",
+  "header.auth.logout": "Déconnexion"
+}
