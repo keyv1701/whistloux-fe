@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule, NgIf } from '@angular/common';
 import { Tournament } from '../../../../models/tournament/tournament';
 import { TournamentStatus } from '../../../../models/enums/tournament-status.enum';
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-tournament-view',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, CommonModule],
+  imports: [ReactiveFormsModule, NgIf, CommonModule, TranslatePipe],
   templateUrl: './tournament-view.component.html',
   styleUrls: ['./tournament-view.component.css']
 })

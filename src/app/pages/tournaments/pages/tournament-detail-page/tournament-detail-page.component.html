@@ -1,6 +1,8 @@
 <div class="tournament-detail-page">
   <div class="back-button">
-    <button (click)="backToList()">← Retour à la liste</button>
+    <button (click)="backToList()">
+      {{ 'tournament.detailPage.backButton' | translate }}
+    </button>
   </div>
   <app-tournament-detail [tournament]="tournament$ | async"></app-tournament-detail>
 </div>

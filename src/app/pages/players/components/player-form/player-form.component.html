@@ -1,90 +1,92 @@
 <form [formGroup]="playerForm" (ngSubmit)="onSubmit()" class="player-form">
   <div class="form-grid">
     <div class="form-group">
-      <label for="firstName">Prénom</label>
+      <label for="firstName">{{ 'player.form.firstName.label' | translate }}</label>
       <input type="text" id="firstName" formControlName="firstName">
       <div *ngIf="playerForm.get('firstName')?.invalid && playerForm.get('firstName')?.touched" class="error">
-        Prénom requis
+        {{ 'player.form.firstName.error' | translate }}
       </div>
     </div>
 
     <div class="form-group">
-      <label for="lastName">Nom</label>
+      <label for="lastName">{{ 'player.form.lastName.label' | translate }}</label>
       <input type="text" id="lastName" formControlName="lastName">
       <div *ngIf="playerForm.get('lastName')?.invalid && playerForm.get('lastName')?.touched" class="error">
-        Nom requis
+        {{ 'player.form.lastName.error' | translate }}
       </div>
     </div>
 
     <div class="form-group">
-      <label for="pseudo">Pseudo</label>
+      <label for="pseudo">{{ 'player.form.pseudo.label' | translate }}</label>
       <input type="text" id="pseudo" formControlName="pseudo">
       <div *ngIf="playerForm.get('pseudo')?.invalid && playerForm.get('pseudo')?.touched" class="error">
-        Pseudo requis
+        {{ 'player.form.pseudo.error' | translate }}
       </div>
     </div>
 
     <div class="form-group">
-      <label for="email">Email</label>
+      <label for="email">{{ 'player.form.email.label' | translate }}</label>
       <input type="email" id="email" formControlName="email">
       <div *ngIf="playerForm.get('email')?.invalid && playerForm.get('email')?.touched" class="error">
-        Email invalide ou manquant
+        {{ 'player.form.email.error' | translate }}
       </div>
     </div>
 
     <div class="form-group birthdate-group">
-      <label>Date de naissance</label>
+      <label>{{ 'player.form.birthDate.label' | translate }}</label>
       <div class="birthdate-inputs">
         <select formControlName="dayOfBirth">
-          <option [value]="null">Jour</option>
-          <option *ngFor="let day of days" [value]="day">{{day}}</option>
+          <option [value]="null">{{ 'player.form.birthDate.dayPlaceholder' | translate }}</option>
+          <option *ngFor="let day of days" [value]="day">{{ day }}</option>
         </select>
         <select formControlName="monthOfBirth">
-          <option [value]="null">Mois</option>
-          <option *ngFor="let month of months" [value]="month">{{month}}</option>
+          <option [value]="null">{{ 'player.form.birthDate.monthPlaceholder' | translate }}</option>
+          <option *ngFor="let month of months" [value]="month">{{ month }}</option>
         </select>
         <select formControlName="yearOfBirth">
-          <option [value]="null">Année</option>
-          <option *ngFor="let year of years" [value]="year">{{year}}</option>
+          <option [value]="null">{{ 'player.form.birthDate.yearPlaceholder' | translate }}</option>
+          <option *ngFor="let year of years" [value]="year">{{ year }}</option>
         </select>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="pay">Paiement</label>
+      <label for="pay">{{ 'player.form.payment.label' | translate }}</label>
       <input type="number" id="pay" formControlName="pay">
     </div>
 
     <div class="form-group">
-      <label for="validSince">Valide depuis</label>
+      <label for="validSince">{{ 'player.form.validSince.label' | translate }}</label>
       <input type="date" id="validSince" formControlName="validSince">
     </div>
 
     <div class="form-group">
-      <label for="validUntil">Valide jusqu'à</label>
+      <label for="validUntil">{{ 'player.form.validUntil.label' | translate }}</label>
       <input type="date" id="validUntil" formControlName="validUntil">
     </div>
 
     <div class="form-group full-width">
-      <label for="address">Adresse</label>
+      <label for="address">{{ 'player.form.address.label' | translate }}</label>
       <input type="text" id="address" formControlName="address">
     </div>
 
     <div class="form-group">
-      <label for="gsm">GSM</label>
+      <label for="gsm">{{ 'player.form.gsm.label' | translate }}</label>
       <input type="tel" id="gsm" formControlName="gsm">
     </div>
 
     <div class="form-group">
-      <label for="phoneNumber">Téléphone</label>
+      <label for="phoneNumber">{{ 'player.form.phoneNumber.label' | translate }}</label>
       <input type="tel" id="phoneNumber" formControlName="phoneNumber">
     </div>
   </div>
 
   <div class="form-actions">
-    <button type="button" class="cancel-button" (click)="onCancel()">Annuler</button>
+    <button type="button" class="cancel-button" (click)="onCancel()">
+      {{ 'player.form.cancelButton' | translate }}
+    </button>
     <button type="submit" class="submit-button" [disabled]="playerForm.invalid">
-      {{ isNewPlayer ? 'Ajouter' : 'Mettre à jour' }}
+      {{ isNewPlayer ? ('player.form.addButton' | translate) : ('player.form.updateButton' | translate) }}
     </button>
   </div>
 </form>

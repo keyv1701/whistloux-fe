@@ -1,55 +1,56 @@
-<!-- tournament-view.component.html -->
 <div class="tournament-form-container">
-  <h2>{{ isEditing ? 'Modifier un tournoi' : 'Ajouter un tournoi' }}</h2>
+  <h2>
+    {{ isEditing ? ('tournament.view.editTitle' | translate) : ('tournament.view.newTitle' | translate) }}
+  </h2>
   <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()">
     <input type="hidden" formControlName="uuid">
 
     <div class="form-group">
-      <label for="name">Nom *</label>
+      <label for="name">{{ 'tournament.view.name.label' | translate }}</label>
       <input id="name" type="text" formControlName="name">
       <div *ngIf="tournamentForm.get('name')?.invalid && tournamentForm.get('name')?.touched" class="error">
-        Le nom est requis
+        {{ 'tournament.view.name.error' | translate }}
       </div>
     </div>
 
     <div class="form-group">
-      <label for="description">Description *</label>
+      <label for="description">{{ 'tournament.view.description.label' | translate }}</label>
       <textarea id="description" formControlName="description" rows="3"></textarea>
       <div *ngIf="tournamentForm.get('description')?.invalid && tournamentForm.get('description')?.touched"
            class="error">
-        La description est requise
+        {{ 'tournament.view.description.error' | translate }}
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group half">
-        <label for="startDate">Date de début *</label>
+        <label for="startDate">{{ 'tournament.view.startDate.label' | translate }}</label>
         <input id="startDate" type="date" formControlName="startDate">
         <div *ngIf="tournamentForm.get('startDate')?.invalid && tournamentForm.get('startDate')?.touched" class="error">
-          La date de début est requise
+          {{ 'tournament.view.startDate.error' | translate }}
         </div>
       </div>
 
       <div class="form-group half">
-        <label for="endDate">Date de fin *</label>
+        <label for="endDate">{{ 'tournament.view.endDate.label' | translate }}</label>
         <input id="endDate" type="date" formControlName="endDate">
         <div *ngIf="tournamentForm.get('endDate')?.invalid && tournamentForm.get('endDate')?.touched" class="error">
-          La date de fin est requise
+          {{ 'tournament.view.endDate.error' | translate }}
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="location">Lieu *</label>
+      <label for="location">{{ 'tournament.view.location.label' | translate }}</label>
       <input id="location" type="text" formControlName="location">
       <div *ngIf="tournamentForm.get('location')?.invalid && tournamentForm.get('location')?.touched" class="error">
-        Le lieu est requis
+        {{ 'tournament.view.location.error' | translate }}
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group half">
-        <label for="status">Statut *</label>
+        <label for="status">{{ 'tournament.view.status.label' | translate }}</label>
         <select id="status" formControlName="status">
           <option *ngFor="let status of tournamentStatuses" [value]="status">
             {{ status }}
@@ -58,25 +59,27 @@
       </div>
 
       <div class="form-group half">
-        <label for="maxParticipants">Participants max *</label>
+        <label for="maxParticipants">{{ 'tournament.view.maxParticipants.label' | translate }}</label>
         <input id="maxParticipants" type="number" formControlName="maxParticipants" min="0">
         <div *ngIf="tournamentForm.get('maxParticipants')?.invalid && tournamentForm.get('maxParticipants')?.touched"
              class="error">
-          Nombre de participants invalide
+          {{ 'tournament.view.maxParticipants.error' | translate }}
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="results">Résultats</label>
+      <label for="results">{{ 'tournament.view.results.label' | translate }}</label>
       <textarea id="results" formControlName="results" rows="3"></textarea>
     </div>
 
     <div class="form-actions">
       <button type="submit" [disabled]="tournamentForm.invalid">
-        {{ isEditing ? 'Mettre à jour' : 'Ajouter' }}
+        {{ isEditing ? ('tournament.view.updateButton' | translate) : ('tournament.view.addButton' | translate) }}
       </button>
-      <button type="button" (click)="resetForm()">Annuler</button>
+      <button type="button" (click)="resetForm()">
+        {{ 'tournament.view.cancelButton' | translate }}
+      </button>
     </div>
   </form>
 </div>

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-autocomplete',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './app-autocomplete.component.html',
   styleUrls: ['./app-autocomplete.component.css']
 })

@@ -8,13 +8,14 @@ import { PlayerListComponent } from '../components/player-list/player-list.compo
 import { PlayerErrorAlertComponent } from '../components/player-error-alert/player-error-alert.component';
 import { LoaderComponent } from "../../../shared/components/loader/loader.component";
 import { ToastService } from "../../../shared/services/toast.service";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player',
   standalone: true,
   imports: [
     NgIf, ReactiveFormsModule, AsyncPipe,
-    PlayerListComponent, PlayerErrorAlertComponent, LoaderComponent
+    PlayerListComponent, PlayerErrorAlertComponent, LoaderComponent, TranslatePipe
   ],
   templateUrl: './player-page.component.html',
 })

@@ -4,7 +4,7 @@
   <form [formGroup]="scoreForm" (ngSubmit)="onSubmit()" class="space-y-4">
     <div class="form-group">
       <label for="round1Points" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        Points Manche 1
+        {{ 'player.score.form.round1Label' | translate }}
       </label>
       <input
         type="number"
@@ -15,7 +15,7 @@
 
     <div class="form-group">
       <label for="round2Points" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        Points Manche 2
+        {{ 'player.score.form.round2Label' | translate }}
       </label>
       <input
         type="number"
@@ -26,7 +26,7 @@
 
     <div class="form-group">
       <label for="round3Points" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        Points Manche 3
+        {{ 'player.score.form.round3Label' | translate }}
       </label>
       <input
         type="number"
@@ -37,41 +37,42 @@
 
     <div class="form-group">
       <label for="playerPseudo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        Joueur
+        {{ 'player.score.form.playerLabel' | translate }}
       </label>
       <app-autocomplete
         id="playerPseudo"
         [disabled]="hasPlayerDetails"
-        [placeholder]="'Rechercher un joueur...'"
+        [placeholder]="'player.score.form.searchPlayerPlaceholder' | translate"
         [items$]="pseudos$"
         [initialValue]="playerScore?.playerPseudo || ''"
         [displayFn]="displayPlayerFn"
-        [emptyMessage]="'Aucun joueur trouvé'"
+        [emptyMessage]="'player.score.form.noPlayerFound' | translate"
         (itemSelected)="onSelectPlayer($event)">
       </app-autocomplete>
       <div
         *ngIf="scoreForm.get('playerUuid')?.invalid && scoreForm.get('playerUuid')?.touched"
         class="text-red-500 text-sm mt-1">
-        Veuillez sélectionner un joueur
+        {{ 'player.score.form.selectPlayerError' | translate }}
       </div>
     </div>
 
     <div class="form-group">
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Total</label>
+      <label
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ 'player.score.form.totalLabel' | translate }}</label>
       <div class="text-lg font-semibold text-gray-900 dark:text-white">{{ calculateTotal() }}</div>
     </div>
 
     <app-player-whist-form
       [parentForm]="bidForm"
-      (formChange)="onBidDetailsChange($event)"
-    ></app-player-whist-form>
+      (formChange)="onBidDetailsChange($event)">
+    </app-player-whist-form>
 
     <div class="flex justify-end space-x-4 pt-4">
       <button
         type="button"
         (click)="onCancel()"
         class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition">
-        Annuler
+        {{ 'player.score.form.cancelButton' | translate }}
       </button>
       <button
         type="submit"
@@ -85,7 +86,7 @@
             <path class="opacity-75" fill="currentColor"
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          Traitement...
+          {{ 'player.score.form.loadingText' | translate }}
         </span>
       </button>
     </div>

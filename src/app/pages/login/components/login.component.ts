@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthFacade } from "../../../shared/security/auth/facades/auth.facade";
 import { catchError, finalize, of } from "rxjs";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

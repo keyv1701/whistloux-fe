@@ -7,11 +7,12 @@ import { ConfirmationComponent } from "../../../../shared/components/confirmatio
 import { PlayerFacade } from "../../facades/player.facade";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-card',
   standalone: true,
-  imports: [CommonModule, ConfirmationComponent, PseudoPipe],
+  imports: [CommonModule, ConfirmationComponent, PseudoPipe, TranslatePipe],
   templateUrl: './player-card.component.html',
   styleUrls: ['./player-card.component.css']
 })

@@ -3,8 +3,8 @@
     <app-championship-week-form
       [week]="week"
       [championshipUuid]="championshipUuid"
-      formTitle="Modifier la semaine de championnat"
-      submitButtonText="Mettre à jour"
+      formTitle="{{ 'championship.week.edit.formTitle' | translate }}"
+      submitButtonText="{{ 'championship.week.edit.submitButtonText' | translate }}"
       (formSubmit)="onSubmit($event)"
       (cancel)="onCancel()">
     </app-championship-week-form>

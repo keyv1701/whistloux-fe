@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Player } from '../../../../models/players/player.interface';
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './player-form.component.html',
   styleUrls: ['./player-form.component.css']
 })

@@ -6,6 +6,7 @@ import { finalize } from 'rxjs/operators';
 import { catchError, EMPTY, tap } from "rxjs";
 import { ToastService } from "../../../shared/services/toast.service";
 import { CommonModule } from "@angular/common";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   standalone: true,
@@ -13,7 +14,8 @@ import { CommonModule } from "@angular/common";
   templateUrl: './change-password.component.html',
   imports: [
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    TranslatePipe
   ],
   styleUrls: ['./change-password.component.css']
 })

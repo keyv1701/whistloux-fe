@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { TournamentFacade } from "../../facades/tournament.facade";
 import { tap } from "rxjs";
 import { ToastService } from "../../../../shared/services/toast.service";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-tournament-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './tournament-form.component.html',
   styleUrls: ['./tournament-form.component.css']
 })

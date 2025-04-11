@@ -8,13 +8,14 @@ import { AutocompleteComponent } from "../../../../shared/components/app-autocom
 import { PlayerWhistFormComponent } from "../../../bids/pages/player-whist-form/player-whist-form.component";
 import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
 import { WhistBidDetail } from "../../../../models/bids/whist-bid-detail.model";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-score-form',
   standalone: true,
   templateUrl: './player-score-form.component.html',
   imports: [
-    ReactiveFormsModule, CommonModule, AutocompleteComponent, PlayerWhistFormComponent
+    ReactiveFormsModule, CommonModule, AutocompleteComponent, PlayerWhistFormComponent, TranslatePipe
   ],
   styleUrls: ['./player-score-form.component.scss']
 })
