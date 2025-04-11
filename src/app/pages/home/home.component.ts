@@ -10,10 +10,4 @@ import { TranslatePipe } from "@ngx-translate/core";
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  showPopup = true;
-
-  closePopup() {
-    this.showPopup = false;
-  }
-
 }
