@@ -3,8 +3,8 @@
     <!-- Logo et nom de l'application -->
     <div class="logo-container">
       <a routerLink="/" class="flex items-center">
-        <img src="assets/logo-whistloux.jpg" alt="{{ 'header.logo.alt' | translate }}" class="logo"/>
-        <span class="app-title">{{ 'header.title' | translate }}</span>
+        <img src="assets/logo-whistloux.jpg" alt="Whist Logo" class="logo"/>
+        <span class="app-title">Le Whistloux</span>
       </a>
     </div>
 
@@ -15,14 +15,14 @@
         routerLinkActive="active"
         class="nav-link"
       >
-        {{ 'header.nav.home' | translate }}
+        Accueil
       </a>
       <a
         routerLink="/rules"
         routerLinkActive="active"
         class="nav-link"
       >
-        {{ 'header.nav.rules' | translate }}
+        Règlement
       </a>
       <a
         routerLink="/players"
@@ -30,14 +30,14 @@
         class="nav-link"
         *ngIf="authFacade.isAuthenticated$ | async"
       >
-        {{ 'header.nav.players' | translate }}
+        Joueurs
       </a>
       <a
         routerLink="/championship"
         routerLinkActive="active"
         class="nav-link"
       >
-        {{ 'header.nav.championship' | translate }}
+        Championnat
       </a>
       <a
         routerLink="/tournaments"
@@ -45,7 +45,7 @@
         [routerLinkActiveOptions]="{exact: true}"
         class="nav-link"
       >
-        {{ 'header.nav.tournaments' | translate }}
+        Tournois
       </a>
       <a
         routerLink="/whist-bids"
@@ -53,51 +53,26 @@
         [routerLinkActiveOptions]="{exact: true}"
         class="nav-link"
       >
-        {{ 'header.nav.bids' | translate }}
+        Annonces
       </a>
       <a
         routerLink="/about"
         routerLinkActive="active"
         class="nav-link"
       >
-        {{ 'header.nav.about' | translate }}
+        À propos
       </a>
       <a
         routerLink="/contact"
         routerLinkActive="active"
         class="nav-link"
       >
-        {{ 'header.nav.contact' | translate }}
+        Contact
       </a>
     </nav>
 
     <!-- Authentification -->
     <div class="auth-container">
-      <!-- Sélecteur de langue -->
-      <div class="relative mr-3">
-        <button
-          (click)="toggleLanguageMenu()"
-          class="lang-dropdown-button flex items-center bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded-md text-sm transition-colors duration-200"
-        >
-          <span class="font-medium">{{ currentLanguage.displayCode }}</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd"/>
-          </svg>
-        </button>
-
-        <div *ngIf="showLanguageMenu"
-             class="absolute mt-1 w-full bg-white rounded-md shadow-lg overflow-hidden z-20 border border-gray-200">
-          <div *ngFor="let lang of availableLanguages"
-               (click)="changeLang(lang.code)"
-               class="px-3 py-1 flex items-center justify-center hover:bg-gray-100 cursor-pointer text-sm"
-               [class.bg-gray-100]="currentLang === lang.code">
-            <span class="font-medium">{{ lang.displayCode }}</span>
-          </div>
-        </div>
-      </div>
-
       <ng-container *ngIf="(authFacade.isAuthenticated$ | async); else loginButton">
         <div class="user-info">
           <span class="user-name" *ngIf="authFacade.currentUser$ | async as user">
@@ -105,13 +80,13 @@
             <small>({{ user.username }})</small>
           </span>
           <button class="auth-button logout" (click)="logout()">
-            {{ 'header.auth.logout' | translate }}
+            Déconnexion
           </button>
         </div>
       </ng-container>
       <ng-template #loginButton>
         <a routerLink="/login" class="auth-button login">
-          {{ 'header.auth.login' | translate }}
+          Connexion
         </a>
       </ng-template>
     </div>
@@ -150,7 +125,7 @@
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
     >
-      {{ 'header.nav.home' | translate }}
+      Accueil
     </a>
     <a
       routerLink="/players"
@@ -158,7 +133,7 @@
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
     >
-      {{ 'header.nav.players' | translate }}
+      Joueurs
     </a>
     <a
       routerLink="/tournaments"
@@ -167,7 +142,7 @@
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
     >
-      {{ 'header.nav.tournaments' | translate }}
+      Tournois
     </a>
     <a
       routerLink="/tournaments/admin"
@@ -177,7 +152,7 @@
       *ngIf="authFacade.isAuthenticated$ | async"
       (click)="closeMobileMenu()"
     >
-      {{ 'header.nav.tournaments_admin' | translate }}
+      Administration Tournois
     </a>
   </nav>
 </header>
