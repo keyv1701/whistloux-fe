@@ -64,7 +64,7 @@
 }
 
 .mobile-nav {
-  @apply md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-md;
+  @apply md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-md max-h-[80vh] overflow-y-auto z-20;
 }
 
 .mobile-nav-link {
@@ -75,8 +75,38 @@
   @apply bg-whist-primary/5 text-whist-primary font-medium border-l-4 border-l-whist-primary pl-3;
 }
 
+/* Adaptations mobile */
 @media (max-width: 768px) {
   .header-content {
     @apply py-2;
   }
+
+  .app-title {
+    @apply text-base;
+  }
+
+  .logo {
+    @apply h-8 w-auto;
+  }
+
+  .auth-button {
+    @apply px-3 py-1 text-xs;
+  }
+
+  .lang-dropdown-button {
+    @apply px-1.5 py-0.5 text-xs;
+  }
+}
+
+/* Barre de défilement personnalisée pour le menu mobile */
+.mobile-nav::-webkit-scrollbar {
+  @apply w-1;
+}
+
+.mobile-nav::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+.mobile-nav::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
 }

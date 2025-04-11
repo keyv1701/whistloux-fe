@@ -121,6 +121,7 @@
       class="mobile-menu-button"
       (click)="toggleMobileMenu()"
       *ngIf="!showMobileMenu"
+      aria-label="Ouvrir le menu"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -133,6 +134,7 @@
       class="mobile-menu-button"
       (click)="toggleMobileMenu()"
       *ngIf="showMobileMenu"
+      aria-label="Fermer le menu"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -153,12 +155,29 @@
       {{ 'header.nav.home' | translate }}
     </a>
     <a
-      routerLink="/players"
+      routerLink="/rules"
       routerLinkActive="active"
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
     >
+      {{ 'header.nav.rules' | translate }}
+    </a>
+    <a
+      routerLink="/players"
+      routerLinkActive="active"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      *ngIf="authFacade.isAuthenticated$ | async"
+    >
       {{ 'header.nav.players' | translate }}
+    </a>
+    <a
+      routerLink="/championship"
+      routerLinkActive="active"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      {{ 'header.nav.championship' | translate }}
     </a>
     <a
       routerLink="/tournaments"
@@ -170,14 +189,29 @@
       {{ 'header.nav.tournaments' | translate }}
     </a>
     <a
-      routerLink="/tournaments/admin"
+      routerLink="/whist-bids"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{exact: true}"
       class="mobile-nav-link"
-      *ngIf="authFacade.isAuthenticated$ | async"
       (click)="closeMobileMenu()"
     >
-      {{ 'header.nav.tournaments_admin' | translate }}
+      {{ 'header.nav.bids' | translate }}
+    </a>
+    <a
+      routerLink="/about"
+      routerLinkActive="active"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      {{ 'header.nav.about' | translate }}
+    </a>
+    <a
+      routerLink="/contact"
+      routerLinkActive="active"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
+      {{ 'header.nav.contact' | translate }}
     </a>
   </nav>
 </header>
