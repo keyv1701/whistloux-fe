@@ -1,5 +1,5 @@
 .hero-section {
-  @apply relative bg-whist-primary text-white py-24 overflow-hidden;
+  @apply relative bg-whist-primary text-white py-16 md:py-24 overflow-hidden;
 }
 
 .hero-overlay {
@@ -11,49 +11,101 @@
 }
 
 .hero-title {
-  @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white;
+  @apply text-3xl md:text-4xl lg:text-6xl font-bold mb-3 md:mb-4 text-white;
 }
 
 .hero-description {
-  @apply text-xl mb-8;
+  @apply text-base md:text-xl mb-6 md:mb-8;
 }
 
 .feature-icon {
-  @apply rounded-full p-4 inline-flex mb-4 text-white;
+  @apply rounded-full p-3 md:p-4 inline-flex mb-3 md:mb-4 text-white;
 }
 
 .feature-title {
-  @apply text-xl font-bold mb-2;
+  @apply text-lg md:text-xl font-bold mb-2;
 }
 
 .feature-description {
-  @apply text-gray-600;
+  @apply text-gray-600 text-sm md:text-base;
 }
 
 .event-date {
-  @apply bg-whist-primary text-white px-3 py-1 rounded-full text-sm;
+  @apply bg-whist-primary text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm;
 }
 
 .event-title {
-  @apply text-xl font-bold mb-2;
+  @apply text-lg md:text-xl font-bold mb-2;
 }
 
 .event-description {
-  @apply text-gray-600 mb-4;
+  @apply text-gray-600 text-sm md:text-base mb-3 md:mb-4;
 }
 
 .event-link {
-  @apply text-whist-secondary hover:underline font-medium;
+  @apply text-whist-secondary hover:underline font-medium text-sm md:text-base;
 }
 
 .section-title {
-  @apply text-3xl font-bold text-center mb-12;
+  @apply text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12;
 }
 
 .section {
-  @apply py-16;
+  @apply py-8 md:py-16;
 }
 
 .section-alternate {
-  @apply bg-gray-100 py-16;
+  @apply bg-gray-100 py-8 md:py-16;
+}
+
+/* Adaptations pour les cartes */
+.card {
+  @apply p-4 sm:p-6 transition-all duration-200;
+}
+
+/* Touch targets améliorés pour mobile */
+.card a {
+  @apply py-2 inline-block;
+}
+
+/* Correction des problèmes de débordement sur mobile */
+.page-container {
+  @apply px-4 sm:px-6 md:px-8 max-w-7xl mx-auto overflow-hidden;
+}
+
+/* Amélioration de l'espacement des grilles sur mobile */
+.grid {
+  @apply gap-4 md:gap-6 lg:gap-8;
+}
+
+/* Améliorer les espaces entre les éléments sur mobile */
+@media (max-width: 640px) {
+  .section > div > h2,
+  .section-alternate > div > h2 {
+    @apply mb-6;
+  }
+
+  .feature-icon,
+  .rounded-full.bg-whist-primary,
+  .rounded-full.bg-whist-secondary,
+  .rounded-full.bg-whist-accent {
+    @apply mb-2 p-2;
+  }
+
+  .card.flex.flex-col.md\:flex-row {
+    @apply gap-2;
+  }
+
+  svg.h-8.w-8.md\:h-10.md\:w-10 {
+    @apply h-6 w-6;
+  }
+}
+
+/* Amélioration des boutons et liens sur mobile pour de meilleurs touch targets */
+a.text-whist-secondary,
+a.flex.items-center.bg-blue-600 {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
