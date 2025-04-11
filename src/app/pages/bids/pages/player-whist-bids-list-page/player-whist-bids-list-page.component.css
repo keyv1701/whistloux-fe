@@ -507,3 +507,25 @@ tr.table-light {
 .delete-btn i {
   color: #ef4444;
 }
+
+/* Nouvelle classe pour les colonnes sticky uniquement sur tablette/desktop */
+.md\:sticky-col {
+  @apply sticky-col;
+}
+
+/* Supprimer le comportement sticky sur mobile */
+@media (max-width: 768px) {
+  .md\:sticky-col {
+    position: static !important;
+    left: auto !important;
+    z-index: auto !important;
+    box-shadow: none !important;
+  }
+
+  .table-primary th.md\:sticky-col,
+  .table-secondary th.md\:sticky-col,
+  tbody td.md\:sticky-col {
+    background-color: inherit;
+    z-index: auto !important;
+  }
+}

@@ -71,7 +71,7 @@
     <table class="table table-striped table-hover mb-0">
       <thead>
       <tr class="table-primary">
-        <th class="text-nowrap sticky-col sortable"
+        <th class="text-nowrap md:sticky-col sortable"
             [class.sort-asc]="sortColumn === 'playerPseudo' && sortDirection === 'asc'"
             [class.sort-desc]="sortColumn === 'playerPseudo' && sortDirection === 'desc'"
             (click)="sortBy('playerPseudo')">
@@ -129,7 +129,7 @@
         <th class="text-nowrap text-center">{{ 'player.whist.bids.list.grandChelem' | translate }}</th>
       </tr>
       <tr class="table-secondary">
-        <th class="text-nowrap sticky-col">
+        <th class="text-nowrap md:sticky-col">
           <div class="d-flex justify-content-between align-items-center">
             <div>{{ 'player.whist.bids.list.points' | translate }}</div>
             <button class="toggle-stats-btn ms-2"
@@ -163,7 +163,7 @@
       </tr>
       <!-- Nouvelle ligne pour le nombre total d'annonces de chaque type -->
       <tr class="table-light total-count-row" *ngIf="showStatistics">
-        <th class="text-nowrap sticky-col stats-header">{{ 'player.whist.bids.list.totalCount' | translate }}</th>
+        <th class="text-nowrap md:sticky-col stats-header">{{ 'player.whist.bids.list.totalCount' | translate }}</th>
         <th></th>
         <th></th>
         <th></th>
@@ -243,7 +243,8 @@
       </tr>
       <!-- Nouvelle ligne pour le pourcentage de chaque type par rapport au total -->
       <tr class="table-light percentage-total-row" *ngIf="showStatistics">
-        <th class="text-nowrap sticky-col stats-header">{{ 'player.whist.bids.list.percentageTotal' | translate }}</th>
+        <th class="text-nowrap md:sticky-col stats-header">{{ 'player.whist.bids.list.percentageTotal' | translate }}
+        </th>
         <th></th>
         <th></th>
         <th></th>
@@ -267,7 +268,7 @@
       </tr>
       <!-- Nouvelle ligne pour le pourcentage de réussite de chaque type -->
       <tr class="table-light success-rate-row" *ngIf="showStatistics">
-        <th class="text-nowrap sticky-col stats-header">{{ 'player.whist.bids.list.successPercentage' | translate }}
+        <th class="text-nowrap md:sticky-col stats-header">{{ 'player.whist.bids.list.successPercentage' | translate }}
         </th>
         <th></th>
         <th></th>
@@ -293,7 +294,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let playerBid of paginatedPlayerBids">
-        <td class="fw-bold sticky-col">{{ playerBid.playerPseudo | pseudo }}</td>
+        <td class="fw-bold md:sticky-col">{{ playerBid.playerPseudo | pseudo }}</td>
         <td class="text-center fw-bold">{{ getTotalBids(playerBid) }}</td>
         <td class="text-center">{{ getTotalBidCount(playerBid) }}</td>
         <td class="text-center">{{ getSuccessPercentage(playerBid) }}</td>
