@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-import-modal',
@@ -11,9 +11,9 @@ import { TranslatePipe } from "@ngx-translate/core";
 })
 export class ImportModalComponent implements OnInit {
   @Input() isOpen = false;
-  @Input() title = 'Importation de fichier';
+  @Input() title: string = '';
   @Input() acceptTypes = '.xls,.xlsx,.csv';
-  @Input() description = 'Sélectionnez un fichier XLS, XLSX ou CSV contenant les données à importer.';
+  @Input() description: string = '';
 
   @Output() closeModal = new EventEmitter<void>();
   @Output() fileSelected = new EventEmitter<File>();
@@ -23,10 +23,16 @@ export class ImportModalComponent implements OnInit {
 
   selectedFile: File | null = null;
 
-  constructor() {
+  constructor(private translateService: TranslateService) {
   }
 
   ngOnInit(): void {
+    if (!this.title) {
+      this.title = this.translateService.instant('importModal.title');
+    }
+    if (!this.description) {
+      this.description = this.translateService.instant('importModal.description');
+    }
   }
 
   onFileSelected(event: Event): void {

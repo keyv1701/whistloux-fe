@@ -6,6 +6,7 @@ import { ChampionshipService } from "../services/championship.service";
 import { ToastService } from "../../../shared/services/toast.service";
 import { PlayerWeekScore } from "../../../models/championship/player-week-score.model";
 import { PlayerRanking } from "../../../models/championship/player-ranking.model";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,8 @@ export class ChampionshipFacade {
 
   constructor(
     private championshipService: ChampionshipService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -34,7 +36,7 @@ export class ChampionshipFacade {
     this.championshipService.getChampionshipWeeks().pipe(
       tap(weeks => this.championshipWeeksSubject.next(weeks)),
       catchError(error => {
-        this.toastService.error('Erreur lors du chargement des semaines de championnat');
+        this.toastService.error(this.translateService.instant('error.championship.weeks.load'));
         console.error('Erreur lors du chargement des semaines:', error);
         return of([]);
       }),
@@ -48,7 +50,7 @@ export class ChampionshipFacade {
     this.championshipService.getChampionshipWeeksBySeason(season).pipe(
       tap(weeks => this.championshipWeeksSubject.next(weeks)),
       catchError(error => {
-        this.toastService.error('Erreur lors du chargement des semaines de championnat');
+        this.toastService.error(this.translateService.instant('error.championship.weeks.load'));
         console.error('Erreur lors du chargement des semaines par saison:', error);
         return of([]);
       }),
@@ -62,7 +64,7 @@ export class ChampionshipFacade {
     this.championshipService.getChampionshipWeek(uuid).pipe(
       tap(week => this.selectedWeekSubject.next(week)),
       catchError(error => {
-        this.toastService.error('Erreur lors du chargement de la semaine de championnat');
+        this.toastService.error(this.translateService.instant('error.championship.week.load'));
         console.error('Erreur lors du chargement de la semaine:', error);
         return of(null);
       }),
@@ -76,10 +78,10 @@ export class ChampionshipFacade {
     return this.championshipService.createChampionshipWeek(week).pipe(
       tap(createdWeek => {
         this.loadAllWeeksBySeason(week.season);
-        this.toastService.success('Semaine de championnat créée avec succès');
+        this.toastService.success(this.translateService.instant('error.championship.week.create.success'));
       }),
       catchError(error => {
-        this.toastService.error('Erreur lors de la création de la semaine de championnat');
+        this.toastService.error(this.translateService.instant('error.championship.week.create'));
         console.error('Erreur lors de la création:', error);
         return of(null as unknown as ChampionshipWeek);
       }),
@@ -96,10 +98,10 @@ export class ChampionshipFacade {
         if (this.selectedWeekSubject.value?.uuid === week.uuid) {
           this.selectedWeekSubject.next(updatedWeek);
         }
-        this.toastService.success('Semaine de championnat mise à jour avec succès');
+        this.toastService.success(this.translateService.instant('error.championship.week.update.success'));
       }),
       catchError(error => {
-        this.toastService.error('Erreur lors de la mise à jour de la semaine de championnat');
+        this.toastService.error(this.translateService.instant('error.championship.week.update'));
         console.error('Erreur lors de la mise à jour:', error);
         return of(null as unknown as ChampionshipWeek);
       }),
@@ -115,10 +117,10 @@ export class ChampionshipFacade {
         if (this.selectedWeekSubject.value?.uuid === uuid) {
           this.selectedWeekSubject.next(null);
         }
-        this.toastService.success('Semaine de championnat supprimée avec succès');
+        this.toastService.success(this.translateService.instant('error.championship.week.delete.success'));
       }),
       catchError(error => {
-        this.toastService.error('Erreur lors de la suppression de la semaine de championnat');
+        this.toastService.error(this.translateService.instant('error.championship.week.delete'));
         console.error('Erreur lors de la suppression:', error);
         return of(undefined);
       }),
@@ -130,10 +132,10 @@ export class ChampionshipFacade {
     this.loadingSubject.next(true);
     return this.championshipService.deletePlayerWeekScore(uuid).pipe(
       tap(() => {
-        this.toastService.success('Score supprimée avec succès');
+        this.toastService.success(this.translateService.instant('error.championship.score.delete.success'));
       }),
       catchError(error => {
-        this.toastService.error('Erreur lors de la suppression du score');
+        this.toastService.error(this.translateService.instant('error.championship.score.delete'));
         return of(undefined);
       }),
       finalize(() => this.loadingSubject.next(false))
@@ -145,10 +147,10 @@ export class ChampionshipFacade {
     return this.championshipService.addPlayerScore(weekUuid, playerScore).pipe(
       tap(score => {
         this.loadChampionshipWeek(weekUuid);
-        this.toastService.success('Score ajouté avec succès');
+        this.toastService.success(this.translateService.instant('error.championship.score.add.success'));
       }),
       catchError(error => {
-        this.toastService.error("Erreur lors de l'ajout du score");
+        this.toastService.error(this.translateService.instant('error.championship.score.add'));
         console.error("Erreur lors de l'ajout du score:", error);
         return of(null as unknown as PlayerWeekScore);
       })
@@ -159,10 +161,10 @@ export class ChampionshipFacade {
     return this.championshipService.addPlayerScore(weekUuid, playerScore).pipe(
       tap(score => {
         this.loadChampionshipWeek(weekUuid);
-        this.toastService.success('Score créé avec succès');
+        this.toastService.success(this.translateService.instant('error.championship.score.create.success'));
       }),
       catchError(error => {
-        this.toastService.error('Erreur lors de la création du score');
+        this.toastService.error(this.translateService.instant('error.championship.score.create'));
         return of(null as unknown as PlayerWeekScore);
       })
     );
@@ -172,10 +174,10 @@ export class ChampionshipFacade {
     return this.championshipService.updatePlayerScore(playerScore).pipe(
       tap(score => {
         this.loadChampionshipWeek(weekUuid);
-        this.toastService.success('Score mis à jour avec succès');
+        this.toastService.success(this.translateService.instant('error.championship.score.update.success'));
       }),
       catchError(error => {
-        this.toastService.error('Erreur lors de la mise à jour du score');
+        this.toastService.error(this.translateService.instant('error.championship.score.update'));
         return of(null as unknown as PlayerWeekScore);
       })
     );
@@ -186,10 +188,10 @@ export class ChampionshipFacade {
     return this.championshipService.deletePlayerScore(weekUuid, scoreUuid).pipe(
       tap(() => {
         this.loadChampionshipWeek(weekUuid);
-        this.toastService.success('Score supprimé avec succès');
+        this.toastService.success(this.translateService.instant('error.championship.score.delete.success'));
       }),
       catchError(error => {
-        this.toastService.error('Erreur lors de la suppression du score');
+        this.toastService.error(this.translateService.instant('error.championship.score.delete'));
         console.error('Erreur lors de la suppression du score:', error);
         return of(undefined);
       })
@@ -202,7 +204,7 @@ export class ChampionshipFacade {
     this.championshipService.getAllWeeksBySeason(season).pipe(
       tap(weeks => this.championshipWeeksSubject.next(weeks)),
       catchError(error => {
-        this.toastService.error('Erreur lors du chargement des semaines');
+        this.toastService.error(this.translateService.instant('error.championship.weeks.load.all'));
         console.error('Erreur lors du chargement des semaines:', error);
         return of([]);
       }),
@@ -215,7 +217,7 @@ export class ChampionshipFacade {
     this.championshipService.getAllWeeks().pipe(
       tap(weeks => this.championshipWeeksSubject.next(weeks)),
       catchError(error => {
-        this.toastService.error('Erreur lors du chargement des semaines');
+        this.toastService.error(this.translateService.instant('error.championship.weeks.load.all'));
         console.error('Erreur lors du chargement des semaines:', error);
         return of([]);
       }),
@@ -231,7 +233,6 @@ export class ChampionshipFacade {
     this.loadingSubject.next(true);
     return this.championshipService.importChampionshipFromExcel(weekUuid, file).pipe(
       tap(() => {
-        // Recharger les données après l'importation
         this.loadChampionshipWeek(weekUuid);
       }),
       catchError(error => {
@@ -285,10 +286,10 @@ export class ChampionshipFacade {
     this.loadingSubject.next(true);
     return this.championshipService.exportMonthlyChampionshipRankingsToExcel(season, month).pipe(
       tap(() => {
-        this.toastService.success('Classement mensuel exporté avec succès');
+        this.toastService.success(this.translateService.instant('error.championship.rankings.export.success'));
       }),
       catchError(error => {
-        this.toastService.error("Erreur lors de l'exportation du classement mensuel");
+        this.toastService.error(this.translateService.instant('error.championship.rankings.export'));
         console.error("Erreur lors de l'exportation du classement mensuel:", error);
         return throwError(() => error);
       }),

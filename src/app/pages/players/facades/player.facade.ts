@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, finalize, Observable, of, tap } from 'rxjs';
 import { PlayerService } from '../services/player.service';
 import { Player } from "../../../models/players/player.interface";
-import { ToastService } from "../../../shared/services/toast.service";
-import { ErrorHandlingService } from "../../../shared/services/error-handling.service";
 import { PlayerLight } from "../../../models/players/player-light.interface";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +21,7 @@ export class PlayerFacade {
 
   constructor(
     private playerService: PlayerService,
-    private toastService: ToastService,
-    private errorHandlingService: ErrorHandlingService
+    private translateService: TranslateService
   ) {
   }
 
@@ -43,7 +41,7 @@ export class PlayerFacade {
     this.playerService.getPlayers().pipe(
       tap(players => this.playersSubject.next(players)),
       catchError(err => {
-        this.errorSubject.next('Erreur lors du chargement des joueurs');
+        this.errorSubject.next(this.translateService.instant('error.players.load'));
         console.error(err);
         return of([] as Player[]);
       }),
@@ -56,7 +54,7 @@ export class PlayerFacade {
     this.playerService.getPlayerByUuid(uuid).pipe(
       tap(player => this.selectedPlayerSubject.next(player)),
       catchError(err => {
-        this.errorSubject.next('Erreur lors du chargement du joueur');
+        this.errorSubject.next(this.translateService.instant('error.player.load'));
         console.error(err);
         return of(undefined);
       }),
@@ -72,7 +70,7 @@ export class PlayerFacade {
         this.playersSubject.next([...currentPlayers, newPlayer]);
       }),
       catchError(err => {
-        this.errorSubject.next('Erreur lors de la création du joueur');
+        this.errorSubject.next(this.translateService.instant('error.player.create'));
         console.error(err);
         return of(undefined);
       }),
@@ -93,7 +91,7 @@ export class PlayerFacade {
         }
       }),
       catchError(err => {
-        this.errorSubject.next('Erreur lors de la mise à jour du joueur');
+        this.errorSubject.next(this.translateService.instant('error.player.update'));
         console.error(err);
         return of(undefined);
       }),
@@ -109,7 +107,7 @@ export class PlayerFacade {
         this.playersSubject.next(currentPlayers.filter(p => p.uuid !== uuid));
       }),
       catchError(err => {
-        this.errorSubject.next('Erreur lors de la suppression du joueur');
+        this.errorSubject.next(this.translateService.instant('error.player.delete'));
         console.error(err);
         return of(undefined);
       }),
@@ -139,7 +137,7 @@ export class PlayerFacade {
         document.body.removeChild(a);
       }),
       catchError(err => {
-        this.errorSubject.next('Erreur lors de l\'export des joueurs');
+        this.errorSubject.next(this.translateService.instant('error.players.export'));
         console.error(err);
         return of(undefined);
       }),

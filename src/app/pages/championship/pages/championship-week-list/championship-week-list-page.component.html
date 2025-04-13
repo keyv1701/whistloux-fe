@@ -1,10 +1,10 @@
 <div class="championship-week-list-container">
   <div class="header">
-    <h1>Semaines de championnat</h1>
+    <h1>{{ 'championship.week.list.title' | translate }}</h1>
 
     <div class="actions">
       <div class="filters">
-        <label for="seasonSelect">Saison:</label>
+        <label for="seasonSelect">{{ 'championship.week.list.seasonLabel' | translate }}</label>
         <select id="seasonSelect" [(ngModel)]="selectedSeason" (change)="onSeasonChange(selectedSeason)">
           <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
         </select>
@@ -15,7 +15,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
         </svg>
-        Voir le classement
+        {{ 'championship.week.list.viewRankings' | translate }}
       </button>
 
       <button *ngIf="authFacade.isAuthenticated$ | async" (click)="addChampionshipWeek()" class="add-week-button">
@@ -23,21 +23,21 @@
              stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
         </svg>
-        Ajouter une semaine
+        {{ 'championship.week.list.addWeek' | translate }}
       </button>
     </div>
   </div>
 
   <ng-container *ngIf="loading$ | async; else content">
     <div class="loading-indicator">
-      Chargement des semaines de championnat...
+      {{ 'championship.week.list.loading' | translate }}
     </div>
   </ng-container>
 
   <ng-template #content>
     <ng-container *ngIf="(championshipWeeks$ | async)?.length === 0; else weekTable">
       <div class="empty-state">
-        Aucune semaine de championnat trouvée pour la saison {{ selectedSeason }}.
+        {{ 'championship.week.list.emptyState' | translate:{season: selectedSeason} }}
       </div>
     </ng-container>
 
@@ -45,7 +45,7 @@
       <div *ngIf="authFacade.isAuthenticated$ | async" class="legend-container">
         <div class="legend-item">
           <span class="warning-icon">⚠️</span>
-          <span>Semaines avec l'indicateur ⚠️ ne sont pas finalisées et ne sont pas prises en compte dans le classement des annonces</span>
+          <span>{{ 'championship.week.list.legendText' | translate }}</span>
         </div>
       </div>
 
@@ -53,11 +53,14 @@
         <table>
           <thead>
           <tr>
-            <th>Semaine #</th>
-            <th>Date</th>
-            <th>Description</th>
-            <th [attr.colspan]="(authFacade.isAuthenticated$ | async) ? 1 : 2">Nb. joueurs</th>
-            <th *ngIf="authFacade.isAuthenticated$ | async">Actions</th>
+            <th>{{ 'championship.week.list.table.weekNumber' | translate }}</th>
+            <th>{{ 'championship.week.list.table.date' | translate }}</th>
+            <th>{{ 'championship.week.list.table.description' | translate }}</th>
+            <th
+              [attr.colspan]="(authFacade.isAuthenticated$ | async) ? 1 : 2">{{ 'championship.week.list.table.playerCount' | translate }}
+            </th>
+            <th *ngIf="authFacade.isAuthenticated$ | async">{{ 'championship.week.list.table.actions' | translate }}
+            </th>
           </tr>
           </thead>
           <tbody>
@@ -66,10 +69,11 @@
               class="week-row"
               [class.incomplete-week]="!week.encodingComplete">
             <td>
-              <span
-                *ngIf="(authFacade.isAuthenticated$ | async) && !week.encodingComplete"
-                class="warning-icon"
-                title="Annonces incomplètes">⚠️</span>
+              <span *ngIf="(authFacade.isAuthenticated$ | async) && !week.encodingComplete"
+                    class="warning-icon"
+                    [attr.title]="('championship.week.list.incompleteTitle' | translate)">
+                ⚠️
+              </span>
               {{ week.weekNumber }}
             </td>
             <td>{{ week.date | date:'dd/MM/yyyy' }}</td>
@@ -79,12 +83,12 @@
               <div *ngIf="authFacade.isAuthenticated$ | async" class="actions">
                 <button *ngIf="authFacade.isAuthenticated$ | async" class="edit-btn"
                         (click)="$event.stopPropagation(); onEditWeek(week, $event)"
-                        title="Modifier cette semaine">
+                        [attr.title]="('championship.week.list.editTitle' | translate)">
                   <span>✏️</span>
                 </button>
                 <button *ngIf="authFacade.isAuthenticated$ | async" class="delete-btn"
                         (click)="$event.stopPropagation(); onDeleteWeek(week, $event)"
-                        title="Supprimer cette semaine">
+                        [attr.title]="('championship.week.list.deleteTitle' | translate)">
                   <i class="fas fa-trash-alt text-red-500"></i>
                 </button>
               </div>
@@ -106,9 +110,9 @@
 
 <app-confirmation
   *ngIf="showConfirmation"
-  title="Supprimer la semaine de championnat"
-  message="Êtes-vous sûr de vouloir supprimer cette semaine ? Toutes les données associées seront définitivement perdues."
-  confirmButtonText="Supprimer"
+  [title]="'championship.week.list.confirm.title' | translate"
+  [message]="'championship.week.list.confirm.message' | translate"
+  [confirmButtonText]="'championship.week.list.confirm.button' | translate"
   (confirm)="confirmDelete()"
   (cancel)="closeConfirmation()">
 </app-confirmation>

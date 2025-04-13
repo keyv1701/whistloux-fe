@@ -8,7 +8,7 @@ import { PlayerListComponent } from '../components/player-list/player-list.compo
 import { PlayerErrorAlertComponent } from '../components/player-error-alert/player-error-alert.component';
 import { LoaderComponent } from "../../../shared/components/loader/loader.component";
 import { ToastService } from "../../../shared/services/toast.service";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player',
@@ -24,7 +24,8 @@ export class PlayerPageComponent implements OnInit, OnDestroy {
 
   constructor(
     public playerFacade: PlayerFacade,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -51,7 +52,7 @@ export class PlayerPageComponent implements OnInit, OnDestroy {
   }
 
   onDeletePlayer(uuid: string): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce joueur?')) {
+    if (confirm(this.translateService.instant('confirm.player.delete'))) {
       this.playerFacade.deletePlayer(uuid);
     }
   }
@@ -66,6 +67,6 @@ export class PlayerPageComponent implements OnInit, OnDestroy {
 
   onExportPlayers(): void {
     this.playerFacade.exportPlayersToExcel();
-    this.toastService.info('L\'export Excel a été lancé');
+    this.toastService.info(this.translateService.instant('info.excel.exportStarted'));
   }
 }

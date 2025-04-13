@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-autocomplete',
@@ -17,7 +17,7 @@ export class AutocompleteComponent<T> implements OnInit, OnDestroy {
   @Input() placeholder: string = '';
   @Input() items$: Observable<T[]> | null = null;
   @Input() displayFn: (item: T) => string = (item: any) => item?.toString() || '';
-  @Input() emptyMessage: string = 'Aucun résultat trouvé';
+  @Input() emptyMessage: string = '';
   @Input() minChars: number = 0;
   @Input() disabled: boolean = false;
   @Input() initialValue: string = '';
@@ -32,7 +32,14 @@ export class AutocompleteComponent<T> implements OnInit, OnDestroy {
   private readonly searchTerms = new Subject<string>();
   private readonly destroy$ = new Subject<void>();
 
+  constructor(private translateService: TranslateService) {
+  }
+
   ngOnInit(): void {
+    // Si aucune valeur n'est fournie, utiliser la traduction par défaut
+    if (!this.emptyMessage) {
+      this.emptyMessage = this.translateService.instant('autocomplete.noResults');
+    }
     this.initializeInputControl();
     this.setupSearchObservable();
     this.configureDisabledState();
@@ -45,7 +52,6 @@ export class AutocompleteComponent<T> implements OnInit, OnDestroy {
 
   onInput(event: Event): void {
     if (this.disabled) return;
-
     const value = (event.target as HTMLInputElement).value;
     this.searchTerms.next(value);
     this.showDropdown = value.length >= this.minChars;
@@ -53,7 +59,6 @@ export class AutocompleteComponent<T> implements OnInit, OnDestroy {
 
   onFocus(): void {
     if (this.disabled) return;
-
     const currentValue = this.inputControl.value || '';
     if (currentValue.length >= this.minChars) {
       this.searchTerms.next(currentValue);
@@ -67,7 +72,6 @@ export class AutocompleteComponent<T> implements OnInit, OnDestroy {
 
   selectItem(item: T): void {
     if (this.disabled) return;
-
     this.inputControl.setValue(this.displayFn(item));
     this.itemSelected.emit(item);
     this.showDropdown = false;
@@ -104,7 +108,6 @@ export class AutocompleteComponent<T> implements OnInit, OnDestroy {
     if (!this.items$) {
       return of([]);
     }
-
     return this.items$.pipe(
       map(items => this.filterItemsBySearchTerm(items, searchTerm))
     );

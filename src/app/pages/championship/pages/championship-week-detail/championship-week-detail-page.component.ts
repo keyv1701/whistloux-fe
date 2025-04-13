@@ -16,6 +16,7 @@ import { PlayerWhistBidsFacade } from "../../../bids/facades/player-whist-bids.f
 import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
 import { WhistBidDetail } from "../../../../models/bids/whist-bid-detail.model";
+import { TranslateService } from '@ngx-translate/core';
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -58,7 +59,8 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     private championshipFacade: ChampionshipFacade,
     private playerWhistBidsFacade: PlayerWhistBidsFacade,
     private toastService: ToastService,
-    public authFacade: AuthFacade
+    public authFacade: AuthFacade,
+    private translateService: TranslateService
   ) {
     this.selectedWeek$ = this.championshipFacade.selectedWeek$;
     this.loading$ = this.championshipFacade.loading$;
@@ -161,7 +163,7 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
           window.URL.revokeObjectURL(url);
         }),
         catchError((error) => {
-          this.toastService.error('Une erreur est survenue lors de la création de l\'excel');
+          this.toastService.error(this.translateService.instant('error.excel.create'));
           return EMPTY;
         })
       ).subscribe();
@@ -173,9 +175,8 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     this.showScoreEditForm = true;
     this.playerWhistBidsFacade.loadBidsByPlayerAndDate(score.playerUuid, this.selectedWeek!.season, this.selectedWeek!.date.toString()).pipe(
       tap(bids => {
-          this.bidsToEdit = this.expandBidDetails(bids);
-        }
-      )
+        this.bidsToEdit = this.expandBidDetails(bids);
+      })
     ).subscribe();
   }
 
@@ -185,7 +186,6 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     const expandedBidDetails: WhistBidDetail[] = [];
 
     bids.bidDetails.forEach(detail => {
-      // Si le count est supérieur à 1, créer plusieurs éléments distincts
       if (detail.count > 1) {
         for (let i = 0; i < detail.count; i++) {
           expandedBidDetails.push({
@@ -195,7 +195,6 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
           });
         }
       } else {
-        // Sinon, ajouter l'élément tel quel
         expandedBidDetails.push({...detail});
       }
     });
@@ -219,16 +218,16 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     }
     this.playerWhistBidsFacade.updatePlayerBidsWeek(this.selectedWeek!.season, updatedScore.playerUuid, this.selectedWeek!.date.toString(), whistBidsWeek).pipe(
       tap(updatedWeek => {
-        this.toastService.success(`Le score de ${updatedScore.playerPseudo} a été mis à jour avec succès!`);
+        this.toastService.success(this.translateService.instant('success.score.update', {player: updatedScore.playerPseudo}));
         this.showScoreEditForm = false;
         this.scoreToEdit = null;
         this.championshipFacade.loadChampionshipWeek(this.weekUuid);
       }),
       catchError(err => {
         if (err.error?.message) {
-          this.toastService.error(err.error.message);
+          this.toastService.error(this.translateService.instant(err.error.message));
         } else {
-          this.toastService.error(`Erreur lors de la mise à jour du score: ${err.message || 'Erreur inconnue'}`);
+          this.toastService.error(this.translateService.instant('error.score.update', {error: 'Erreur inconnue'}));
         }
         return of(null);
       })
@@ -239,12 +238,12 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     this.championshipFacade.updatePlayerScore(updatedScore, this.weekUuid)
       .pipe(
         tap(updatedWeek => {
-          this.toastService.success(`Le score de ${updatedScore.playerPseudo} a été mis à jour avec succès!`);
+          this.toastService.success(this.translateService.instant('success.score.update', {player: updatedScore.playerPseudo}));
           this.showScoreEditForm = false;
           this.scoreToEdit = null;
         }),
         catchError(err => {
-          this.toastService.error(`Erreur lors de la mise à jour du score: ${err.message || 'Erreur inconnue'}`);
+          this.toastService.error(this.translateService.instant('error.score.update', {error: err.message || 'Erreur inconnue'}));
           return of(null);
         })
       )
@@ -264,16 +263,15 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     this.championshipFacade.createPlayerScore(createdScore, this.weekUuid)
       .pipe(
         tap(updatedWeek => {
-          this.toastService.success(`Le score de ${createdScore.playerPseudo} a été créé avec succès!`);
+          this.toastService.success(this.translateService.instant('success.score.create', {player: createdScore.playerPseudo}));
           this.showScoreCreateForm = false;
         }),
         catchError(err => {
           if (err.error?.message) {
-            this.toastService.error(err.error.message);
+            this.toastService.error(this.translateService.instant(err.error.message));
           } else {
-            this.toastService.error(`Erreur lors de la création du score: ${err.message || 'Erreur inconnue'}`);
+            this.toastService.error(this.translateService.instant('error.score.create', {error: 'Erreur inconnue'}));
           }
-
           return of(null);
         })
       )
@@ -290,12 +288,11 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
       this.championshipFacade.deletePlayerWeekScore(this.scoreToDelete.uuid, this.scoreToDelete.season)
         .pipe(
           tap(() => {
-            this.toastService.success(`Le score de ${this.scoreToDelete.playerPseudo} a été supprimé avec succès!`);
-            // Rafraîchir la liste
+            this.toastService.success(this.translateService.instant('success.score.delete', {player: this.scoreToDelete.playerPseudo}));
             this.championshipFacade.loadChampionshipWeek(this.weekUuid);
           }),
           catchError(err => {
-            this.toastService.error(`Erreur lors de la suppression du score: ${err.message || 'Erreur inconnue'}`);
+            this.toastService.error(this.translateService.instant('error.score.delete', {error: err.message || 'Erreur inconnue'}));
             return of(null);
           })
         )

@@ -6,7 +6,7 @@ import { finalize } from 'rxjs/operators';
 import { catchError, EMPTY, tap } from "rxjs";
 import { ToastService } from "../../../shared/services/toast.service";
 import { CommonModule } from "@angular/common";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   standalone: true,
@@ -29,7 +29,8 @@ export class ChangePasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private changePasswordFacade: ChangePasswordFacade,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {
     this.passwordForm = this.formBuilder.group({
       currentPassword: ['', [Validators.required]],
@@ -59,15 +60,15 @@ export class ChangePasswordComponent implements OnInit {
     this.changePasswordFacade.changePassword(currentPassword, newPassword)
       .pipe(
         tap(() => {
-          this.toastService.success('Votre mot de passe a été modifié avec succès');
+          this.toastService.success(this.translateService.instant('success.changePassword'));
           this.passwordForm.reset();
           this.router.navigate(['/home']);
         }),
         catchError((error) => {
           if (error.error?.message) {
-            this.toastService.error(error.error.message);
+            this.toastService.error(this.translateService.instant(error.error.message));
           } else {
-            this.toastService.error('Erreur lors du changement de mot de passe. Veuillez réessayer.');
+            this.toastService.error(this.translateService.instant('error.changePasswordFallback'));
           }
           return EMPTY;
         }),

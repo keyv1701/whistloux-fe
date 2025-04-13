@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { TournamentFacade } from "../../facades/tournament.facade";
 import { tap } from "rxjs";
 import { ToastService } from "../../../../shared/services/toast.service";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-tournament-form',
@@ -25,7 +25,8 @@ export class TournamentFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private tournamentFacade: TournamentFacade,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {
     this.tournamentForm = this.fb.group({
       name: ['', Validators.required],
@@ -96,7 +97,7 @@ export class TournamentFormComponent implements OnInit {
         savedTournament.registrationDeadline = new Date(formValues.registrationDeadline);
       }
 
-      this.toastService.info(`Enregistrement du tournoi ${savedTournament.name}...`);
+      this.toastService.info(this.translateService.instant('info.tournament.save', {name: savedTournament.name}));
       this.saveAction(savedTournament);
     }
   }
@@ -151,12 +152,12 @@ export class TournamentFormComponent implements OnInit {
       .pipe(
         tap({
           next: (result) => {
-            this.toastService.success(`Le tournoi ${result.name} a été mis à jour avec succès !`);
+            this.toastService.success(this.translateService.instant('success.tournament.update', {name: result.name}));
             this.saved.emit(result);
             this.close.emit();
           },
           error: (err) => {
-            this.toastService.error(`Erreur lors de la mise à jour du tournoi: ${err.message || 'Erreur inconnue'}`);
+            this.toastService.error(this.translateService.instant('error.tournament.update', {error: err.message || 'Erreur inconnue'}));
           }
         })
       )
@@ -168,19 +169,18 @@ export class TournamentFormComponent implements OnInit {
       .pipe(
         tap({
           next: (result) => {
-            this.toastService.success(`Le tournoi ${result.name} a été créé avec succès !`);
+            this.toastService.success(this.translateService.instant('success.tournament.create', {name: result.name}));
             this.saved.emit(result);
             this.close.emit();
           },
           error: (err) => {
-            this.toastService.error(`Erreur lors de la création du tournoi: ${err.message || 'Erreur inconnue'}`);
+            this.toastService.error(this.translateService.instant('error.tournament.create', {error: err.message || 'Erreur inconnue'}));
           }
         })
       )
       .subscribe();
   }
 
-// Fonction utilitaire pour formater l'heure au format HH:MM
   onClose(): void {
     this.close.emit();
   }

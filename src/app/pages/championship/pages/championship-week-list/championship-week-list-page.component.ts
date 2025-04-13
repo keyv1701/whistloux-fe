@@ -14,11 +14,12 @@ import {
   ChampionshipWeekEditComponent
 } from "../../components/championship-week-edit/championship-week-edit.component";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-championship-week-list-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChampionshipWeekCreateComponent, ConfirmationComponent, ChampionshipWeekEditComponent],
+  imports: [CommonModule, FormsModule, ChampionshipWeekCreateComponent, ConfirmationComponent, ChampionshipWeekEditComponent, TranslatePipe],
   templateUrl: './championship-week-list-page.component.html',
   styleUrls: ['./championship-week-list-page.component.css']
 })
@@ -39,7 +40,8 @@ export class ChampionshipWeekListPageComponent implements OnInit {
     private championshipFacade: ChampionshipFacade,
     private router: Router,
     private toastService: ToastService,
-    public authFacade: AuthFacade
+    public authFacade: AuthFacade,
+    private translateService: TranslateService
   ) {
     this.championshipWeeks$ = this.championshipFacade.championshipWeeks$;
     this.loading$ = this.championshipFacade.loading$;
@@ -52,7 +54,7 @@ export class ChampionshipWeekListPageComponent implements OnInit {
 
   private initializeSeasons(): void {
     const currentYear = new Date().getFullYear();
-    this.seasons.push((currentYear).toString());
+    this.seasons.push(currentYear.toString());
   }
 
   loadChampionshipWeeks(): void {
@@ -82,16 +84,14 @@ export class ChampionshipWeekListPageComponent implements OnInit {
     championshipWeek.season = this.selectedSeason;
     this.championshipFacade.createChampionshipWeek(championshipWeek).subscribe();
     this.showCreateForm = false;
-
-    this.toastService.success('La semaine a été créée avec succès');
-
+    this.toastService.success(this.translateService.instant('success.championship.week.create.week'));
     // Recharger la liste des semaines
     this.loadChampionshipWeeks();
   }
 
   navigateToRankings(season: string): void {
     if (!season) {
-      this.toastService.error('Veuillez sélectionner une saison');
+      this.toastService.error(this.translateService.instant('error.championship.season.select'));
       return;
     }
     this.router.navigate(['/championship/results', season]);
@@ -99,13 +99,10 @@ export class ChampionshipWeekListPageComponent implements OnInit {
 
   onEditWeek(week: any, event: Event): void {
     event.stopPropagation();
-    // Ici, vous pouvez réutiliser le popup de création pour l'édition
-    // ou créer une nouvelle méthode spécifique à l'édition
     this.editChampionshipWeek(week);
   }
 
   editChampionshipWeek(week: any): void {
-    // Logique pour l'édition (à personnaliser selon vos besoins)
     this.showEditForm = true;
     this.weekToEdit = week;
   }
@@ -121,12 +118,11 @@ export class ChampionshipWeekListPageComponent implements OnInit {
       this.championshipFacade.deleteChampionshipWeek(this.weekToDelete.uuid, this.selectedSeason)
         .pipe(
           tap(() => {
-            this.toastService.success(`La semaine ${this.weekToDelete.weekNumber} a été supprimée avec succès!`);
-            // Rafraîchir la liste
+            this.toastService.success(this.translateService.instant('success.championship.week.delete', {weekNumber: this.weekToDelete.weekNumber}));
             this.loadChampionshipWeeks();
           }),
           catchError(err => {
-            this.toastService.error(`Erreur lors de la suppression de la semaine: ${err.message || 'Erreur inconnue'}`);
+            this.toastService.error(this.translateService.instant('error.championship.week.delete.week', {error: err.message || 'Erreur inconnue'}));
             return of(null);
           })
         )
@@ -143,11 +139,10 @@ export class ChampionshipWeekListPageComponent implements OnInit {
     this.weekToDelete = null;
   }
 
-// Vous aurez également besoin d'ajouter cette méthode pour la mise à jour
   onWeekUpdated(updatedWeek: any): void {
     this.showEditForm = false;
     this.weekToEdit = null;
     this.loadChampionshipWeeks();
-    this.toastService.success(`La semaine ${updatedWeek.weekNumber} a été mise à jour avec succès!`);
+    this.toastService.success(this.translateService.instant('success.championship.week.update.week', {weekNumber: updatedWeek.weekNumber}));
   }
 }

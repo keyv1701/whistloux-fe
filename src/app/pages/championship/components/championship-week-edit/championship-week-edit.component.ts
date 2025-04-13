@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeek } from "../../../../models/championship/championship-week.model";
 import { ChampionshipWeekFormComponent } from "../championship-week-form/championship-week-form.component";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-championship-week-edit',
@@ -26,7 +26,8 @@ export class ChampionshipWeekEditComponent implements OnInit {
 
   constructor(
     private championshipWeekFacade: ChampionshipFacade,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -40,11 +41,11 @@ export class ChampionshipWeekEditComponent implements OnInit {
     this.championshipWeekFacade.updateChampionshipWeek(formData)
       .pipe(
         tap(updatedWeek => {
-          this.toastService.success(`La semaine ${updatedWeek.weekNumber} a été mise à jour avec succès!`);
+          this.toastService.success(this.translateService.instant('success.championship.week.update', {weekNumber: updatedWeek.weekNumber}));
           this.saved.emit(updatedWeek);
         }),
         catchError(err => {
-          this.toastService.error(`Erreur lors de la mise à jour de la semaine: ${err.message || 'Erreur inconnue'}`);
+          this.toastService.error(this.translateService.instant('error.championship.week.update.week', {error: err.message || 'Erreur inconnue'}));
           return of(null);
         })
       )

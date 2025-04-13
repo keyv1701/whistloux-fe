@@ -8,7 +8,7 @@ import { PlayerCreateComponent } from "../player-create/player-create.component"
 import { PlayerFacade } from "../../facades/player.facade";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { tap } from "rxjs";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-list',
@@ -41,7 +41,8 @@ export class PlayerListComponent implements OnInit {
 
   constructor(
     private playerFacade: PlayerFacade,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -67,7 +68,6 @@ export class PlayerListComponent implements OnInit {
   }
 
   private playerMatchesSearch(player: Player, search: string): boolean {
-    // Vérifier la nullité des propriétés
     const firstName = player.firstName?.toLowerCase() || '';
     const lastName = player.lastName?.toLowerCase() || '';
     const email = player.email?.toLowerCase() || '';
@@ -84,7 +84,6 @@ export class PlayerListComponent implements OnInit {
       startIndex + this.itemsPerPage
     );
 
-    // Ajustement si la page actuelle est vide
     if (this.displayedPlayers.length === 0 && this.currentPage > 1) {
       this.currentPage = 1;
       this.updateDisplayedPlayers();
@@ -92,7 +91,7 @@ export class PlayerListComponent implements OnInit {
   }
 
   onSearch(): void {
-    this.currentPage = 1; // Revenir à la première page lors d'une recherche
+    this.currentPage = 1;
     this.applyFiltersAndPagination();
   }
 
@@ -158,7 +157,7 @@ export class PlayerListComponent implements OnInit {
         tap(() => {
           this.selectedPlayer = null;
           this.playerFacade.loadPlayers();
-          this.toastService.success('Le joueur a été mis à jour avec succès');
+          this.toastService.success(this.translateService.instant('success.player.update'));
         })
       )
       .subscribe();
@@ -181,11 +180,7 @@ export class PlayerListComponent implements OnInit {
   onPlayerCreated(player: Player): void {
     this.playerFacade.createPlayer(player);
     this.showCreateForm = false;
-
-    // Afficher une notification de succès
-    this.toastService.success('Le joueur a été créé avec succès');
-
-    // Recharger la liste des joueurs
+    this.toastService.success(this.translateService.instant('success.player.create'));
     this.playerFacade.loadPlayers();
   }
 }

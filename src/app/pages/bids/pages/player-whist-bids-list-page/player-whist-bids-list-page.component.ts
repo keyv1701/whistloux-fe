@@ -11,7 +11,7 @@ import { ToastService } from "../../../../shared/services/toast.service";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { ConfirmationComponent } from "../../../../shared/components/confirmation/confirmation.component";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-whist-bids-list-page',
@@ -65,7 +65,8 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private playerWhistBidsFacade: PlayerWhistBidsFacade,
     private toastService: ToastService,
-    public authFacade: AuthFacade
+    public authFacade: AuthFacade,
+    private translateService: TranslateService
   ) {
     this.filterForm = this.fb.group({
       season: [new Date().getFullYear().toString()],
@@ -88,10 +89,10 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
         this.lastFinalizedDate = date;
       }),
       catchError(error => {
-        this.toastService.error('Erreur lors de la récupération de la date de saison');
+        this.toastService.error(this.translateService.instant('error.season.date.load'));
         return EMPTY;
       })
-    ).subscribe()
+    ).subscribe();
 
     // S'abonner aux données des annonces
     this.subscribeToBidsChanges();
@@ -143,7 +144,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
         tap(error => {
           this.error = error;
           if (error) {
-            this.toastService.error(error);
+            this.toastService.error(this.translateService.instant(error));
           }
         })
       )
@@ -303,7 +304,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         catchError(error => {
-          this.toastService.error('Erreur lors de l\'exportation');
+          this.toastService.error(this.translateService.instant('error.export'));
           return EMPTY;
         })
       )
@@ -325,7 +326,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
       }, 0);
   }
 
-// Calcule le pourcentage de réussite pour un joueur
+  // Calcule le pourcentage de réussite pour un joueur
   getSuccessPercentage(playerBids: PlayerWhistBids): string {
     const totalBids = this.getTotalBidCount(playerBids);
     if (totalBids === 0) return '0%';
@@ -335,7 +336,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     return `${percentage.toFixed(1)}%`;
   }
 
-// Calcule la moyenne de points par annonce
+  // Calcule la moyenne de points par annonce
   getPointsPerBid(playerBids: PlayerWhistBids): string {
     const totalBids = this.getTotalBidCount(playerBids);
     if (totalBids === 0) return '0';
@@ -365,8 +366,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
       }, 0);
   }
 
-
-// Ajouter ces méthodes à la classe
+  // Ajouter ces méthodes à la classe
   private calculateTotalPages(): void {
     this.totalPages = Math.ceil(this.filteredPlayerBids.length / this.itemsPerPage);
     this.updateVisiblePages();
@@ -420,7 +420,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-// Calcule le pourcentage de ce type d'annonce par rapport au total
+  // Calcule le pourcentage de ce type d'annonce par rapport au total
   getBidTypePercentage(bidType: WhistBid): string {
     // Nombre total d'annonces de ce type (succès + échecs)
     const totalBidTypeCount = this.getTotalBidTypeCount(bidType, true) + this.getTotalBidTypeCount(bidType, false);
@@ -435,7 +435,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     return ((totalBidTypeCount / totalAllBids) * 100).toFixed(1);
   }
 
-// Calcule le pourcentage de réussite pour ce type d'annonce
+  // Calcule le pourcentage de réussite pour ce type d'annonce
   getBidTypeSuccessRate(bidType: WhistBid): string {
     const successCount = this.getTotalBidTypeCount(bidType, true);
     const totalCount = this.getTotalBidTypeCount(bidType, true) + this.getTotalBidTypeCount(bidType, false);

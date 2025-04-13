@@ -1,4 +1,3 @@
-// src/app/facades/tournament.facade.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

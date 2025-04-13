@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthState } from "../../../../models/security/auth-state.component";
 import { LoginCredentials } from "../../../../models/security/login-credentials.interface";
 import { AuthResponse } from "../../../../models/security/auth-response.interface";
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,11 @@ export class AuthFacade {
   error$ = new BehaviorSubject<string | null>(null);
   isLoading$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private translateService: TranslateService
+  ) {
     this.initAuth();
   }
 
@@ -76,7 +81,7 @@ export class AuthFacade {
         this.router.navigate(['/']);
       }),
       catchError(error => {
-        const errorMsg = error.error?.message || 'Échec de connexion. Vérifiez vos identifiants.';
+        const errorMsg = error.error?.message || this.translateService.instant('error.login');
         this.updateAuthState({
           isAuthenticated: false,
           user: null,

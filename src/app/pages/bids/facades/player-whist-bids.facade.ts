@@ -5,6 +5,7 @@ import { WhistBidDetail } from '../../../models/bids/whist-bid-detail.model';
 import { PlayerWhistBidsService } from '../services/player-whist-bids.service';
 import { map, tap } from 'rxjs/operators';
 import { WhistBidsWeek } from "../../../models/bids/whist-bids-week.model";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,10 @@ export class PlayerWhistBidsFacade {
   public loading$ = this.loadingSubject.asObservable();
   public error$ = this.errorSubject.asObservable();
 
-  constructor(private playerWhistBidsService: PlayerWhistBidsService) {
+  constructor(
+    private playerWhistBidsService: PlayerWhistBidsService,
+    private translateService: TranslateService
+  ) {
   }
 
   loadBidsBySeason(season: string): void {
@@ -31,7 +35,7 @@ export class PlayerWhistBidsFacade {
       .pipe(
         tap(bids => this.playerBidsSubject.next(bids)),
         catchError(error => {
-          this.errorSubject.next('Erreur lors du chargement des annonces pour la saison');
+          this.errorSubject.next(this.translateService.instant('error.player.whist.bids.load'));
           return EMPTY;
         }),
         finalize(() => this.loadingSubject.next(false))
@@ -47,7 +51,7 @@ export class PlayerWhistBidsFacade {
       .pipe(
         tap(bids => this.playerBidsSubject.next(bids)),
         catchError(error => {
-          this.errorSubject.next('Erreur lors du chargement des annonces pour le joueur');
+          this.errorSubject.next(this.translateService.instant('error.player.whist.bids.loadPlayer'));
           return EMPTY;
         }),
         finalize(() => this.loadingSubject.next(false))
@@ -59,7 +63,7 @@ export class PlayerWhistBidsFacade {
     return this.playerWhistBidsService.getBidsByPlayerAndDate(playerUuid, season, date)
       .pipe(
         catchError(error => {
-          this.errorSubject.next('Erreur lors du chargement des annonces pour le joueur');
+          this.errorSubject.next(this.translateService.instant('error.player.whist.bids.loadPlayer'));
           return EMPTY;
         }),
         finalize(() => this.loadingSubject.next(false))
@@ -74,7 +78,7 @@ export class PlayerWhistBidsFacade {
       .pipe(
         tap(bids => this.currentPlayerBidsSubject.next(bids)),
         catchError(error => {
-          this.errorSubject.next('Erreur lors du chargement des annonces pour le joueur et la saison');
+          this.errorSubject.next(this.translateService.instant('error.player.whist.bids.loadPlayerSeason'));
           return EMPTY;
         }),
         finalize(() => this.loadingSubject.next(false))
@@ -90,7 +94,7 @@ export class PlayerWhistBidsFacade {
       .pipe(
         tap(createdBids => this.updateStateAfterModification(createdBids)),
         catchError(error => {
-          this.errorSubject.next('Erreur lors de la création des annonces');
+          this.errorSubject.next(this.translateService.instant('error.player.whist.bids.create'));
           return throwError(() => error);
         }),
         finalize(() => this.loadingSubject.next(false))
@@ -105,7 +109,7 @@ export class PlayerWhistBidsFacade {
       .pipe(
         tap(updatedPlayerBids => this.updateStateAfterModification(updatedPlayerBids)),
         catchError(error => {
-          this.errorSubject.next('Erreur lors de la mise à jour des annonces');
+          this.errorSubject.next(this.translateService.instant('error.player.whist.bids.update'));
           return throwError(() => error);
         }),
         finalize(() => this.loadingSubject.next(false))
@@ -120,7 +124,7 @@ export class PlayerWhistBidsFacade {
       .pipe(
         tap(updatedPlayerBids => this.updateStateAfterModification(updatedPlayerBids)),
         catchError(error => {
-          this.errorSubject.next('Erreur lors de la mise à jour des annonces de la semaine');
+          this.errorSubject.next(this.translateService.instant('error.player.whist.bids.updateWeek'));
           return throwError(() => error);
         }),
         finalize(() => this.loadingSubject.next(false))
@@ -134,7 +138,6 @@ export class PlayerWhistBidsFacade {
     return this.playerWhistBidsService.deletePlayerBids(season, playerUuid)
       .pipe(
         tap(() => {
-          // Mise à jour de l'état après suppression
           const currentBids = this.playerBidsSubject.getValue();
           this.playerBidsSubject.next(
             currentBids.filter(bid => !(bid.season === season && bid.playerUuid === playerUuid))
@@ -147,7 +150,7 @@ export class PlayerWhistBidsFacade {
           }
         }),
         catchError(error => {
-          this.errorSubject.next('Erreur lors de la suppression des annonces');
+          this.errorSubject.next(this.translateService.instant('error.player.whist.bids.delete'));
           return throwError(() => error);
         }),
         finalize(() => this.loadingSubject.next(false))
@@ -162,7 +165,7 @@ export class PlayerWhistBidsFacade {
       .pipe(
         tap(updatedPlayerBids => this.updateStateAfterModification(updatedPlayerBids)),
         catchError(error => {
-          this.errorSubject.next('Erreur lors de l\'ajout d\'une annonce');
+          this.errorSubject.next(this.translateService.instant('error.player.whist.bids.create'));
           return throwError(() => error);
         }),
         finalize(() => this.loadingSubject.next(false))
@@ -170,7 +173,6 @@ export class PlayerWhistBidsFacade {
   }
 
   private updateStateAfterModification(modifiedBids: PlayerWhistBids): void {
-    // Mise à jour de l'annonce courante si nécessaire
     if (
       this.currentPlayerBidsSubject.getValue()?.season === modifiedBids.season &&
       this.currentPlayerBidsSubject.getValue()?.playerUuid === modifiedBids.playerUuid
@@ -178,7 +180,6 @@ export class PlayerWhistBidsFacade {
       this.currentPlayerBidsSubject.next(modifiedBids);
     }
 
-    // Mise à jour de la liste d'annonces
     const currentBids = this.playerBidsSubject.getValue();
     const index = currentBids.findIndex(
       bid => bid.season === modifiedBids.season && bid.playerUuid === modifiedBids.playerUuid
@@ -209,7 +210,7 @@ export class PlayerWhistBidsFacade {
       }),
       map(() => void 0),
       catchError((error) => {
-        this.errorSubject.next('Une erreur est survenue lors de l\'exportation des données.');
+        this.errorSubject.next(this.translateService.instant('error.player.whist.bids.load'));
         console.error('Erreur lors de l\'exportation Excel:', error);
         return EMPTY;
       }),
@@ -222,12 +223,11 @@ export class PlayerWhistBidsFacade {
 
     return this.playerWhistBidsService.importSeasonBidsFromExcel(season, file).pipe(
       tap(response => {
-        // Recharger les données après l'importation
         this.loadBidsBySeason(season);
         return response;
       }),
       catchError(error => {
-        this.errorSubject.next(error.error?.message || 'Une erreur est survenue lors de l\'importation des données.');
+        this.errorSubject.next(this.translateService.instant(error.error?.message || 'error.player.whist.bids.load'));
         console.error('Erreur lors de l\'importation Excel:', error);
         return throwError(() => error);
       }),

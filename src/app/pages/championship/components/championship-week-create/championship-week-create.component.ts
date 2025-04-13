@@ -4,7 +4,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ChampionshipFacade } from "../../facades/championship.facade";
 import { ChampionshipWeekFormComponent } from "../championship-week-form/championship-week-form.component";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-championship-week-create',
@@ -23,7 +23,8 @@ export class ChampionshipWeekCreateComponent {
 
   constructor(
     private championshipWeekFacade: ChampionshipFacade,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -31,11 +32,11 @@ export class ChampionshipWeekCreateComponent {
     this.championshipWeekFacade.createChampionshipWeek(formData)
       .pipe(
         tap(createdWeek => {
-          this.toastService.success(`La semaine ${createdWeek.weekNumber} a été créée avec succès!`);
+          this.toastService.success(this.translateService.instant('success.championship.week.create', {weekNumber: createdWeek.weekNumber}));
           this.created.emit(createdWeek);
         }),
         catchError(err => {
-          this.toastService.error(`Erreur lors de la création de la semaine: ${err.message || 'Erreur inconnue'}`);
+          this.toastService.error(this.translateService.instant('error.championship.week.create.week', {error: err.message || 'Erreur inconnue'}));
           return of(null);
         })
       )

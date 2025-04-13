@@ -7,7 +7,7 @@ import { ConfirmationComponent } from "../../../../shared/components/confirmatio
 import { PlayerFacade } from "../../facades/player.facade";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-player-card',
@@ -20,7 +20,7 @@ export class PlayerCardComponent {
   @Input() player!: Player;
   @Output() select = new EventEmitter<Player>();
   @Output() delete = new EventEmitter<string>();
-  @Output() edit = new EventEmitter<Player>()
+  @Output() edit = new EventEmitter<Player>();
 
   showConfirmation = false;
   playerToDelete: Player | null = null;
@@ -28,7 +28,9 @@ export class PlayerCardComponent {
   public constructor(
     private playerFacade: PlayerFacade,
     private toastService: ToastService,
-    public authFacade: AuthFacade) {
+    public authFacade: AuthFacade,
+    private translateService: TranslateService
+  ) {
   }
 
   onEditClick(event: Event): void {
@@ -101,17 +103,19 @@ export class PlayerCardComponent {
     this.showConfirmation = true;
   }
 
-// Ajoutez ces méthodes pour gérer la confirmation
   confirmDelete(): void {
     if (this.playerToDelete) {
       this.playerFacade.deletePlayer(this.playerToDelete.uuid)
         .pipe(
           tap(() => {
-            this.toastService.success(`Le joueur ${this.playerToDelete?.firstName} ${this.playerToDelete?.lastName} a été supprimé avec succès!`);
+            this.toastService.success(this.translateService.instant('success.player.delete', {
+              firstName: this.playerToDelete?.firstName,
+              lastName: this.playerToDelete?.lastName
+            }));
             this.playerFacade.loadPlayers();
           }),
           catchError(err => {
-            this.toastService.error(`Erreur lors de la suppression du joueur: ${err.message || 'Erreur inconnue'}`);
+            this.toastService.error(this.translateService.instant('error.player.delete.message', {error: err.message || 'Erreur inconnue'}));
             return of(null);
           })
         )

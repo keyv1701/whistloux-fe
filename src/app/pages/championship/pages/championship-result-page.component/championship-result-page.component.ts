@@ -12,6 +12,7 @@ import { ConfirmationComponent } from "../../../../shared/components/confirmatio
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-championship-result-page',
@@ -59,7 +60,8 @@ export class ChampionshipResultPageComponent implements OnInit {
     private route: ActivatedRoute,
     private lotteryWinnerService: LotteryWinnerService,
     public authFacade: AuthFacade,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private translateService: TranslateService
   ) {
     this.monthlyRankings$ = this.championshipFacade.monthlyRankings$;
     this.loading$ = this.championshipFacade.loading$;
@@ -87,11 +89,10 @@ export class ChampionshipResultPageComponent implements OnInit {
         }),
         catchError(error => {
           if (error.error?.message) {
-            this.toastService.error(error.error.message);
+            this.toastService.error(this.translateService.instant(error.error.message));
           } else {
-            this.toastService.error('Erreur lors du chargement des gagnants de la loterie');
+            this.toastService.error(this.translateService.instant('error.lottery.winners.load'));
           }
-
           return of([]);
         })
       ).subscribe();
@@ -99,7 +100,7 @@ export class ChampionshipResultPageComponent implements OnInit {
 
   private initializeSeasons(): void {
     const currentYear = new Date().getFullYear();
-    this.seasons = [(currentYear).toString()];
+    this.seasons = [currentYear.toString()];
   }
 
   onSeasonChange(season: string): void {
@@ -121,7 +122,6 @@ export class ChampionshipResultPageComponent implements OnInit {
   exportMonthlyRankings(): void {
     this.championshipFacade.exportMonthlyChampionshipRankingsToExcel(this.selectedSeason, this.selectedMonth)
       .subscribe((blob: Blob) => {
-        // Créer un lien temporaire pour télécharger le fichier
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -141,7 +141,6 @@ export class ChampionshipResultPageComponent implements OnInit {
       this.sortColumn = column;
       this.sortDirection = 'asc';
     }
-
     this.sortMonthlyRankings(this.sortColumn, this.sortDirection);
   }
 
@@ -151,7 +150,6 @@ export class ChampionshipResultPageComponent implements OnInit {
       tap(rankings => {
         const sortedRankings = [...rankings].sort((a, b) => {
           let comparison = 0;
-
           switch (column) {
             case 'rank':
               comparison = a.rank - b.rank;
@@ -171,11 +169,9 @@ export class ChampionshipResultPageComponent implements OnInit {
             default:
               return 0;
           }
-
           return direction === 'asc' ? comparison : -comparison;
         });
-
-        // On met à jour le BehaviorSubject dans la façade
+        // Mise à jour du BehaviorSubject dans la façade
         (this.championshipFacade as any).monthlyRankingsSubject.next(sortedRankings);
       })
     ).subscribe();
@@ -183,15 +179,12 @@ export class ChampionshipResultPageComponent implements OnInit {
 
   selectLotteryWinner(player: any): void {
     const isWinner = this.isLotteryWinner(player.playerUuid);
-
     if (isWinner) {
-      // Cas de suppression
       this.playerToRemoveAsWinner = player;
       const winner = this.lotteryWinners.find(w => w.playerUuid === player.playerUuid);
       this.winnerUuidToRemove = winner ? winner.uuid : null;
       this.showRemoveConfirmation = true;
     } else {
-      // Cas d'ajout
       this.playerToSetAsWinner = player;
       this.showAddConfirmation = true;
     }
@@ -200,22 +193,21 @@ export class ChampionshipResultPageComponent implements OnInit {
   confirmSetLotteryWinner(): void {
     if (this.playerToSetAsWinner && this.selectedSeason) {
       const lotteryWinner: LotteryWinner = {
-        uuid: '', // Sera généré par le backend
+        uuid: '',
         playerUuid: this.playerToSetAsWinner.playerUuid,
         season: this.selectedSeason,
         monthNumber: this.selectedMonth
       };
-
       this.lotteryWinnerService.createWinner(lotteryWinner).pipe(
         tap(() => {
-          this.toastService.success(`Le joueur a été désigné comme l'un des gagnants de la loterie pour le mois ${this.selectedMonth}`);
+          this.toastService.success(this.translateService.instant('success.lottery.winner.add', {month: this.selectedMonth}));
           this.loadLotteryWinners();
         }),
         catchError((error) => {
           if (error.error?.message) {
-            this.toastService.error(error.error.message);
+            this.toastService.error(this.translateService.instant(error.error.message));
           } else {
-            this.toastService.error('Une erreur est survenue lors de la désignation du gagnant de la loterie');
+            this.toastService.error(this.translateService.instant('error.lottery.winner.add'));
           }
           return of(null);
         }),
@@ -230,11 +222,11 @@ export class ChampionshipResultPageComponent implements OnInit {
     if (this.winnerUuidToRemove) {
       this.lotteryWinnerService.deleteWinner(this.winnerUuidToRemove).pipe(
         tap(() => {
-          this.toastService.success(`Le joueur a été retiré des gagnants de la loterie pour le mois ${this.selectedMonth}`);
+          this.toastService.success(this.translateService.instant('success.lottery.winner.remove', {month: this.selectedMonth}));
           this.loadLotteryWinners();
         }),
         catchError((error) => {
-          this.toastService.error('Une erreur est survenue lors du retrait du gagnant de la loterie');
+          this.toastService.error(this.translateService.instant('error.lottery.winner.remove'));
           return of(null);
         }),
         finalize(() => {
