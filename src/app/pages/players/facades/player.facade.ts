@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable, of, tap, throwError } from 'rxjs';
 import { PlayerService } from '../services/player.service';
 import { Player } from "../../../models/players/player.interface";
 import { PlayerLight } from "../../../models/players/player-light.interface";
 import { TranslateService } from "@ngx-translate/core";
+import { ToastService } from "../../../shared/services/toast.service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class PlayerFacade {
 
   constructor(
     private playerService: PlayerService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private toastService: ToastService
   ) {
   }
 
@@ -79,11 +81,15 @@ export class PlayerFacade {
       tap(newPlayer => {
         const currentPlayers = this.playersSubject.getValue();
         this.playersSubject.next([...currentPlayers, newPlayer]);
+        this.toastService.success(this.translateService.instant('success.player.create'));
       }),
       catchError(err => {
-        this.errorSubject.next(this.translateService.instant('error.player.create'));
-        console.error(err);
-        return of(undefined);
+        if (err.error?.message) {
+          this.toastService.error(this.translateService.instant(err.error.message));
+        } else {
+          this.toastService.error(this.translateService.instant('error.player.create'));
+        }
+        return throwError(() => err);
       }),
       finalize(() => this.loadingSubject.next(false))
     ).subscribe();
@@ -99,12 +105,16 @@ export class PlayerFacade {
           const updatedPlayers = [...currentPlayers];
           updatedPlayers[index] = {...updatedPlayer};
           this.playersSubject.next(updatedPlayers);
+          this.toastService.success(this.translateService.instant('success.player.update'));
         }
       }),
       catchError(err => {
-        this.errorSubject.next(this.translateService.instant('error.player.update'));
-        console.error(err);
-        return of(undefined);
+        if (err.error?.message) {
+          this.toastService.error(this.translateService.instant(err.error.message));
+        } else {
+          this.toastService.error(this.translateService.instant('error.player.update'));
+        }
+        return throwError(() => err);
       }),
       finalize(() => this.loadingSubject.next(false))
     );

@@ -180,7 +180,6 @@ export class PlayerListComponent implements OnInit {
   onPlayerCreated(player: Player): void {
     this.playerFacade.createPlayer(player);
     this.showCreateForm = false;
-    this.toastService.success(this.translateService.instant('success.player.create'));
     this.playerFacade.loadPlayers();
   }
 }
