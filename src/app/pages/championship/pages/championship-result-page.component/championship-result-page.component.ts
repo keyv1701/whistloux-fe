@@ -53,7 +53,8 @@ export class ChampionshipResultPageComponent implements OnInit {
   ];
   selectedMonth: number = new Date().getMonth() + 1;
 
-  lotteryWinners: LotteryWinner[] = [];
+  monthlyLotteryWinners: LotteryWinner[] = [];
+  otherMonthLotteryWinners: LotteryWinner[] = [];
 
   constructor(
     private championshipFacade: ChampionshipFacade,
@@ -82,10 +83,11 @@ export class ChampionshipResultPageComponent implements OnInit {
   }
 
   loadLotteryWinners(): void {
-    this.lotteryWinnerService.getWinnersBySeasonAndMonth(this.selectedSeason, this.selectedMonth)
+    this.lotteryWinnerService.getWinnersBySeason(this.selectedSeason)
       .pipe(
         tap(winners => {
-          this.lotteryWinners = winners;
+          this.monthlyLotteryWinners = this.getMonthlyWinners(winners, this.selectedMonth);
+          this.otherMonthLotteryWinners = this.getOtherMonthlyWinners(winners, this.selectedMonth);
         }),
         catchError(error => {
           if (error.error?.message) {
@@ -96,6 +98,20 @@ export class ChampionshipResultPageComponent implements OnInit {
           return of([]);
         })
       ).subscribe();
+  }
+
+  private getMonthlyWinners(winners: LotteryWinner[], month: number): LotteryWinner[] {
+    if (!winners || winners.length === 0) {
+      return [];
+    }
+    return winners.filter(winner => winner.monthNumber === month);
+  }
+
+  private getOtherMonthlyWinners(winners: LotteryWinner[], month: number): LotteryWinner[] {
+    if (!winners || winners.length === 0) {
+      return [];
+    }
+    return winners.filter(winner => winner.monthNumber !== month);
   }
 
   private initializeSeasons(): void {
@@ -110,7 +126,7 @@ export class ChampionshipResultPageComponent implements OnInit {
   }
 
   onMonthChange(month: number): void {
-    this.selectedMonth = month;
+    this.selectedMonth = Number(month);
     this.loadMonthlyRankings();
     this.loadLotteryWinners();
   }
@@ -178,10 +194,10 @@ export class ChampionshipResultPageComponent implements OnInit {
   }
 
   selectLotteryWinner(player: any): void {
-    const isWinner = this.isLotteryWinner(player.playerUuid);
+    const isWinner = this.isMonthlyLotteryWinner(player.playerUuid);
     if (isWinner) {
       this.playerToRemoveAsWinner = player;
-      const winner = this.lotteryWinners.find(w => w.playerUuid === player.playerUuid);
+      const winner = this.monthlyLotteryWinners.find(w => w.playerUuid === player.playerUuid);
       this.winnerUuidToRemove = winner ? winner.uuid : null;
       this.showRemoveConfirmation = true;
     } else {
@@ -247,7 +263,11 @@ export class ChampionshipResultPageComponent implements OnInit {
     this.winnerUuidToRemove = null;
   }
 
-  isLotteryWinner(playerUuid: string): boolean {
-    return this.lotteryWinners.some(winner => winner.playerUuid === playerUuid);
+  isMonthlyLotteryWinner(playerUuid: string): boolean {
+    return this.monthlyLotteryWinners.some(winner => winner.playerUuid === playerUuid);
+  }
+
+  isOtherMonthLotteryWinner(playerUuid: string): boolean {
+    return this.otherMonthLotteryWinners.some(winner => winner.playerUuid === playerUuid);
   }
 }

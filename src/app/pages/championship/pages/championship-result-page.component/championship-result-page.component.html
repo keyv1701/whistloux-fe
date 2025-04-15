@@ -46,6 +46,13 @@
             </p>
           </div>
 
+          <div class="text-sm text-gray-600 flex items-center p-2 border border-gray-200 rounded bg-white mt-2">
+            <i class="fas fa-medal text-blue-400 mr-2"></i>
+            <p class="m-0">
+              <span class="font-medium">{{ 'championship.note.otherWinnerLabel' | translate }}</span>
+              {{ 'championship.note.otherWinner' | translate }}
+            </p>
+          </div>
           <div *ngIf="authFacade.isAuthenticated$ | async" class="mt-2 text-right">
             <button (click)="exportMonthlyRankings()"
                     class="export-button bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded flex items-center ml-auto">
@@ -178,8 +185,11 @@
             </td>
             <td>
               {{ player.playerPseudo | pseudo }}
-              <i *ngIf="isLotteryWinner(player.playerUuid)" class="fas fa-trophy ml-2 text-amber-400"
+              <i *ngIf="isMonthlyLotteryWinner(player.playerUuid)" class="fas fa-trophy ml-2 text-amber-400"
                  [attr.title]=" 'lottery.winner.title' | translate "></i>
+              <i *ngIf="isOtherMonthLotteryWinner(player.playerUuid)"
+                 class="fas fa-medal ml-2 text-blue-400"
+                 [attr.title]="'lottery.winner.otherMonth.title' | translate"></i>
             </td>
             <td>{{ player.totalScore }}</td>
             <td>{{ player.roundsPlayed }}</td>
@@ -188,11 +198,11 @@
             <td *ngIf="authFacade.isAuthenticated$ | async">
               <button
                 class="rounded-full p-2 transition-colors focus:outline-none"
-                [ngClass]="isLotteryWinner(player.playerUuid) ?
+                [ngClass]="isMonthlyLotteryWinner(player.playerUuid) ?
       'bg-amber-100 text-amber-500 hover:bg-amber-200' :
       'bg-gray-100 text-gray-400 hover:bg-gray-200'"
                 (click)="$event.stopPropagation(); selectLotteryWinner(player)"
-                [attr.title]=" isLotteryWinner(player.playerUuid) ?
+                [attr.title]=" isMonthlyLotteryWinner(player.playerUuid) ?
       ('lottery.winner.removeAction' | translate) :
       ('lottery.winner.addAction' | translate)">
                 <i class="fas fa-trophy"></i>
