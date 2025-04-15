@@ -12,12 +12,12 @@ import { ConfirmationComponent } from "../../../../shared/components/confirmatio
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-championship-result-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, ConfirmationComponent, PseudoPipe],
+  imports: [CommonModule, FormsModule, ConfirmationComponent, PseudoPipe, TranslatePipe],
   templateUrl: './championship-result-page.component.html',
   styleUrls: ['./championship-result-page.component.css']
 })

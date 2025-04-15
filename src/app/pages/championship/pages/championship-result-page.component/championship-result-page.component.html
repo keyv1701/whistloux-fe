@@ -1,17 +1,17 @@
 <div class="championship-result-container">
   <div class="header">
-    <h1>Classement Mensuel du Championnat</h1>
+    <h1>{{ 'championship.monthlyRanking.title' | translate }}</h1>
 
     <div class="filters-container">
       <div class="filter-item">
-        <label for="seasonSelect">Saison</label>
+        <label for="seasonSelect">{{ 'championship.season' | translate }}</label>
         <select id="seasonSelect" [(ngModel)]="selectedSeason" (change)="onSeasonChange(selectedSeason)">
           <option *ngFor="let season of seasons" [value]="season">{{ season }}</option>
         </select>
       </div>
 
       <div class="filter-item">
-        <label for="monthSelect">Mois</label>
+        <label for="monthSelect">{{ 'championship.month' | translate }}</label>
         <select id="monthSelect" [(ngModel)]="selectedMonth" (change)="onMonthChange(selectedMonth)">
           <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
         </select>
@@ -23,7 +23,7 @@
     <ng-container *ngIf="loading$ | async; else content">
       <div class="loading-indicator">
         <div class="spinner"></div>
-        <span>Chargement des résultats...</span>
+        <span>{{ 'championship.results.loading' | translate }}</span>
       </div>
     </ng-container>
 
@@ -33,17 +33,16 @@
           <div class="text-sm text-gray-600 flex items-center p-2 border border-gray-200 rounded bg-white">
             <div class="inline-block w-3.5 h-3.5 bg-red-100 mr-2 border border-gray-200"></div>
             <p class="m-0">
-              <span class="font-medium">Note :</span> Les lignes avec cet indicateur représentent des joueurs n'ayant
-              pas
-              atteint le minimum requis de 6 manches pour être éligibles au classement officiel.
+              <span class="font-medium">{{ 'championship.note.minimumLabel' | translate }}</span>
+              {{ 'championship.note.minimum' | translate }}
             </p>
           </div>
 
           <div class="text-sm text-gray-600 flex items-center p-2 border border-gray-200 rounded bg-white mt-2">
             <i class="fas fa-trophy text-amber-400 mr-2"></i>
             <p class="m-0">
-              <span class="font-medium">Note :</span> Les joueurs avec cette icône sont les gagnants du tirage au sort
-              du mois.
+              <span class="font-medium">{{ 'championship.note.lotteryLabel' | translate }}</span>
+              {{ 'championship.note.lottery' | translate }}
             </p>
           </div>
 
@@ -55,7 +54,7 @@
                       d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
                       clip-rule="evenodd"/>
               </svg>
-              Exporter en Excel
+              {{ 'championship.exportExcel' | translate }}
             </button>
           </div>
         </div>
@@ -64,114 +63,123 @@
           <tr>
             <th class="rank-col cursor-pointer hover:bg-gray-100" (click)="sortData('rank')">
               <div class="flex items-center justify-between">
-                Position
+                {{ 'championship.column.position' | translate }}
                 <span class="ml-1" *ngIf="sortColumn === 'rank'">
-      <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-           fill="currentColor">
-        <path fill-rule="evenodd"
-              d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"/>
-      </svg>
-      <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-           fill="currentColor">
-        <path fill-rule="evenodd"
-              d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
-              clip-rule="evenodd"/>
-      </svg>
-    </span>
+                    <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                    <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                  </span>
               </div>
             </th>
             <th class="player-col cursor-pointer hover:bg-gray-100" (click)="sortData('playerPseudo')">
               <div class="flex items-center justify-between">
-                Joueur
+                {{ 'championship.column.player' | translate }}
                 <span class="ml-1" *ngIf="sortColumn === 'playerPseudo'">
-          <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-               fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"/>
-          </svg>
-          <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-               fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
-                  clip-rule="evenodd"/>
-          </svg>
-        </span>
+                    <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                    <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                  </span>
               </div>
             </th>
             <th class="score-col cursor-pointer hover:bg-gray-100" (click)="sortData('totalScore')">
               <div class="flex items-center justify-between">
-                Score total
+                {{ 'championship.column.totalScore' | translate }}
                 <span class="ml-1" *ngIf="sortColumn === 'totalScore'">
-          <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-               fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"/>
-          </svg>
-          <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-               fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
-                  clip-rule="evenodd"/>
-          </svg>
-        </span>
+                    <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                    <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                  </span>
               </div>
             </th>
             <th class="rounds-col cursor-pointer hover:bg-gray-100" (click)="sortData('roundsPlayed')">
               <div class="flex items-center justify-between">
-                Manches jouées
+                {{ 'championship.column.roundsPlayed' | translate }}
                 <span class="ml-1" *ngIf="sortColumn === 'roundsPlayed'">
-          <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-               fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"/>
-          </svg>
-          <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-               fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
-                  clip-rule="evenodd"/>
-          </svg>
-        </span>
+                    <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                    <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                  </span>
               </div>
             </th>
-            <th class="best-scores-col">Meilleurs scores</th>
+            <th class="best-scores-col">{{ 'championship.column.bestScores' | translate }}</th>
             <th class="worst-score-col cursor-pointer hover:bg-gray-100" (click)="sortData('worstRoundScore')">
               <div class="flex items-center justify-between">
-                Plus mauvais score
+                {{ 'championship.column.worstScore' | translate }}
                 <span class="ml-1" *ngIf="sortColumn === 'worstRoundScore'">
-          <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-               fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"/>
-          </svg>
-          <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-               fill="currentColor">
-            <path fill-rule="evenodd"
-                  d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
-                  clip-rule="evenodd"/>
-          </svg>
-        </span>
+                    <svg *ngIf="sortDirection === 'asc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414l-3.293 3.293a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                    <svg *ngIf="sortDirection === 'desc'" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                         viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                  </span>
               </div>
             </th>
-            <th *ngIf="authFacade.isAuthenticated$ | async">Actions</th>
+            <th *ngIf="authFacade.isAuthenticated$ | async">{{ 'championship.column.actions' | translate }}</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let player of monthlyRankings$ | async; let i = index"
               [ngClass]="{'podium': player.rank <= 3, 'ineligible-player': !player.eligible}">
-
             <td class="rank-cell">
               <div class="rank-badge" [ngClass]="'rank-' + player.rank">{{ player.rank }}</div>
             </td>
             <td>
               {{ player.playerPseudo | pseudo }}
               <i *ngIf="isLotteryWinner(player.playerUuid)" class="fas fa-trophy ml-2 text-amber-400"
-                 title="Gagnant de la loterie"></i>
+                 [attr.title]=" 'lottery.winner.title' | translate "></i>
             </td>
             <td>{{ player.totalScore }}</td>
             <td>{{ player.roundsPlayed }}</td>
@@ -184,9 +192,9 @@
       'bg-amber-100 text-amber-500 hover:bg-amber-200' :
       'bg-gray-100 text-gray-400 hover:bg-gray-200'"
                 (click)="$event.stopPropagation(); selectLotteryWinner(player)"
-                [title]="isLotteryWinner(player.playerUuid) ?
-      'Retirer le statut de gagnant de la loterie' :
-      'Désigner comme gagnant de la loterie'">
+                [attr.title]=" isLotteryWinner(player.playerUuid) ?
+      ('lottery.winner.removeAction' | translate) :
+      ('lottery.winner.addAction' | translate)">
                 <i class="fas fa-trophy"></i>
               </button>
             </td>
@@ -198,7 +206,7 @@
       <ng-template #emptyMonthly>
         <div class="empty-state">
           <div class="empty-icon">📊</div>
-          <p>Aucun classement disponible pour {{ months[selectedMonth - 1].name }} {{ selectedSeason }}.</p>
+          <p>{{ 'championship.empty' | translate:{month: months[selectedMonth - 1].name, season: selectedSeason} }}</p>
         </div>
       </ng-template>
     </ng-template>
@@ -208,10 +216,10 @@
 <!-- Modal de confirmation pour l'ajout (en vert) -->
 <app-confirmation
   *ngIf="showAddConfirmation"
-  [title]="'Confirmation'"
-  [message]="'Voulez-vous désigner ce joueur comme gagnant de la loterie pour le mois ' + months[selectedMonth-1].name + ' ?'"
-  [confirmButtonText]="'Confirmer'"
-  [cancelButtonText]="'Annuler'"
+  [title]="'confirmation.title' | translate"
+  [message]="'lottery.winner.add.confirm' | translate:{ month: months[selectedMonth-1].name }"
+  [confirmButtonText]="'button.confirm' | translate"
+  [cancelButtonText]="'button.cancel' | translate"
   [confirmButtonColor]="'success'"
   (confirm)="confirmSetLotteryWinner()"
   (cancel)="closeAddConfirmation()">
@@ -220,10 +228,10 @@
 <!-- Modal de confirmation pour la suppression (en rouge) -->
 <app-confirmation
   *ngIf="showRemoveConfirmation"
-  [title]="'Confirmation'"
-  [message]="'Voulez-vous retirer ce joueur des gagnants de la loterie pour le mois ' + months[selectedMonth-1].name + ' ?'"
-  [confirmButtonText]="'Confirmer'"
-  [cancelButtonText]="'Annuler'"
+  [title]="'confirmation.title' | translate"
+  [message]="'lottery.winner.remove.confirm' | translate:{ month: months[selectedMonth-1].name }"
+  [confirmButtonText]="'button.confirm' | translate"
+  [cancelButtonText]="'button.cancel' | translate"
   [confirmButtonColor]="'danger'"
   (confirm)="confirmRemoveLotteryWinner()"
   (cancel)="closeRemoveConfirmation()">
