@@ -28,7 +28,7 @@ export class PlayerScoreCreateComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private playerFacade: PlayerFacade
   ) {
-    this.pseudos$ = this.playerFacade.loadPlayerPseudos().pipe(
+    this.pseudos$ = this.playerFacade.loadActivePlayerPseudos().pipe(
       map(players => players.map(player => ({
         ...player,
         pseudo: new PseudoPipe().transform(player.pseudo)

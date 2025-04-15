@@ -5,29 +5,29 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
       </svg>
-      Retour
+      {{ 'championship.detail.backButton' | translate }}
     </button>
   </div>
 
   <!-- Indicateur de chargement -->
   <div *ngIf="loading$ | async" class="loading-indicator">
-    Chargement des détails de la semaine de championnat...
+    {{ 'championship.detail.loading' | translate }}
   </div>
 
   <!-- Contenu principal -->
   <ng-container *ngIf="!(loading$ | async) && (selectedWeek$ | async) as week">
     <div class="week-header">
-      <h1>Semaine de championnat #{{ week.weekNumber }}</h1>
+      <h1>{{ 'championship.detail.weekTitle' | translate:{weekNumber: week.weekNumber} }}</h1>
       <div class="week-meta">
-        <span class="season">Saison: {{ week.season }}</span>
-        <span class="date">Date: {{ week.date | date:'dd/MM/yyyy' }}</span>
+        <span class="season">{{ 'championship.detail.seasonLabel' | translate }} {{ week.season }}</span>
+        <span class="date">{{ 'championship.detail.dateLabel' | translate }} {{ week.date | date:'dd/MM/yyyy' }}</span>
       </div>
       <p class="description">{{ week.description }}</p>
     </div>
 
     <div class="scores-section">
       <div class="scores-header">
-        <h2>Scores des joueurs</h2>
+        <h2>{{ 'championship.detail.scoresTitle' | translate }}</h2>
         <div class="action-buttons">
           <button *ngIf="authFacade.isAuthenticated$ | async" (click)="onAddScoreClick()"
                   class="add-score-button">
@@ -35,7 +35,7 @@
                  stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>
-            <span>Ajouter un score</span>
+            <span>{{ 'championship.detail.addScore' | translate }}</span>
           </button>
           <button *ngIf="authFacade.isAuthenticated$ | async" (click)="exportToExcel()" class="export-button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -43,7 +43,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
-            Exporter en Excel
+            {{ 'championship.detail.exportExcel' | translate }}
           </button>
         </div>
       </div>
@@ -51,7 +51,7 @@
       <div *ngIf="authFacade.isAuthenticated$ | async" class="legend-container">
         <div class="legend-item">
           <span class="warning-icon">⚠️</span>
-          <span>Les lignes marquées indiquent qu'aucune annonce n'a été ajoutée pour ce joueur</span>
+          <span>{{ 'championship.detail.noBidsWarning' | translate }}</span>
         </div>
       </div>
 
@@ -61,101 +61,115 @@
           <thead>
           <tr>
             <th (click)="sortData('playerPseudo')" class="sortable-header">
-              Joueur
-              <span class="sort-icon">
-                <svg *ngIf="sortColumnSubject.value === 'playerPseudo' && sortDirectionSubject.value === 'asc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-                </svg>
-                <svg *ngIf="sortColumnSubject.value === 'playerPseudo' && sortDirectionSubject.value === 'desc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </span>
+              <div class="flex items-center justify-between">
+                {{ 'championship.detail.column.player' | translate }}
+                <span class="sort-icon">
+                    <svg *ngIf="sortColumnSubject.value === 'playerPseudo' && sortDirectionSubject.value === 'asc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                    </svg>
+                    <svg *ngIf="sortColumnSubject.value === 'playerPseudo' && sortDirectionSubject.value === 'desc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </span>
+              </div>
             </th>
             <th (click)="sortData('round1Points')" class="sortable-header">
-              Manche 1
-              <span class="sort-icon">
-                <svg *ngIf="sortColumnSubject.value === 'round1Points' && sortDirectionSubject.value === 'asc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-                </svg>
-                <svg *ngIf="sortColumnSubject.value === 'round1Points' && sortDirectionSubject.value === 'desc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </span>
+              <div class="flex items-center justify-between">
+                {{ 'championship.detail.column.round1' | translate }}
+                <span class="sort-icon">
+                    <svg *ngIf="sortColumnSubject.value === 'round1Points' && sortDirectionSubject.value === 'asc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                    </svg>
+                    <svg *ngIf="sortColumnSubject.value === 'round1Points' && sortDirectionSubject.value === 'desc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </span>
+              </div>
             </th>
             <th (click)="sortData('round2Points')" class="sortable-header">
-              Manche 2
-              <span class="sort-icon">
-                <svg *ngIf="sortColumnSubject.value === 'round2Points' && sortDirectionSubject.value === 'asc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-                </svg>
-                <svg *ngIf="sortColumnSubject.value === 'round2Points' && sortDirectionSubject.value === 'desc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </span>
+              <div class="flex items-center justify-between">
+                {{ 'championship.detail.column.round2' | translate }}
+                <span class="sort-icon">
+                    <svg *ngIf="sortColumnSubject.value === 'round2Points' && sortDirectionSubject.value === 'asc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                    </svg>
+                    <svg *ngIf="sortColumnSubject.value === 'round2Points' && sortDirectionSubject.value === 'desc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </span>
+              </div>
             </th>
             <th (click)="sortData('round3Points')" class="sortable-header">
-              Manche 3
-              <span class="sort-icon">
-                <svg *ngIf="sortColumnSubject.value === 'round3Points' && sortDirectionSubject.value === 'asc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-                </svg>
-                <svg *ngIf="sortColumnSubject.value === 'round3Points' && sortDirectionSubject.value === 'desc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </span>
+              <div class="flex items-center justify-between">
+                {{ 'championship.detail.column.round3' | translate }}
+                <span class="sort-icon">
+                    <svg *ngIf="sortColumnSubject.value === 'round3Points' && sortDirectionSubject.value === 'asc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                    </svg>
+                    <svg *ngIf="sortColumnSubject.value === 'round3Points' && sortDirectionSubject.value === 'desc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </span>
+              </div>
             </th>
             <th (click)="sortData('total')" class="sortable-header">
-              Total
-              <span class="sort-icon">
-                <svg *ngIf="sortColumnSubject.value === 'total' && sortDirectionSubject.value === 'asc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-                </svg>
-                <svg *ngIf="sortColumnSubject.value === 'total' && sortDirectionSubject.value === 'desc'"
-                     xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </span>
+              <div class="flex items-center justify-between">
+                {{ 'championship.detail.column.total' | translate }}
+                <span class="sort-icon">
+                    <svg *ngIf="sortColumnSubject.value === 'total' && sortDirectionSubject.value === 'asc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+                    </svg>
+                    <svg *ngIf="sortColumnSubject.value === 'total' && sortDirectionSubject.value === 'desc'"
+                         xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </span>
+              </div>
             </th>
-            <th *ngIf="authFacade.isAuthenticated$ | async" class="px-4 py-2 text-left">Actions</th>
+            <th *ngIf="authFacade.isAuthenticated$ | async" class="px-4 py-2 text-left">
+              {{ 'championship.detail.column.actions' | translate }}
+            </th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let score of playerScores$ | async"
               [class.incomplete-announcements]="!score.hasBids">
             <td>
-              <span *ngIf="(authFacade.isAuthenticated$ | async) && !score.hasBids" class="warning-icon"
-                    title="Points des annonces incohérents">⚠️</span>
+                <span *ngIf="(authFacade.isAuthenticated$ | async) && !score.hasBids" class="warning-icon"
+                      [attr.title]=" 'championship.detail.warning.incorrectBids' | translate ">⚠️</span>
               {{ score.playerPseudo | pseudo }}
             </td>
-            <td>{{ score.round1Points || 0 }}</td>
-            <td>{{ score.round2Points || 0 }}</td>
-            <td>{{ score.round3Points || 0 }}</td>
+            <td>{{ score.round1Points }}</td>
+            <td>{{ score.round2Points }}</td>
+            <td>{{ score.round3Points }}</td>
             <td class="total-points">{{ getTotalPoints(score) }}</td>
             <td *ngIf="authFacade.isAuthenticated$ | async" class="px-4 py-2">
               <div *ngIf="authFacade.isAuthenticated$ | async" class="actions flex space-x-2">
-                <button class="edit-btn" (click)="onEditClick(score)" title="Modifier cette semaine">
+                <button class="edit-btn" (click)="onEditClick(score)"
+                        [attr.title]=" 'championship.detail.action.edit' | translate ">
                   <span>✏️</span>
                 </button>
-                <button class="delete-btn" (click)="onDeleteClick(score)" title="Supprimer cette semaine">
+                <button class="delete-btn" (click)="onDeleteClick(score)"
+                        [attr.title]=" 'championship.detail.action.delete' | translate ">
                   <i class="fas fa-trash-alt text-red-500"></i>
                 </button>
               </div>
@@ -167,7 +181,7 @@
 
       <ng-template #noScores>
         <div class="empty-state">
-          <p>Aucun score enregistré pour cette semaine de championnat.</p>
+          <p>{{ 'championship.detail.noScores' | translate }}</p>
         </div>
       </ng-template>
     </div>
@@ -175,18 +189,18 @@
 
   <!-- Message d'erreur si aucune semaine trouvée -->
   <div *ngIf="!(loading$ | async) && !(selectedWeek$ | async)" class="error-state">
-    <p>Impossible de trouver les détails de cette semaine de championnat.</p>
+    <p>{{ 'championship.detail.error.notFound' | translate }}</p>
     <button (click)="goBack()" class="back-button-error">
-      Retourner à la liste
+      {{ 'championship.detail.error.backToList' | translate }}
     </button>
   </div>
 </div>
 
 <app-confirmation
   *ngIf="showConfirmation"
-  title="Supprimer le score du joueur"
-  message="Êtes-vous sûr de vouloir supprimer ce score ? Cette action est irréversible."
-  confirmButtonText="Supprimer"
+  [title]="'confirmation.delete.playerScore.title' | translate"
+  [message]="'confirmation.delete.playerScore.message' | translate"
+  [confirmButtonText]="'confirmation.delete.playerScore.confirm' | translate"
   (confirm)="confirmDelete()"
   (cancel)="closeConfirmation()">
 </app-confirmation>

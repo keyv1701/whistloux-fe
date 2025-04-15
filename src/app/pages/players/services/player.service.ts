@@ -19,6 +19,10 @@ export class PlayerService {
     return this.http.get<PlayerLight[]>(`${this.apiUrl}/pseudos`);
   }
 
+  getActivePlayerPseudos(): Observable<PlayerLight[]> {
+    return this.http.get<PlayerLight[]>(`${this.apiUrl}/pseudos/active`);
+  }
+
   getPlayers(): Observable<Player[]> {
     return this.http.get<Player[]>(this.apiUrl);
   }

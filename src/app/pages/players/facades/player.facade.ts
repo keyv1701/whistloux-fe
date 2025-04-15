@@ -36,6 +36,17 @@ export class PlayerFacade {
     );
   }
 
+  loadActivePlayerPseudos(): Observable<PlayerLight[]> {
+    this.loadingSubject.next(true);
+    return this.playerService.getActivePlayerPseudos().pipe(
+      catchError(err => {
+        console.error(err);
+        return of([]);
+      }),
+      finalize(() => this.loadingSubject.next(false))
+    );
+  }
+
   loadPlayers(): void {
     this.loadingSubject.next(true);
     this.playerService.getPlayers().pipe(

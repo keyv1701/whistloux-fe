@@ -16,7 +16,7 @@ import { PlayerWhistBidsFacade } from "../../../bids/facades/player-whist-bids.f
 import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
 import { WhistBidDetail } from "../../../../models/bids/whist-bid-detail.model";
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -24,7 +24,7 @@ type SortDirection = 'asc' | 'desc';
 @Component({
   selector: 'app-championship-week-detail-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent, PlayerScoreEditComponent, PlayerScoreEditComponent, PlayerScoreCreateComponent, PseudoPipe],
+  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent, PlayerScoreEditComponent, PlayerScoreEditComponent, PlayerScoreCreateComponent, PseudoPipe, TranslatePipe],
   templateUrl: './championship-week-detail-page.component.html',
   styleUrls: ['./championship-week-detail-page.component.css']
 })
