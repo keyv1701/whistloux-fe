@@ -8,6 +8,7 @@ import {
   TournamentRegistrationRequestInterface
 } from "../../../models/tournament/tournament-registration-request.interface";
 import { TournamentRegistrationInterface } from "../../../models/tournament/tournament-registration.interface";
+import { TournamentRegistrationMail } from "../../../models/tournament/tournament-registration-mail.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,9 @@ export class TournamentService {
 
   cancelRegistration(tournamentId: string, registrationId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${tournamentId}/registrations/${registrationId}`);
+  }
+
+  sendRegistrationMail(registrationData: TournamentRegistrationMail): Observable<TournamentRegistrationMail> {
+    return this.http.post<TournamentRegistrationMail>(`${this.apiUrl}/register/mail`, registrationData);
   }
 }

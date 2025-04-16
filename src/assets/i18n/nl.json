@@ -553,5 +553,17 @@
   "confirmation.delete.playerScore.message": "Weet u zeker dat u deze score wilt verwijderen? Deze actie is onomkeerbaar.",
   "confirmation.delete.playerScore.confirm": "Verwijderen",
   "championship.detail.action.edit": "Bewerk deze week",
-  "championship.detail.action.delete": "Verwijder deze week"
+  "championship.detail.action.delete": "Verwijder deze week",
+  "tournament.registration.mail.success": "De registratie-e-mail is succesvol verzonden.",
+  "tournament.registration.mail.error": "Fout bij het verzenden van de registratie-e-mail.",
+  "tournament.registration.title": "Toernooi registratie",
+  "tournament.registration.lastName": "Achternaam",
+  "tournament.registration.firstName": "Voornaam",
+  "tournament.registration.pseudo": "Pseudoniem",
+  "tournament.registration.email": "E-mailadres",
+  "tournament.registration.invalidEmail": "Ongeldig e-mailadres",
+  "tournament.registration.phone": "Telefoon",
+  "tournament.registration.message": "Bericht",
+  "tournament.registration.cancel": "Annuleren",
+  "tournament.registration.submit": "Verzenden"
 }

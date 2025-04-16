@@ -546,5 +546,17 @@
   "confirmation.delete.playerScore.message": "Êtes-vous sûr de vouloir supprimer ce score ? Cette action est irréversible.",
   "confirmation.delete.playerScore.confirm": "Supprimer",
   "championship.detail.action.edit": "Modifier cette semaine",
-  "championship.detail.action.delete": "Supprimer cette semaine"
+  "championship.detail.action.delete": "Supprimer cette semaine",
+  "tournament.registration.mail.success": "Le mail d'inscription a été envoyé avec succès.",
+  "tournament.registration.mail.error": "Erreur lors de l'envoi du mail d'inscription.",
+  "tournament.registration.title": "Inscription au tournoi",
+  "tournament.registration.lastName": "Nom de famille",
+  "tournament.registration.firstName": "Prénom",
+  "tournament.registration.pseudo": "Pseudo",
+  "tournament.registration.email": "Adresse e-mail",
+  "tournament.registration.invalidEmail": "E-mail invalide",
+  "tournament.registration.phone": "Téléphone",
+  "tournament.registration.message": "Message",
+  "tournament.registration.cancel": "Annuler",
+  "tournament.registration.submit": "Envoyer"
 }

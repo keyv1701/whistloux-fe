@@ -2,19 +2,26 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Tournament } from '../../../../models/tournament/tournament';
 import { TimeFormatPipe } from "../../../../shared/pipes/time-format.pipe";
-import { TranslatePipe } from "@ngx-translate/core";
+import { TranslatePipe, TranslateService } from "@ngx-translate/core";
+import { ToastService } from "../../../../shared/services/toast.service";
+import { TournamentRegistrationComponent } from "../tournament-registration/tournament-registration.component";
 
 @Component({
   selector: 'app-tournament-detail',
   standalone: true,
-  imports: [CommonModule, TimeFormatPipe, TranslatePipe],
+  imports: [CommonModule, TimeFormatPipe, TranslatePipe, TournamentRegistrationComponent],
   templateUrl: './tournament-detail.component.html',
   styleUrls: ['./tournament-detail.component.css']
 })
 export class TournamentDetailComponent implements OnInit {
   @Input() tournament: Tournament | null = null;
 
-  constructor() {
+  showRegistrationForm = false;
+
+  constructor(
+    private toastService: ToastService,
+    private translateService: TranslateService
+  ) {
   }
 
   ngOnInit(): void {
@@ -55,5 +62,17 @@ export class TournamentDetailComponent implements OnInit {
     if (availableSpots <= 0) return 'Complet';
 
     return `${availableSpots} place${availableSpots > 1 ? 's' : ''} disponible${availableSpots > 1 ? 's' : ''}`;
+  }
+
+  openRegistrationForm(): void {
+    this.showRegistrationForm = true;
+  }
+
+  onRegistrationFormClose(): void {
+    this.showRegistrationForm = false;
+  }
+
+  onRegistrationSubmitted(formData: any): void {
+    this.showRegistrationForm = false;
   }
 }

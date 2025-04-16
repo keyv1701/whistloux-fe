@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { TournamentService } from '../services/tournament.service';
 import { Tournament } from "../../../models/tournament/tournament";
@@ -7,6 +7,9 @@ import {
   TournamentRegistrationRequestInterface
 } from "../../../models/tournament/tournament-registration-request.interface";
 import { TournamentRegistrationInterface } from "../../../models/tournament/tournament-registration.interface";
+import { TournamentRegistrationMail } from "../../../models/tournament/tournament-registration-mail.interface";
+import { ToastService } from "../../../shared/services/toast.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,11 @@ export class TournamentFacade {
   public tournaments$ = this.tournamentsSubject.asObservable();
   public currentTournament$ = this.currentTournamentSubject.asObservable();
 
-  constructor(private tournamentService: TournamentService) {
+  constructor(
+    private tournamentService: TournamentService,
+    private toastService: ToastService,
+    private translateService: TranslateService
+  ) {
   }
 
   loadTournaments(): void {
@@ -92,5 +99,17 @@ export class TournamentFacade {
 
   getTournamentByUuid(uuid: string): Observable<Tournament | null> {
     return this.tournamentService.getTournamentByUuid(uuid);
+  }
+
+  sendRegistrationMail(registrationData: TournamentRegistrationMail): Observable<TournamentRegistrationMail> {
+    return this.tournamentService.sendRegistrationMail(registrationData).pipe(
+      tap(() => {
+        this.toastService.success(this.translateService.instant('tournament.registration.mail.success'));
+      }),
+      catchError(error => {
+        this.toastService.error(this.translateService.instant('tournament.registration.mail.error'));
+        return throwError(() => error);
+      })
+    );
   }
 }

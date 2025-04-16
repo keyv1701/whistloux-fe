@@ -119,9 +119,9 @@
 
   <div class="tournament-actions">
     <a
-      href="mailto:info@lewhistloux.be?subject={{ 'tournament.detail.registrationEmailSubject' | translate:{ date: formatDate(tournament.date) } }}"
       class="register-button"
-      *ngIf="isRegistrationAvailable()">
+      *ngIf="isRegistrationAvailable()"
+      (click)="openRegistrationForm()">
       {{ 'tournament.detail.registerButton' | translate }}
     </a>
   </div>
@@ -130,3 +130,11 @@
 <div class="tournament-not-found" *ngIf="!tournament">
   {{ 'tournament.detail.notFound' | translate }}
 </div>
+
+<!-- Formulaire d'inscription -->
+<app-tournament-registration
+  *ngIf="showRegistrationForm"
+  [tournament]="tournament"
+  (close)="onRegistrationFormClose()"
+  (submitted)="onRegistrationSubmitted($event)">
+</app-tournament-registration>
