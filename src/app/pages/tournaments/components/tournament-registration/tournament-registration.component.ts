@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TournamentFacade } from "../../facades/tournament.facade";
 
 @Component({
@@ -25,7 +25,8 @@ export class TournamentRegistrationComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
     private fb: FormBuilder,
-    private tournamentFacade: TournamentFacade
+    private tournamentFacade: TournamentFacade,
+    private translateService: TranslateService
   ) {
     this.registrationForm = this.fb.group({
       lastname: [''],
@@ -34,7 +35,7 @@ export class TournamentRegistrationComponent implements OnInit {
       email: ['', [Validators.email]],
       phone: [''],
       tournamentUuid: [''],
-      message: ['']
+      message: [this.translateService.instant('tournament.registration.message.prefill')]
     });
   }
 

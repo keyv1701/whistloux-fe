@@ -565,5 +565,6 @@
   "tournament.registration.phone": "Telefoon",
   "tournament.registration.message": "Bericht",
   "tournament.registration.cancel": "Annuleren",
-  "tournament.registration.submit": "Verzenden"
+  "tournament.registration.submit": "Verzenden",
+  "tournament.registration.message.prefill": "Ik wil me inschrijven voor het toernooi."
 }

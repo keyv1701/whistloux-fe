@@ -558,5 +558,6 @@
   "tournament.registration.phone": "Téléphone",
   "tournament.registration.message": "Message",
   "tournament.registration.cancel": "Annuler",
-  "tournament.registration.submit": "Envoyer"
+  "tournament.registration.submit": "Envoyer",
+  "tournament.registration.message.prefill": "Je souhaite m'inscrire au tournoi."
 }
