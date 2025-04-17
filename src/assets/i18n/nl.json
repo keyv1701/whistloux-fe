@@ -570,5 +570,10 @@
   "tournament.registration.submit": "Verzenden",
   "tournament.registration.message.prefill": "Ik wil me inschrijven voor het toernooi.",
   "tournament.form.parking.label": "Parkeerinformatie",
-  "tournament.form.registrationsCount.label": "Huidig aantal inschrijvingen"
+  "tournament.form.registrationsCount.label": "Huidig aantal inschrijvingen",
+  "player.whist.bids.list.fromDate": "Vanaf datum",
+  "player.whist.bids.list.toDate": "Tot datum",
+  "player.whist.bids.list.dateFilterInfo": "Filter statistieken op periode",
+  "player.whist.bids.list.dateFilterHint": "Laat leeg om alle gegevens van het seizoen te zien",
+  "player.whist.bids.list.searchLabel": "Zoek een speler"
 }

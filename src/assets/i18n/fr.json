@@ -563,5 +563,10 @@
   "tournament.registration.submit": "Envoyer",
   "tournament.registration.message.prefill": "Je souhaite m'inscrire au tournoi.",
   "tournament.form.parking.label": "Informations de stationnement",
-  "tournament.form.registrationsCount.label": "Nombre d'inscriptions actuelles"
+  "tournament.form.registrationsCount.label": "Nombre d'inscriptions actuelles",
+  "player.whist.bids.list.fromDate": "Du",
+  "player.whist.bids.list.toDate": "Au",
+  "player.whist.bids.list.dateFilterInfo": "Filtrer les statistiques par période",
+  "player.whist.bids.list.dateFilterHint": "Laisser vide pour voir toutes les données de la saison",
+  "player.whist.bids.list.searchLabel": "Rechercher un joueur"
 }

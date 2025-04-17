@@ -71,7 +71,9 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
     this.filterForm = this.fb.group({
       season: [new Date().getFullYear().toString()],
       player: [null],
-      search: [''] // Ajout du contrôle de recherche
+      search: [''],
+      from: [null],
+      to: [null]
     });
 
     // Créer les options pour les 5 dernières années
@@ -181,7 +183,9 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   }
 
   loadBidsBySeason(season: string): void {
-    this.playerWhistBidsFacade.loadBidsBySeason(season);
+    const from = this.filterForm.get('from')?.value;
+    const to = this.filterForm.get('to')?.value;
+    this.playerWhistBidsFacade.loadBidsBySeason(season, from, to);
   }
 
   applyFilters(): void {

@@ -6,41 +6,81 @@
   <div class="card shadow-sm mb-4">
     <div class="card-body">
       <form [formGroup]="filterForm">
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold">{{ 'player.whist.bids.list.seasonLabel' | translate }}</label>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Colonne 1: Sélection de saison -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              {{ 'player.whist.bids.list.seasonLabel' | translate }}
+            </label>
             <select
               formControlName="season"
-              class="form-select focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-md border-gray-300"
+              class="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               (change)="onSeasonChange($event)">
               <option *ngFor="let season of availableSeasons" [value]="season">{{ season }}</option>
             </select>
-            <div class="search-container">
-              <div class="input-group search-input">
-                <span class="input-group-text">
-                  <i class="bi bi-search"></i>
-                </span>
+            <div class="mt-3" *ngIf="authFacade.isAuthenticated$ | async">
+              <button
+                class="w-full flex items-center justify-center px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-sm rounded-md transition-colors shadow-sm"
+                (click)="exportToExcel()"
+                [disabled]="loading">
+                <i class="bi bi-file-earmark-excel mr-1"></i>
+                {{ 'player.whist.bids.list.exportSeason' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Colonne 2: Période (from/to) -->
+          <div>
+            <div class="flex items-center text-blue-700 mb-1.5">
+              <i class="bi bi-calendar-range mr-1.5 text-sm"></i>
+              <span class="text-sm font-medium">{{ 'player.whist.bids.list.dateFilterInfo' | translate }}</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
                 <input
-                  type="text"
-                  class="form-control"
-                  [placeholder]="'player.whist.bids.list.searchPlaceholder' | translate"
-                  formControlName="search"
-                  (input)="applyFilters()">
+                  type="date"
+                  formControlName="from"
+                  class="py-2 px-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  (change)="loadBidsBySeason(currentSeason)"
+                  [attr.placeholder]="'player.whist.bids.list.fromDate' | translate"
+                  [attr.aria-label]="'player.whist.bids.list.fromDate' | translate">
               </div>
-              <div *ngIf="filterForm.get('search')?.value && filteredPlayerBids.length > 0"
-                   class="search-results-count">
-                {{ filteredPlayerBids.length }} {{ 'player.whist.bids.list.searchResults' | translate }}
+              <div>
+                <input
+                  type="date"
+                  formControlName="to"
+                  class="py-2 px-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  (change)="loadBidsBySeason(currentSeason)"
+                  [attr.placeholder]="'player.whist.bids.list.toDate' | translate"
+                  [attr.aria-label]="'player.whist.bids.list.toDate' | translate">
+              </div>
+            </div>
+            <div class="mt-1.5">
+              <div class="text-xs text-gray-500 italic">
+                {{ 'player.whist.bids.list.dateFilterHint' | translate }}
               </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="d-flex justify-content-end gap-2">
-              <button *ngIf="authFacade.isAuthenticated$ | async"
-                      class="btn btn-success"
-                      (click)="exportToExcel()"
-                      [disabled]="loading">
-                <i class="bi bi-file-earmark-excel me-2"></i>{{ 'player.whist.bids.list.exportSeason' | translate }}
-              </button>
+
+          <!-- Colonne 3: Recherche par joueur -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+              {{ 'player.whist.bids.list.searchLabel' | translate }}
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <i class="bi bi-search text-gray-400"></i>
+              </div>
+              <input
+                type="text"
+                class="py-2 pl-9 pr-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                [placeholder]="'player.whist.bids.list.searchPlaceholder' | translate"
+                formControlName="search"
+                (input)="applyFilters()">
+            </div>
+            <div *ngIf="filterForm.get('search')?.value && filteredPlayerBids.length > 0"
+                 class="mt-1.5 text-xs text-blue-700">
+              {{ filteredPlayerBids.length }} {{ 'player.whist.bids.list.searchResults' | translate }}
             </div>
           </div>
         </div>

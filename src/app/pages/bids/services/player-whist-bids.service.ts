@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, Observable, of, throwError } from 'rxjs';
 import { PlayerWhistBids } from '../../../models/bids/player-whist-bids.model';
 import { environment } from '../../../../environments/environment';
@@ -16,8 +16,18 @@ export class PlayerWhistBidsService {
   constructor(private http: HttpClient) {
   }
 
-  getBidsBySeason(season: string): Observable<PlayerWhistBids[]> {
-    return this.http.get<PlayerWhistBids[]>(`${this.apiUrl}/season/${season}`);
+  getBidsBySeason(season: string, from?: string, to?: string): Observable<PlayerWhistBids[]> {
+    let params = new HttpParams();
+
+    if (from) {
+      params = params.set('dateFrom', from);
+    }
+
+    if (to) {
+      params = params.set('dateTo', to);
+    }
+
+    return this.http.get<PlayerWhistBids[]>(`${this.apiUrl}/season/${season}`, {params});
   }
 
   getBidsByPlayer(playerUuid: string): Observable<PlayerWhistBids[]> {

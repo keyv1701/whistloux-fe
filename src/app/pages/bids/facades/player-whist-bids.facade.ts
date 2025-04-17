@@ -27,11 +27,11 @@ export class PlayerWhistBidsFacade {
   ) {
   }
 
-  loadBidsBySeason(season: string): void {
+  loadBidsBySeason(season: string, from?: string, to?: string): void {
     this.loadingSubject.next(true);
     this.errorSubject.next(null);
 
-    this.playerWhistBidsService.getBidsBySeason(season)
+    this.playerWhistBidsService.getBidsBySeason(season, from, to)
       .pipe(
         tap(bids => this.playerBidsSubject.next(bids)),
         catchError(error => {
