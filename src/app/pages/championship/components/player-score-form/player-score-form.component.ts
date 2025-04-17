@@ -67,9 +67,9 @@ export class PlayerScoreFormComponent implements OnInit, OnChanges, OnDestroy {
 
   private initializeScoreForm(playerScore: PlayerWeekScore): void {
     this.scoreForm = this.fb.group({
-      round1Points: [this.playerScore?.round1Points || undefined],
-      round2Points: [this.playerScore?.round2Points || undefined],
-      round3Points: [this.playerScore?.round3Points || undefined],
+      round1Points: [this.playerScore?.round1Points],
+      round2Points: [this.playerScore?.round2Points],
+      round3Points: [this.playerScore?.round3Points],
       playerUuid: [playerScore ? playerScore.playerUuid : null, Validators.required],
       playerPseudoDisplay: [playerScore ? playerScore.playerPseudo : null]
     });
@@ -129,9 +129,15 @@ export class PlayerScoreFormComponent implements OnInit, OnChanges, OnDestroy {
 
     const formData = {
       ...this.playerScore,
-      round1Points: this.scoreForm.get('round1Points')?.value ? Number(this.scoreForm.get('round1Points')?.value) : undefined,
-      round2Points: this.scoreForm.get('round2Points')?.value ? Number(this.scoreForm.get('round2Points')?.value) : undefined,
-      round3Points: this.scoreForm.get('round3Points')?.value ? Number(this.scoreForm.get('round3Points')?.value) : undefined,
+      round1Points: this.scoreForm.get('round1Points')?.value !== null &&
+      this.scoreForm.get('round1Points')?.value !== undefined ?
+        Number(this.scoreForm.get('round1Points')?.value) : undefined,
+      round2Points: this.scoreForm.get('round2Points')?.value !== null &&
+      this.scoreForm.get('round2Points')?.value !== undefined ?
+        Number(this.scoreForm.get('round2Points')?.value) : undefined,
+      round3Points: this.scoreForm.get('round3Points')?.value !== null &&
+      this.scoreForm.get('round3Points')?.value !== undefined ?
+        Number(this.scoreForm.get('round3Points')?.value) : undefined,
       total: this.calculateTotal(),
       playerUuid: this.scoreForm.get('playerUuid')?.value,
       playerPseudo: this.scoreForm.get('playerPseudoDisplay')?.value,
