@@ -46,13 +46,16 @@ export class TournamentDetailComponent implements OnInit {
 
     // Vérifier si les inscriptions sont ouvertes
     const today = new Date();
+
+    // Si aucune deadline n'est définie OU si la deadline est dans le futur
     const deadline = this.tournament.registrationDeadline ? new Date(this.tournament.registrationDeadline) : null;
+    const isDeadlineValid = !deadline || today <= deadline;
 
-    // Si la date limite est passée ou le nombre maximum de joueurs est atteint
-    if (deadline && today > deadline) return false;
-    if (this.tournament.maxPlayers && this.tournament.registrationsCount >= this.tournament.maxPlayers) return false;
+    // Vérifier si le nombre maximum de joueurs n'est pas atteint
+    const hasAvailableSpots = !this.tournament.maxPlayers || this.tournament.registrationsCount < this.tournament.maxPlayers;
 
-    return true;
+    // Les inscriptions sont possibles si la deadline est valide ET qu'il reste des places
+    return isDeadlineValid && hasAvailableSpots;
   }
 
   getAvailableSpotsText(): string {
