@@ -65,9 +65,20 @@ export class PlayerWhistBidsService {
     return this.http.post<PlayerWhistBids>(`${this.apiUrl}/season/${season}/player/${playerUuid}/bid`, bidDetail);
   }
 
-  exportSeasonBidsToExcel(season: string): Observable<Blob> {
+  exportSeasonBidsToExcel(season: string, from: string, to: string): Observable<Blob> {
+    let params = new HttpParams();
+
+    if (from) {
+      params = params.set('dateFrom', from);
+    }
+
+    if (to) {
+      params = params.set('dateTo', to);
+    }
+
     return this.http.get(`${this.apiUrl}/season/${season}/export/excel`, {
-      responseType: 'blob'
+      responseType: 'blob',
+      params: params
     });
   }
 

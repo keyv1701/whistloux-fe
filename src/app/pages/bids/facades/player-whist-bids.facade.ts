@@ -194,10 +194,10 @@ export class PlayerWhistBidsFacade {
     }
   }
 
-  exportSeasonBidsToExcel(season: string): Observable<void> {
+  exportSeasonBidsToExcel(season: string, from: string, to: string): Observable<void> {
     this.loadingSubject.next(true);
 
-    return this.playerWhistBidsService.exportSeasonBidsToExcel(season).pipe(
+    return this.playerWhistBidsService.exportSeasonBidsToExcel(season, from, to).pipe(
       tap((blob: Blob) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');

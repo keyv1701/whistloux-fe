@@ -304,7 +304,9 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   }
 
   exportToExcel(): void {
-    this.playerWhistBidsFacade.exportSeasonBidsToExcel(this.currentSeason)
+    const from = this.filterForm.get('from')?.value;
+    const to = this.filterForm.get('to')?.value;
+    this.playerWhistBidsFacade.exportSeasonBidsToExcel(this.currentSeason, from, to)
       .pipe(
         takeUntil(this.destroy$),
         catchError(error => {
