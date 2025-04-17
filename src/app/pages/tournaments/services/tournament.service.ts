@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from "../../../../environments/environment";
-import { Tournament } from "../../../models/tournament/tournament";
+import { TournamentModel } from "../../../models/tournament/tournament.model";
 import { TournamentRegistrationMail } from "../../../models/tournament/tournament-registration-mail.interface";
 
 @Injectable({
@@ -15,20 +15,20 @@ export class TournamentService {
   constructor(private http: HttpClient) {
   }
 
-  getAllTournaments(): Observable<Tournament[]> {
-    return this.http.get<Tournament[]>(this.apiUrl);
+  getAllTournaments(): Observable<TournamentModel[]> {
+    return this.http.get<TournamentModel[]>(this.apiUrl);
   }
 
-  getTournamentByUuid(uuid: string): Observable<Tournament> {
-    return this.http.get<Tournament>(`${this.apiUrl}/${uuid}`);
+  getTournamentByUuid(uuid: string): Observable<TournamentModel> {
+    return this.http.get<TournamentModel>(`${this.apiUrl}/${uuid}`);
   }
 
-  createTournament(tournament: Tournament): Observable<Tournament> {
-    return this.http.post<Tournament>(this.apiUrl, tournament);
+  createTournament(tournament: TournamentModel): Observable<TournamentModel> {
+    return this.http.post<TournamentModel>(this.apiUrl, tournament);
   }
 
-  updateTournament(tournament: Tournament): Observable<Tournament> {
-    return this.http.put<Tournament>(`${this.apiUrl}/${tournament.uuid}`, tournament);
+  updateTournament(tournament: TournamentModel): Observable<TournamentModel> {
+    return this.http.put<TournamentModel>(`${this.apiUrl}/${tournament.uuid}`, tournament);
   }
 
   deleteTournament(uuid: string): Observable<void> {

@@ -561,5 +561,7 @@
   "tournament.registration.message": "Message",
   "tournament.registration.cancel": "Annuler",
   "tournament.registration.submit": "Envoyer",
-  "tournament.registration.message.prefill": "Je souhaite m'inscrire au tournoi."
+  "tournament.registration.message.prefill": "Je souhaite m'inscrire au tournoi.",
+  "tournament.form.parking.label": "Informations de stationnement",
+  "tournament.form.registrationsCount.label": "Nombre d'inscriptions actuelles"
 }

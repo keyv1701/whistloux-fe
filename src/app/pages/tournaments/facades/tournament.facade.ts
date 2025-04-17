@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { TournamentService } from '../services/tournament.service';
-import { Tournament } from "../../../models/tournament/tournament";
+import { TournamentModel } from "../../../models/tournament/tournament.model";
 import { TournamentRegistrationMail } from "../../../models/tournament/tournament-registration-mail.interface";
 import { ToastService } from "../../../shared/services/toast.service";
 import { TranslateService } from "@ngx-translate/core";
@@ -11,8 +11,8 @@ import { TranslateService } from "@ngx-translate/core";
   providedIn: 'root'
 })
 export class TournamentFacade {
-  private tournamentsSubject = new BehaviorSubject<Tournament[]>([]);
-  private currentTournamentSubject = new BehaviorSubject<Tournament | null>(null);
+  private tournamentsSubject = new BehaviorSubject<TournamentModel[]>([]);
+  private currentTournamentSubject = new BehaviorSubject<TournamentModel | null>(null);
 
   public tournaments$ = this.tournamentsSubject.asObservable();
   public currentTournament$ = this.currentTournamentSubject.asObservable();
@@ -36,13 +36,13 @@ export class TournamentFacade {
     ).subscribe();
   }
 
-  createTournament(tournament: Tournament): Observable<Tournament> {
+  createTournament(tournament: TournamentModel): Observable<TournamentModel> {
     return this.tournamentService.createTournament(tournament).pipe(
       tap(() => this.loadTournaments())
     );
   }
 
-  updateTournament(tournament: Tournament): Observable<Tournament> {
+  updateTournament(tournament: TournamentModel): Observable<TournamentModel> {
     return this.tournamentService.updateTournament(tournament).pipe(
       tap(updatedTournament => {
         this.currentTournamentSubject.next(updatedTournament);
@@ -71,7 +71,7 @@ export class TournamentFacade {
     );
   }
 
-  getTournamentByUuid(uuid: string): Observable<Tournament | null> {
+  getTournamentByUuid(uuid: string): Observable<TournamentModel | null> {
     return this.tournamentService.getTournamentByUuid(uuid);
   }
 

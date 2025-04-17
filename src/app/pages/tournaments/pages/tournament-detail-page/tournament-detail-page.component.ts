@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TournamentDetailComponent } from '../../components/tournament-detail/tournament-detail.component';
-import { Tournament } from '../../../../models/tournament/tournament';
+import { TournamentModel } from '../../../../models/tournament/tournament.model';
 import { Observable, of, switchMap } from 'rxjs';
 import { TournamentFacade } from "../../facades/tournament.facade";
 import { TranslatePipe } from "@ngx-translate/core";
@@ -15,7 +15,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   styleUrls: ['./tournament-detail-page.component.css']
 })
 export class TournamentDetailPageComponent implements OnInit {
-  tournament$: Observable<Tournament | null> = of(null);
+  tournament$: Observable<TournamentModel | null> = of(null);
 
   constructor(
     private route: ActivatedRoute,

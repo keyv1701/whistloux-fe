@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TournamentDetailComponent } from '../../components/tournament-detail/tournament-detail.component';
 import { TournamentListComponent } from '../../components/tournament-list/tournament-list.component';
-import { Tournament } from '../../../../models/tournament/tournament';
+import { TournamentModel } from '../../../../models/tournament/tournament.model';
 import { Observable, of, switchMap } from 'rxjs';
 import { NullToEmptyPipe } from "../../../../shared/pipes/null-to-empty.pipe";
 import { TournamentFacade } from "../../facades/tournament.facade";
@@ -18,7 +18,7 @@ import { TranslatePipe } from "@ngx-translate/core";
   styleUrls: ['./tournament-page.component.css']
 })
 export class TournamentPageComponent implements OnInit {
-  selectedTournament$: Observable<Tournament | null> = of(null);
+  selectedTournament$: Observable<TournamentModel | null> = of(null);
   selectedUuid: string | null = null;
 
   constructor(
@@ -45,7 +45,7 @@ export class TournamentPageComponent implements OnInit {
     );
   }
 
-  onSelectTournament(tournament: Tournament): void {
+  onSelectTournament(tournament: TournamentModel): void {
     this.router.navigate(['/tournaments', tournament.uuid]);
   }
 

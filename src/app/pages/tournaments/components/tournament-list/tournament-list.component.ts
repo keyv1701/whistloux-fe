@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tournament } from "../../../../models/tournament/tournament";
+import { TournamentModel } from "../../../../models/tournament/tournament.model";
 import { AuthFacade } from "../../../../shared/security/auth/facades/auth.facade";
 import { TournamentEditComponent } from '../tournament-edit/tournament-edit.component';
 import { TournamentCreateComponent } from "../tournament-create/tournament-create.component";
@@ -28,16 +28,16 @@ import { TimeFormatPipe } from "../../../../shared/pipes/time-format.pipe";
   styleUrls: ['./tournament-list.component.css']
 })
 export class TournamentListComponent implements OnInit {
-  @Input() tournaments: Tournament[] = [];
+  @Input() tournaments: TournamentModel[] = [];
   @Input() readOnly = false;
-  @Output() selectTournament = new EventEmitter<Tournament>();
+  @Output() selectTournament = new EventEmitter<TournamentModel>();
   @Output() deleteTournamentEvent = new EventEmitter<string>();
-  @Output() tournamentUpdated = new EventEmitter<Tournament>();
+  @Output() tournamentUpdated = new EventEmitter<TournamentModel>();
 
-  selectedTournament: Tournament | null = null;
+  selectedTournament: TournamentModel | null = null;
   showCreateForm = false;
   showConfirmation = false;
-  tournamentToDelete: Tournament | null = null;
+  tournamentToDelete: TournamentModel | null = null;
 
   constructor(
     public authFacade: AuthFacade,
@@ -55,11 +55,11 @@ export class TournamentListComponent implements OnInit {
     this.tournamentFacade.loadTournaments();
   }
 
-  onSelect(tournament: Tournament): void {
+  onSelect(tournament: TournamentModel): void {
     this.selectTournament.emit(tournament);
   }
 
-  onEdit(tournament: Tournament, event: Event): void {
+  onEdit(tournament: TournamentModel, event: Event): void {
     event.stopPropagation(); // Pour éviter que l'événement ne se propage
     this.selectedTournament = tournament;
   }
@@ -76,19 +76,19 @@ export class TournamentListComponent implements OnInit {
     this.showCreateForm = false;
   }
 
-  onPlayerCreated(tournament: Tournament): void {
+  onPlayerCreated(tournament: TournamentModel): void {
     this.showCreateForm = false;
     this.toastService.success(this.translateService.instant('success.tournament.list.create'));
     this.tournamentFacade.loadTournaments();
   }
 
-  onTournamentSaved(updatedTournament: Tournament): void {
+  onTournamentSaved(updatedTournament: TournamentModel): void {
     this.selectedTournament = null;
     this.toastService.success(this.translateService.instant('success.tournament.list.update'));
     this.tournamentFacade.loadTournaments();
   }
 
-  onDelete(tournament: Tournament, event: Event): void {
+  onDelete(tournament: TournamentModel, event: Event): void {
     event.stopPropagation();
     this.tournamentToDelete = tournament;
     this.showConfirmation = true;

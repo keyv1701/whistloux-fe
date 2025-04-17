@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Tournament } from '../../../../models/tournament/tournament';
+import { TournamentModel } from '../../../../models/tournament/tournament.model';
 import { TimeFormatPipe } from "../../../../shared/pipes/time-format.pipe";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { ToastService } from "../../../../shared/services/toast.service";
@@ -14,7 +14,7 @@ import { TournamentRegistrationComponent } from "../tournament-registration/tour
   styleUrls: ['./tournament-detail.component.css']
 })
 export class TournamentDetailComponent implements OnInit {
-  @Input() tournament: Tournament | null = null;
+  @Input() tournament: TournamentModel | null = null;
 
   showRegistrationForm = false;
 

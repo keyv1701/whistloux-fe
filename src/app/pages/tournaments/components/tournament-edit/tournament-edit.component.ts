@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Tournament } from '../../../../models/tournament/tournament';
+import { TournamentModel } from '../../../../models/tournament/tournament.model';
 import { CommonModule } from '@angular/common';
 import { TournamentFormComponent } from "../tournament-form/tournament-form.component";
 
@@ -12,11 +12,11 @@ import { TournamentFormComponent } from "../tournament-form/tournament-form.comp
   styleUrls: ['./tournament-edit.component.css']
 })
 export class TournamentEditComponent {
-  @Input() tournament: Tournament | null = null;
+  @Input() tournament: TournamentModel | null = null;
   @Output() close = new EventEmitter<void>();
-  @Output() saved = new EventEmitter<Tournament>();
+  @Output() saved = new EventEmitter<TournamentModel>();
 
-  onSaved(result: Tournament) {
+  onSaved(result: TournamentModel) {
     this.saved.emit(result);
   }
 

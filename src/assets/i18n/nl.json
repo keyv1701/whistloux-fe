@@ -568,5 +568,7 @@
   "tournament.registration.message": "Bericht",
   "tournament.registration.cancel": "Annuleren",
   "tournament.registration.submit": "Verzenden",
-  "tournament.registration.message.prefill": "Ik wil me inschrijven voor het toernooi."
+  "tournament.registration.message.prefill": "Ik wil me inschrijven voor het toernooi.",
+  "tournament.form.parking.label": "Parkeerinformatie",
+  "tournament.form.registrationsCount.label": "Huidig aantal inschrijvingen"
 }

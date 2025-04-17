@@ -2,7 +2,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, NgIf } from '@angular/common';
-import { Tournament } from '../../../../models/tournament/tournament';
+import { TournamentModel } from '../../../../models/tournament/tournament.model';
 import { TournamentStatus } from '../../../../models/enums/tournament-status.enum';
 import { TranslatePipe } from "@ngx-translate/core";
 
@@ -14,8 +14,8 @@ import { TranslatePipe } from "@ngx-translate/core";
   styleUrls: ['./tournament-view.component.css']
 })
 export class TournamentViewComponent implements OnInit, OnChanges {
-  @Input() tournament: Tournament | undefined;
-  @Output() saveTournament = new EventEmitter<Tournament>();
+  @Input() tournament: TournamentModel | undefined;
+  @Output() saveTournament = new EventEmitter<TournamentModel>();
   @Output() cancelEdit = new EventEmitter<void>();
 
   tournamentForm!: FormGroup;

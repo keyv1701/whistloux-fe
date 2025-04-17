@@ -1,8 +1,9 @@
-export interface Tournament {
+export interface TournamentModel {
   uuid: string;
   name: string;
   description: string;
   address: string;
+  parking: string;
   date: Date;
   startTime: string;
   maxPlayers: number;

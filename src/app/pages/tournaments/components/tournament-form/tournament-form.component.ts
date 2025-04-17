@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Tournament } from '../../../../models/tournament/tournament';
+import { TournamentModel } from '../../../../models/tournament/tournament.model';
 import { CommonModule } from '@angular/common';
 import { TournamentFacade } from "../../facades/tournament.facade";
 import { catchError, of } from "rxjs";
@@ -16,10 +16,10 @@ import { map, take } from "rxjs/operators";
   styleUrls: ['./tournament-form.component.css']
 })
 export class TournamentFormComponent implements OnInit {
-  @Input() tournament: Tournament | null = null;
+  @Input() tournament: TournamentModel | null = null;
   @Input() isEditMode = false;
   @Output() close = new EventEmitter<void>();
-  @Output() saved = new EventEmitter<Tournament>();
+  @Output() saved = new EventEmitter<TournamentModel>();
 
   tournamentForm: FormGroup;
 
@@ -33,9 +33,11 @@ export class TournamentFormComponent implements OnInit {
       name: ['', Validators.required],
       description: [''],
       address: ['', Validators.required],
+      parking: [''],
       date: ['', Validators.required],
       startTime: [''],
       endTime: [''],
+      registrationsCount: [0],
       maxPlayers: [0, [Validators.required, Validators.min(0)]],
       registrationOpen: [true],
       registrationDeadline: [''],
@@ -83,12 +85,14 @@ export class TournamentFormComponent implements OnInit {
     }
   }
 
-  private createSavedTournament(formValues: Tournament): Tournament {
+  private createSavedTournament(formValues: TournamentModel): TournamentModel {
     if (this.tournament) {
       return {
         ...this.tournament,
         name: formValues.name,
         address: formValues.address,
+        parking: formValues.parking,
+        registrationsCount: formValues.registrationsCount,
         maxPlayers: formValues.maxPlayers,
         entryFee: formValues.entryFee,
         description: formValues.description,
@@ -100,6 +104,7 @@ export class TournamentFormComponent implements OnInit {
         name: formValues.name,
         description: formValues.description,
         address: formValues.address,
+        parking: formValues.parking,
         date: formValues.date,
         startTime: formValues.startTime || '',
         maxPlayers: formValues.maxPlayers,
@@ -116,11 +121,11 @@ export class TournamentFormComponent implements OnInit {
     }
   }
 
-  private saveAction(updatedTournament: Tournament) {
+  private saveAction(updatedTournament: TournamentModel) {
     this.isEditMode ? this.updateForm(updatedTournament) : this.createForm(updatedTournament);
   }
 
-  private updateForm(updatedTournament: Tournament) {
+  private updateForm(updatedTournament: TournamentModel) {
     this.tournamentFacade.updateTournament(updatedTournament)
       .pipe(
         map(result => {
@@ -139,7 +144,7 @@ export class TournamentFormComponent implements OnInit {
       .subscribe();
   }
 
-  private createForm(updatedTournament: Tournament) {
+  private createForm(updatedTournament: TournamentModel) {
     this.tournamentFacade.createTournament(updatedTournament)
       .pipe(
         map(result => {
