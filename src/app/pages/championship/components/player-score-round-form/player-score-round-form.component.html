@@ -1,0 +1,141 @@
+<div class="p-6">
+  <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">{{ formTitle }}</h2>
+
+  <form [formGroup]="mainForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div class="form-group">
+      <label for="round" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        {{ 'player.score.form.roundLabel' | translate }}
+      </label>
+      <select
+        id="round"
+        formControlName="round"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        <option [value]="1">{{ 'player.score.form.round1Label' | translate }}</option>
+        <option [value]="2">{{ 'player.score.form.round2Label' | translate }}</option>
+        <option [value]="3">{{ 'player.score.form.round3Label' | translate }}</option>
+      </select>
+    </div>
+
+    <div class="border border-gray-200 dark:border-gray-700 rounded-md p-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3
+          class="text-lg font-medium text-gray-800 dark:text-white">{{ 'player.score.form.playersLabel' | translate }}</h3>
+        <button
+          *ngIf="canAddMorePlayers()"
+          type="button"
+          (click)="addPlayer()"
+          class="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition">
+          <span>{{ 'player.score.form.addPlayerButton' | translate }}</span>
+        </button>
+      </div>
+
+      <div class="mb-4">
+        <div class="flex gap-2 mb-2">
+          <button
+            *ngFor="let playerForm of playersFormArray.controls; let i = index"
+            type="button"
+            (click)="setActivePlayer(i)"
+            class="px-3 py-1 rounded-md transition"
+            [ngClass]="{
+              'bg-blue-600 text-white': activePlayerIndex === i,
+              'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300': activePlayerIndex !== i
+            }">
+            {{ getControlValue(playerForm, 'playerPseudo') || ('player.score.form.player' | translate) + ' ' + (i + 1) }}
+          </button>
+        </div>
+      </div>
+
+      <div *ngFor="let playerForm of playersFormArray.controls; let i = index">
+        <div *ngIf="activePlayerIndex === i" class="space-y-4">
+          <div class="flex justify-between items-center">
+            <h4 class="text-md font-medium text-gray-800 dark:text-white">
+              {{ 'player.score.form.playerDetails' | translate }}
+            </h4>
+            <button
+              type="button"
+              (click)="removePlayer(i)"
+              class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
+              {{ 'player.score.form.removePlayerButton' | translate }}
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label for="playerPseudo{{i}}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              {{ 'player.score.form.playerLabel' | translate }}
+            </label>
+            <app-autocomplete
+              [id]="'playerPseudo' + i"
+              [placeholder]="'player.score.form.searchPlayerPlaceholder' | translate"
+              [items$]="pseudos$"
+              [initialValue]="getControlValue(playerForm, 'playerPseudo') || ''"
+              [displayFn]="displayPlayerFn"
+              [emptyMessage]="'player.score.form.noPlayerFound' | translate"
+              (itemSelected)="onSelectPlayer($event, i)">
+            </app-autocomplete>
+            <div
+              *ngIf="getControlInvalid(playerForm, 'playerUuid') && getControlTouched(playerForm, 'playerUuid')"
+              class="text-red-500 text-sm mt-1">
+              {{ 'player.score.form.selectPlayerError' | translate }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="roundPoints{{i}}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              {{ 'player.score.form.roundPointsLabel' | translate }}
+            </label>
+            <input
+              type="number"
+              [id]="'roundPoints' + i"
+              [formControl]="getFormControl(playerForm, 'roundPoints')"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          </div>
+
+          <div class="form-group">
+            <div class="flex items-center justify-between">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {{ 'player.score.form.bidDetailsLabel' | translate }}
+              </label>
+              <button
+                type="button"
+                (click)="toggleBidDetails(i)"
+                class="text-blue-600 text-sm hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                {{ (getControlValue(playerForm, 'hasBidDetails') ? 'player.score.form.hideBids' : 'player.score.form.showBids') | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="getControlValue(playerForm, 'hasBidDetails')">
+            <app-player-whist-form
+              [parentForm]="bidForms[i]"
+              (formChange)="onBidDetailsChange($event, i)">
+            </app-player-whist-form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end space-x-4 pt-4">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition">
+        {{ 'player.score.form.cancelButton' | translate }}
+      </button>
+      <button
+        type="submit"
+        [disabled]="mainForm.invalid || loading"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition">
+        <span *ngIf="!loading">{{ submitButtonText }}</span>
+        <span *ngIf="loading" class="flex items-center">
+          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {{ 'player.score.form.loadingText' | translate }}
+        </span>
+      </button>
+    </div>
+  </form>
+</div>

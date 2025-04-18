@@ -17,6 +17,9 @@ import { WhistBidsWeek } from "../../../../models/bids/whist-bids-week.model";
 import { PseudoPipe } from "../../../../shared/pipes/pseudo.pipe";
 import { WhistBidDetail } from "../../../../models/bids/whist-bid-detail.model";
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import {
+  PlayerScoreRoundCreateComponent
+} from "../../components/player-score-round-create/player-score-round-create.component";
 
 type SortColumn = 'playerPseudo' | 'round1Points' | 'round2Points' | 'round3Points' | 'total';
 type SortDirection = 'asc' | 'desc';
@@ -24,7 +27,7 @@ type SortDirection = 'asc' | 'desc';
 @Component({
   selector: 'app-championship-week-detail-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent, PlayerScoreEditComponent, PlayerScoreEditComponent, PlayerScoreCreateComponent, PseudoPipe, TranslatePipe],
+  imports: [CommonModule, FormsModule, RouterModule, ConfirmationComponent, PlayerScoreEditComponent, PlayerScoreEditComponent, PlayerScoreCreateComponent, PseudoPipe, TranslatePipe, PlayerScoreRoundCreateComponent],
   templateUrl: './championship-week-detail-page.component.html',
   styleUrls: ['./championship-week-detail-page.component.css']
 })
@@ -48,6 +51,7 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   bidsToEdit: WhistBidsWeek | null = null;
 
   showScoreCreateForm = false;
+  showScoreCreateRoundForm = false;
 
   private weekUuid!: string;
 
@@ -256,9 +260,18 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
     this.showScoreCreateForm = true;
   }
 
+  onAddScoreRoundClick(): void {
+    this.showScoreCreateRoundForm = true;
+  }
+
   onScoreCreated(createdScore: any): void {
     this.createPlayerScore(createdScore);
     this.updatePlayerWhistBids(createdScore);
+  }
+
+  onScoreRoundCreated(createdScoreRound: any): void {
+    //TODO
+    console.log('Score round created:', createdScoreRound);
   }
 
   private createPlayerScore(createdScore: any) {

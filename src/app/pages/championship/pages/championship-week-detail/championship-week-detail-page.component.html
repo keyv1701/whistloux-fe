@@ -37,6 +37,14 @@
             </svg>
             <span>{{ 'championship.detail.addScore' | translate }}</span>
           </button>
+          <button *ngIf="authFacade.isAuthenticated$ | async" (click)="onAddScoreRoundClick()"
+                  class="add-score-button">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+            <span>{{ 'championship.detail.addScoreRound' | translate }}</span>
+          </button>
           <button *ngIf="authFacade.isAuthenticated$ | async" (click)="exportToExcel()" class="export-button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
@@ -218,3 +226,9 @@
   (close)="showScoreCreateForm = false;"
   (created)="onScoreCreated($event)">
 </app-player-score-create>
+
+<app-player-score-round-create
+  *ngIf="showScoreCreateRoundForm"
+  (close)="showScoreCreateRoundForm = false;"
+  (created)="onScoreRoundCreated($event)">
+</app-player-score-round-create>

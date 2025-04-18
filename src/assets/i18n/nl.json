@@ -539,6 +539,7 @@
   "championship.detail.dateLabel": "Datum:",
   "championship.detail.scoresTitle": "Spelerscores",
   "championship.detail.addScore": "Score toevoegen",
+  "championship.detail.addScoreRound": "Voeg een ronde toe",
   "championship.detail.exportExcel": "Exporteer naar Excel",
   "championship.detail.noBidsWarning": "De rijen met deze markering geven aan dat er geen aankondiging is toegevoegd voor deze speler",
   "championship.detail.column.player": "Speler",
@@ -575,5 +576,15 @@
   "player.whist.bids.list.toDate": "Tot datum",
   "player.whist.bids.list.dateFilterInfo": "Filter statistieken op periode",
   "player.whist.bids.list.dateFilterHint": "Laat leeg om alle gegevens van het seizoen te zien",
-  "player.whist.bids.list.searchLabel": "Zoek een speler"
+  "player.whist.bids.list.searchLabel": "Zoek een speler",
+  "player.score.form.roundLabel": "Ronde",
+  "player.score.form.playersLabel": "Spelers",
+  "player.score.form.addPlayerButton": "Speler toevoegen",
+  "player.score.form.player": "Speler",
+  "player.score.form.playerDetails": "Spelergegevens",
+  "player.score.form.removePlayerButton": "Verwijder speler",
+  "player.score.form.roundPointsLabel": "Punten ronde",
+  "player.score.form.bidDetailsLabel": "Biedgegevens",
+  "player.score.form.hideBids": "Verberg biedingen",
+  "player.score.form.showBids": "Toon biedingen"
 }

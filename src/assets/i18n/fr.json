@@ -539,6 +539,7 @@
   "championship.detail.dateLabel": "Date:",
   "championship.detail.scoresTitle": "Scores des joueurs",
   "championship.detail.addScore": "Ajouter un score",
+  "championship.detail.addScoreRound": "Ajouter un round",
   "championship.detail.exportExcel": "Exporter en Excel",
   "championship.detail.noBidsWarning": "Les lignes marquées indiquent qu'aucune annonce n'a été ajoutée pour ce joueur",
   "championship.detail.column.player": "Joueur",
@@ -575,5 +576,15 @@
   "player.whist.bids.list.toDate": "Au",
   "player.whist.bids.list.dateFilterInfo": "Filtrer les statistiques par période",
   "player.whist.bids.list.dateFilterHint": "Laisser vide pour voir toutes les données de la saison",
-  "player.whist.bids.list.searchLabel": "Rechercher un joueur"
+  "player.whist.bids.list.searchLabel": "Rechercher un joueur",
+  "player.score.form.roundLabel": "Manche",
+  "player.score.form.playersLabel": "Joueurs",
+  "player.score.form.addPlayerButton": "Ajouter un joueur",
+  "player.score.form.player": "Joueur",
+  "player.score.form.playerDetails": "Détails du joueur",
+  "player.score.form.removePlayerButton": "Supprimer le joueur",
+  "player.score.form.roundPointsLabel": "Points de la manche",
+  "player.score.form.bidDetailsLabel": "Détails des annonces",
+  "player.score.form.hideBids": "Masquer les annonces",
+  "player.score.form.showBids": "Afficher les annonces"
 }
