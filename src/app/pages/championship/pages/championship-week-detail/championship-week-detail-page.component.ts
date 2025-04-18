@@ -156,7 +156,9 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
-          a.download = `championnat-semaine-${weekUuid}-${new Date().toISOString().split('T')[0]}.xlsx`;
+          const today = new Date();
+          const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+          a.download = `championnat-semaine-${formattedDate}.xlsx`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
