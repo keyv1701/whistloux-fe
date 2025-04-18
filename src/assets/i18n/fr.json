@@ -586,5 +586,7 @@
   "player.score.form.roundPointsLabel": "Points de la manche",
   "player.score.form.bidDetailsLabel": "Détails des annonces",
   "player.score.form.hideBids": "Masquer les annonces",
-  "player.score.form.showBids": "Afficher les annonces"
+  "player.score.form.showBids": "Afficher les annonces",
+  "success.score.round.create": "Le round et les joueurs ont été créés avec succès.",
+  "error.score.round.create": "Une erreur est survenue lors de la création du round et des joueurs."
 }

@@ -586,5 +586,7 @@
   "player.score.form.roundPointsLabel": "Punten ronde",
   "player.score.form.bidDetailsLabel": "Biedgegevens",
   "player.score.form.hideBids": "Verberg biedingen",
-  "player.score.form.showBids": "Toon biedingen"
+  "player.score.form.showBids": "Toon biedingen",
+  "success.score.round.create": "De ronde en de spelers zijn succesvol aangemaakt.",
+  "error.score.round.create": "Er is een fout opgetreden bij het aanmaken van de ronde en de spelers."
 }

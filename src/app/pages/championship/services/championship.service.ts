@@ -6,6 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { ChampionshipWeek } from "../../../models/championship/championship-week.model";
 import { PlayerWeekScore } from "../../../models/championship/player-week-score.model";
 import { PlayerRanking } from "../../../models/championship/player-ranking.model";
+import { PlayerWeekScoreRound } from "../../../models/championship/player-week-score-round.model";
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +51,6 @@ export class ChampionshipService {
     return this.http.delete<void>(`${this.apiUrl}/scores/${uuid}`);
   }
 
-  // Ajouter un score de joueur à une semaine
   addPlayerScore(weekUuid: string, playerScore: PlayerWeekScore): Observable<PlayerWeekScore> {
     return this.http.post<PlayerWeekScore>(`${this.apiUrl}/weeks/${weekUuid}/scores`, playerScore);
   }
@@ -62,6 +62,10 @@ export class ChampionshipService {
   // Supprimer un score de joueur
   deletePlayerScore(weekUuid: string, playerScoreUuid: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${weekUuid}/scores/${playerScoreUuid}`);
+  }
+
+  addPlayerScoreRound(weekUuid: string, playerWeekScoreRound: PlayerWeekScoreRound): Observable<PlayerWeekScoreRound> {
+    return this.http.post<PlayerWeekScoreRound>(`${this.apiUrl}/weeks/${weekUuid}/scores/round`, playerWeekScoreRound);
   }
 
   // Récupérer toutes les semaines avec filtre de saison optionnel

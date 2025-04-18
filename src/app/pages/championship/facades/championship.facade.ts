@@ -7,6 +7,7 @@ import { ToastService } from "../../../shared/services/toast.service";
 import { PlayerWeekScore } from "../../../models/championship/player-week-score.model";
 import { PlayerRanking } from "../../../models/championship/player-ranking.model";
 import { TranslateService } from "@ngx-translate/core";
+import { PlayerWeekScoreRound } from "../../../models/championship/player-week-score-round.model";
 
 @Injectable({
   providedIn: 'root'
@@ -166,6 +167,19 @@ export class ChampionshipFacade {
       catchError(error => {
         this.toastService.error(this.translateService.instant('error.championship.score.create'));
         return of(null as unknown as PlayerWeekScore);
+      })
+    );
+  }
+
+  createPlayerScoreRound(playerScoreRound: PlayerWeekScoreRound, weekUuid: string): Observable<PlayerWeekScoreRound> {
+    return this.championshipService.addPlayerScoreRound(weekUuid, playerScoreRound).pipe(
+      tap(score => {
+        this.loadChampionshipWeek(weekUuid);
+        this.toastService.success(this.translateService.instant('success.score.round.create'));
+      }),
+      catchError(error => {
+        this.toastService.error(this.translateService.instant('error.score.round.create'));
+        return of(null as unknown as PlayerWeekScoreRound);
       })
     );
   }

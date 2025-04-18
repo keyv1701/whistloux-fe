@@ -270,8 +270,7 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   }
 
   onScoreRoundCreated(createdScoreRound: any): void {
-    //TODO
-    console.log('Score round created:', createdScoreRound);
+    this.createPlayerScoreRound(createdScoreRound);
   }
 
   private createPlayerScore(createdScore: any) {
@@ -286,6 +285,25 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
             this.toastService.error(this.translateService.instant(err.error.message));
           } else {
             this.toastService.error(this.translateService.instant('error.score.create', {error: 'Erreur inconnue'}));
+          }
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  private createPlayerScoreRound(createdScoreRound: any) {
+    this.championshipFacade.createPlayerScoreRound(createdScoreRound, this.weekUuid)
+      .pipe(
+        tap(updatedWeek => {
+          this.toastService.success(this.translateService.instant('success.score.round.create'));
+          this.showScoreCreateRoundForm = false;
+        }),
+        catchError(err => {
+          if (err.error?.message) {
+            this.toastService.error(this.translateService.instant(err.error.message));
+          } else {
+            this.toastService.error(this.translateService.instant('error.score.round.create', {error: 'Erreur inconnue'}));
           }
           return of(null);
         })
