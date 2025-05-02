@@ -36,21 +36,36 @@
         ></textarea>
       </div>
 
-      <!-- Adresse -->
+      <!-- Adresse avec autocomplete -->
       <div class="form-group">
         <label for="address" class="block text-gray-700 text-sm font-bold mb-1">
           {{ 'tournament.form.address.label' | translate }}
         </label>
-        <input
-          type="text"
-          id="address"
-          formControlName="address"
-          class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          [ngClass]="{'border-red-500': tournamentForm.get('address')?.invalid && tournamentForm.get('address')?.touched}"
-        />
-        <div *ngIf="tournamentForm.get('address')?.invalid && tournamentForm.get('address')?.touched"
-             class="text-red-500 text-sm mt-1">
-          {{ 'tournament.form.address.error' | translate }}
+        <div class="relative">
+          <input
+            type="text"
+            id="address"
+            formControlName="address"
+            #addressInput
+            (input)="searchAddress($event)"
+            class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            [ngClass]="{'border-red-500': tournamentForm.get('address')?.invalid && tournamentForm.get('address')?.touched}"
+          />
+          <div *ngIf="suggestions.length > 0"
+               class="absolute z-10 w-full bg-white mt-1 border border-gray-300 rounded-md shadow-lg">
+            <div *ngFor="let suggestion of suggestions"
+                 (click)="selectAddress(suggestion)"
+                 class="p-2 hover:bg-gray-100 cursor-pointer">
+              {{ suggestion.display_name }}
+            </div>
+          </div>
+          <div *ngIf="tournamentForm.get('address')?.invalid && tournamentForm.get('address')?.touched"
+               class="text-red-500 text-sm mt-1">
+            {{ 'tournament.form.address.error' | translate }}
+          </div>
+        </div>
+        <div *ngIf="selectedAddress" class="mt-2 text-sm text-gray-600">
+          {{ selectedAddress }}
         </div>
       </div>
 

@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TournamentModel } from '../../../../models/tournament/tournament.model';
 import { TimeFormatPipe } from "../../../../shared/pipes/time-format.pipe";
-import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { ToastService } from "../../../../shared/services/toast.service";
+import { TranslatePipe } from "@ngx-translate/core";
 import { TournamentRegistrationComponent } from "../tournament-registration/tournament-registration.component";
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-tournament-detail',
@@ -13,18 +13,45 @@ import { TournamentRegistrationComponent } from "../tournament-registration/tour
   templateUrl: './tournament-detail.component.html',
   styleUrls: ['./tournament-detail.component.css']
 })
-export class TournamentDetailComponent implements OnInit {
+export class TournamentDetailComponent implements OnChanges {
   @Input() tournament: TournamentModel | null = null;
 
+  @ViewChild('mapElement') mapElement!: ElementRef;
+
+  private map: any;
   showRegistrationForm = false;
 
+  mapUrl: SafeResourceUrl | null = null;
+
+  zoom = 15;
+
   constructor(
-    private toastService: ToastService,
-    private translateService: TranslateService
+    private sanitizer: DomSanitizer
   ) {
   }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['tournament']) {
+      this.updateMapUrl();
+    }
+  }
+
+  private updateMapUrl(): void {
+    if (this.tournament) {
+      if (this.tournament.lat && this.tournament.lng) {
+        // Si les coordonnées sont disponibles
+        const url = `https://maps.google.com/maps?q=${this.tournament.lat},${this.tournament.lng}&z=${this.zoom}&output=embed&hl=fr`;
+        this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      } else if (this.tournament.address) {
+        // Fallback: si l'adresse est disponible mais pas les coordonnées
+        const url = `https://maps.google.com/maps?q=${encodeURIComponent(this.tournament.address)}&z=${this.zoom}&output=embed&hl=fr`;
+        this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      } else {
+        this.mapUrl = null;
+      }
+    } else {
+      this.mapUrl = null;
+    }
   }
 
   formatDate(date: Date | null | undefined): string {
@@ -34,11 +61,6 @@ export class TournamentDetailComponent implements OnInit {
       month: 'long',
       day: 'numeric'
     });
-  }
-
-  formatTime(time: string | null | undefined): string {
-    if (!time) return '';
-    return time;
   }
 
   isRegistrationAvailable(): boolean {
@@ -78,4 +100,6 @@ export class TournamentDetailComponent implements OnInit {
   onRegistrationSubmitted(formData: any): void {
     this.showRegistrationForm = false;
   }
+
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

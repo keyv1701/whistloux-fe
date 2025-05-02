@@ -430,6 +430,7 @@
   "tournament.detail.registerButton": "S'inscrire",
   "tournament.detail.registrationDateLabel": "Inscrit le",
   "tournament.detail.registrationDeadline": "Inscription jusqu'au",
+  "tournament.detail.registrationClosed": "Inscriptions fermées",
   "tournament.detail.registrationEmailSubject": "Inscription pour le tournoi du {{ date }}",
   "tournament.detail.registrationInfo": "Informations d'inscription",
   "tournament.detail.registrationInfo.email": "Email",
@@ -580,5 +581,6 @@
   "player.score.form.hideBids": "Masquer les annonces",
   "player.score.form.showBids": "Afficher les annonces",
   "success.score.round.create": "La manche et les joueurs ont été créés avec succès.",
-  "error.score.round.create": "Une erreur est survenue lors de la création de la manche et des joueurs."
+  "error.score.round.create": "Une erreur est survenue lors de la création de la manche et des joueurs.",
+  "tournament.detail.viewOnMap": "Ouvrir dans Google Maps"
 }

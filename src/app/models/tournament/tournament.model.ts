@@ -3,6 +3,8 @@ export interface TournamentModel {
   name: string;
   description: string;
   address: string;
+  lat?: number; // Latitude
+  lng?: number; // Longitude
   parking: string;
   date: Date;
   startTime: string;

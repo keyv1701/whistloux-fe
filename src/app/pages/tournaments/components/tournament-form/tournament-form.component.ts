@@ -1,12 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TournamentModel } from '../../../../models/tournament/tournament.model';
 import { CommonModule } from '@angular/common';
 import { TournamentFacade } from "../../facades/tournament.facade";
-import { catchError, of } from "rxjs";
+import { catchError, debounceTime, distinctUntilChanged, of, Subject } from "rxjs";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
-import { map, take } from "rxjs/operators";
+import { map, switchMap, take } from "rxjs/operators";
+import { HttpClient } from '@angular/common/http';
+
+interface NominatimResponse {
+  display_name: string;
+  lat: string;
+  lon: string;
+}
 
 @Component({
   selector: 'app-tournament-form',
@@ -20,14 +27,19 @@ export class TournamentFormComponent implements OnInit {
   @Input() isEditMode = false;
   @Output() close = new EventEmitter<void>();
   @Output() saved = new EventEmitter<TournamentModel>();
+  @ViewChild('addressInput') addressInput!: ElementRef;
 
   tournamentForm: FormGroup;
+  selectedAddress: string = '';
+  suggestions: NominatimResponse[] = [];
+  private searchSubject = new Subject<string>();
 
   constructor(
     private fb: FormBuilder,
     private tournamentFacade: TournamentFacade,
     private toastService: ToastService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private http: HttpClient
   ) {
     this.tournamentForm = this.fb.group({
       name: ['', Validators.required],
@@ -46,18 +58,28 @@ export class TournamentFormComponent implements OnInit {
       prizes: [''],
       contactEmail: ['', Validators.email],
       contactPhone: [''],
-      status: ['PLANNED']
+      status: ['PLANNED'],
+      lat: [null],
+      lng: [null]
+    });
+
+    // Configuration de la recherche avec debounce
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(term => this.getAddressSuggestions(term))
+    ).subscribe(results => {
+      this.suggestions = results;
     });
   }
 
   ngOnInit(): void {
     if (this.tournament) {
-      // Formater les dates pour les champs input de type datetime-local
+      // Formater les dates pour les champs input
       const tournament = {...this.tournament};
 
-      // Convertir les dates en format ISO pour les champs input
       if (tournament.startTime) {
-        tournament.startTime = tournament.startTime; // déjà au format HH:MM dans le modèle
+        tournament.startTime = tournament.startTime;
       }
 
       if (tournament.registrationDeadline) {
@@ -66,7 +88,40 @@ export class TournamentFormComponent implements OnInit {
       }
 
       this.tournamentForm.patchValue(tournament);
+      if (tournament.address) {
+        this.selectedAddress = tournament.address;
+      }
     }
+  }
+
+  searchAddress(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    if (value.length > 3) {
+      this.searchSubject.next(value);
+    } else {
+      this.suggestions = [];
+    }
+  }
+
+  selectAddress(suggestion: NominatimResponse): void {
+    this.selectedAddress = suggestion.display_name;
+    this.tournamentForm.patchValue({
+      address: suggestion.display_name,
+      lat: parseFloat(suggestion.lat),
+      lng: parseFloat(suggestion.lon)
+    });
+    this.suggestions = [];
+  }
+
+  private getAddressSuggestions(query: string) {
+    if (!query || query.length < 3) {
+      return of([]);
+    }
+
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`;
+    return this.http.get<NominatimResponse[]>(url).pipe(
+      catchError(() => of([]))
+    );
   }
 
   onSubmit(): void {
@@ -80,12 +135,19 @@ export class TournamentFormComponent implements OnInit {
         savedTournament.registrationDeadline = new Date(formValues.registrationDeadline);
       }
 
+      // Ajouter les coordonnées géographiques
+      if (formValues.lat && formValues.lng) {
+        savedTournament.lat = formValues.lat;
+        savedTournament.lng = formValues.lng;
+      }
+
       this.toastService.info(this.translateService.instant('info.tournament.save', {name: savedTournament.name}));
       this.saveAction(savedTournament);
     }
   }
 
-  private createSavedTournament(formValues: TournamentModel): TournamentModel {
+  // Le reste du code reste identique
+  private createSavedTournament(formValues: any): TournamentModel {
     if (this.tournament) {
       return {
         ...this.tournament,
@@ -96,11 +158,13 @@ export class TournamentFormComponent implements OnInit {
         maxPlayers: formValues.maxPlayers,
         entryFee: formValues.entryFee,
         description: formValues.description,
-        prizes: formValues.prizes
+        prizes: formValues.prizes,
+        lat: formValues.lat,
+        lng: formValues.lng
       };
     } else {
       return {
-        uuid: '', // sera généré par le backend
+        uuid: '',
         name: formValues.name,
         description: formValues.description,
         address: formValues.address,
@@ -110,13 +174,15 @@ export class TournamentFormComponent implements OnInit {
         maxPlayers: formValues.maxPlayers,
         registrationOpen: formValues.registrationOpen,
         registrationDeadline: formValues.registrationDeadline,
-        registrationsCount: 0, // nouveau tournoi, pas encore d'inscriptions
+        registrationsCount: 0,
         entryFee: formValues.entryFee,
         includedItems: formValues.includedItems,
         prizes: formValues.prizes,
         contactEmail: formValues.contactEmail,
         contactPhone: formValues.contactPhone,
-        status: formValues.status
+        status: formValues.status,
+        lat: formValues.lat,
+        lng: formValues.lng
       };
     }
   }

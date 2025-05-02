@@ -430,6 +430,7 @@
   "tournament.detail.registerButton": "Inschrijven",
   "tournament.detail.registrationDateLabel": "Ingeschreven op",
   "tournament.detail.registrationDeadline": "Inschrijving tot",
+  "tournament.detail.registrationClosed": "Inschrijvingen gesloten",
   "tournament.detail.registrationEmailSubject": "Inschrijving voor het toernooi van {{ date }}",
   "tournament.detail.registrationInfo": "Inschrijvingsinformatie",
   "tournament.detail.registrationInfo.email": "E-mail",
@@ -580,5 +581,6 @@
   "player.score.form.hideBids": "Verberg biedingen",
   "player.score.form.showBids": "Toon biedingen",
   "success.score.round.create": "De ronde en de spelers zijn succesvol aangemaakt.",
-  "error.score.round.create": "Er is een fout opgetreden bij het aanmaken van de ronde en de spelers."
+  "error.score.round.create": "Er is een fout opgetreden bij het aanmaken van de ronde en de spelers.",
+  "tournament.detail.viewOnMap": "Bekijk op de kaart"
 }
