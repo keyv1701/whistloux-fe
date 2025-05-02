@@ -61,6 +61,8 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   protected readonly WhistBid = WhistBid;
   selectedPlayerUuid: string | null = null;
 
+  rankedPlayerBids: PlayerWhistBids[] = [];
+
   constructor(
     private fb: FormBuilder,
     private playerWhistBidsFacade: PlayerWhistBidsFacade,
@@ -171,6 +173,7 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
           // Initialiser le tri par défaut sur totalBids en descendant
           this.sortColumn = 'totalBids';
           this.sortDirection = 'desc';
+          this.calculateRankings();
           this.applyFilters();
         })
       )
@@ -457,6 +460,20 @@ export class PlayerWhistBidsListPageComponent implements OnInit, OnDestroy {
   onSeasonChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     this.loadBidsBySeason(value);
+  }
+
+  private calculateRankings(): void {
+    // Créer une copie triée des joueurs par total de points (desc)
+    this.rankedPlayerBids = [...this.playerBids].sort((a, b) => {
+      const totalA = this.getTotalBids(a);
+      const totalB = this.getTotalBids(b);
+      return totalB - totalA; // tri descendant
+    });
+  }
+
+  getPlayerRank(playerUuid: string): number {
+    const index = this.rankedPlayerBids.findIndex(player => player.playerUuid === playerUuid);
+    return index !== -1 ? index + 1 : 0;
   }
 
 }

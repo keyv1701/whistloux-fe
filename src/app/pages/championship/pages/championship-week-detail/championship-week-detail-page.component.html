@@ -17,7 +17,7 @@
   <!-- Contenu principal -->
   <ng-container *ngIf="!(loading$ | async) && (selectedWeek$ | async) as week">
     <div class="week-header">
-      <h1>{{ 'championship.detail.weekTitle' | translate:{weekNumber: week.weekNumber} }}</h1>
+      <h1>{{ 'championship.detail.weekTitle' | translate:{weekDate: (week.date | date:'dd/MM/yyyy')} }}</h1>
       <div class="week-meta">
         <span class="season">{{ 'championship.detail.seasonLabel' | translate }} {{ week.season }}</span>
         <span class="date">{{ 'championship.detail.dateLabel' | translate }} {{ week.date | date:'dd/MM/yyyy' }}</span>
