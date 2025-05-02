@@ -7,9 +7,7 @@ export interface Player {
   dayOfBirth?: number;
   monthOfBirth?: number;
   yearOfBirth?: number;
-  pay: number | null;
-  validSince?: string; // Format ISO 'YYYY-MM-DD'
-  validUntil?: string | null; // Format ISO 'YYYY-MM-DD', peut être null
+  valid?: boolean;
   address: string;
   gsm?: string;
   phoneNumber?: string;

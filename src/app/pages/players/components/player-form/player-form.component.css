@@ -53,3 +53,15 @@ input:focus, select:focus {
 .submit-button:disabled {
   @apply bg-gray-300 text-gray-500 cursor-not-allowed hover:bg-gray-300;
 }
+
+.valid-group {
+  @apply col-span-1 md:col-span-2 my-2;
+}
+
+.checkbox-container {
+  @apply flex items-center;
+}
+
+.checkbox {
+  @apply h-4 w-4 text-whist-primary border-gray-300 rounded focus:ring-whist-primary mr-2;
+}

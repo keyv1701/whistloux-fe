@@ -10,18 +10,12 @@
       </div>
       <p class="email">{{ player.email }}</p>
       <div class="status-badges">
-        <span class="badge"
-              [ngClass]="{'success': player.pay && player.pay > 0, 'warning': !player.pay || player.pay <= 0}">
-          <span class="dot"
-                [ngClass]="{'success': player.pay && player.pay > 0, 'warning': !player.pay || player.pay <= 0}"></span>
-          {{ player.pay && player.pay > 0 ? ('player.card.feePaid' | translate) : ('player.card.notSubscribed' | translate) }}
-        </span>
-        <span *ngIf="player.validUntil" class="badge"
-              [ngClass]="{'success': !isExpired(player.validUntil), 'danger': isExpired(player.validUntil)}">
-          <span class="dot"
-                [ngClass]="{'success': !isExpired(player.validUntil), 'danger': isExpired(player.validUntil)}"></span>
-          {{ isExpired(player.validUntil) ? ('player.card.expired' | translate) : ('player.card.active' | translate) }}
-        </span>
+  <span class="badge"
+        [ngClass]="{'success': player.valid, 'warning': !player.valid}">
+    <span class="dot"
+          [ngClass]="{'success': player.valid, 'warning': !player.valid}"></span>
+    {{ player.valid ? ('player.card.active' | translate) : ('player.card.inactive' | translate) }}
+  </span>
       </div>
     </div>
     <div *ngIf="authFacade.isAuthenticated$ | async" class="actions">
@@ -77,27 +71,6 @@
         <div class="info-content">
           <span class="label">{{ 'player.card.address.label' | translate }}</span>
           <span class="value">{{ player.address }}</span>
-        </div>
-      </div>
-
-      <div class="info-item" *ngIf="player.validSince || player.validUntil">
-        <div class="info-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="icon">
-            <path fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                  clip-rule="evenodd"/>
-          </svg>
-        </div>
-        <div class="info-content">
-          <span class="label">{{ 'player.card.validity.label' | translate }}</span>
-          <div class="value">
-            <div
-              *ngIf="player.validSince">{{ 'player.card.validity.from' | translate }} {{ formatDate(player.validSince) }}
-            </div>
-            <div *ngIf="player.validUntil" [class.expired]="isExpired(player.validUntil)">
-              {{ 'player.card.validity.to' | translate }} {{ formatDate(player.validUntil) }}
-            </div>
-          </div>
         </div>
       </div>
     </div>

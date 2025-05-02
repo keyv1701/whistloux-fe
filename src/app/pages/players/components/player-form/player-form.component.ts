@@ -46,9 +46,7 @@ export class PlayerFormComponent implements OnChanges {
       dayOfBirth: [null],
       monthOfBirth: [null],
       yearOfBirth: [null],
-      pay: [null],
-      validSince: [null],
-      validUntil: [null],
+      valid: [false],
       address: [''],
       gsm: [''],
       phoneNumber: ['']

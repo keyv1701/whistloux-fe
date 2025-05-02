@@ -1,14 +1,14 @@
 <div class="tournament-list-container">
-  <div *ngIf="tournaments.length === 0" class="no-data">
-    {{ 'tournament.list.noTournament' | translate }}
-  </div>
-
   <button *ngIf="authFacade.isAuthenticated$ | async"
           (click)="onCreateTournament()"
           class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
     <span class="mr-1">+</span>
     <span>{{ 'tournament.list.addButton' | translate }}</span>
   </button>
+
+  <div *ngIf="tournaments.length === 0" class="no-data">
+    {{ 'tournament.list.noTournament' | translate }}
+  </div>
 
   <div class="tournament-grid">
     <div *ngFor="let tournament of tournaments" class="tournament-card">

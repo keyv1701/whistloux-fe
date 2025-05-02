@@ -50,19 +50,11 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="pay">{{ 'player.form.payment.label' | translate }}</label>
-      <input type="number" id="pay" formControlName="pay">
-    </div>
-
-    <div class="form-group">
-      <label for="validSince">{{ 'player.form.validSince.label' | translate }}</label>
-      <input type="date" id="validSince" formControlName="validSince">
-    </div>
-
-    <div class="form-group">
-      <label for="validUntil">{{ 'player.form.validUntil.label' | translate }}</label>
-      <input type="date" id="validUntil" formControlName="validUntil">
+    <div class="form-group valid-group">
+      <div class="checkbox-container">
+        <input type="checkbox" id="valid" formControlName="valid" class="checkbox">
+        <label for="valid" class="cursor-pointer">{{ 'player.form.valid.label' | translate }}</label>
+      </div>
     </div>
 
     <div class="form-group full-width">
