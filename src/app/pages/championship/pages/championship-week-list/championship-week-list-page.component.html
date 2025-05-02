@@ -53,7 +53,6 @@
         <table>
           <thead>
           <tr>
-            <th>{{ 'championship.week.list.table.weekNumber' | translate }}</th>
             <th>{{ 'championship.week.list.table.date' | translate }}</th>
             <th>{{ 'championship.week.list.table.description' | translate }}</th>
             <th
@@ -68,15 +67,13 @@
               (click)="navigateToDetail(week.uuid)"
               class="week-row"
               [class.incomplete-week]="!week.encodingComplete">
-            <td>
-              <span *ngIf="(authFacade.isAuthenticated$ | async) && !week.encodingComplete"
-                    class="warning-icon"
-                    [attr.title]="('championship.week.list.incompleteTitle' | translate)">
+            <td><span *ngIf="(authFacade.isAuthenticated$ | async) && !week.encodingComplete"
+                      class="warning-icon"
+                      [attr.title]="('championship.week.list.incompleteTitle' | translate)">
                 ⚠️
               </span>
-              {{ week.weekNumber }}
+              {{ week.date | date:'dd/MM/yyyy' }}
             </td>
-            <td>{{ week.date | date:'dd/MM/yyyy' }}</td>
             <td>{{ week.description }}</td>
             <td>{{ week.playerScores?.length }}</td>
             <td>
