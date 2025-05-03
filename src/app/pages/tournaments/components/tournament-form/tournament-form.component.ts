@@ -82,11 +82,6 @@ export class TournamentFormComponent implements OnInit {
         tournament.startTime = tournament.startTime;
       }
 
-      if (tournament.registrationDeadline) {
-        const deadlineDate = new Date(tournament.registrationDeadline);
-        tournament.registrationDeadline = deadlineDate;
-      }
-
       this.tournamentForm.patchValue(tournament);
       if (tournament.address) {
         this.selectedAddress = tournament.address;
@@ -152,13 +147,21 @@ export class TournamentFormComponent implements OnInit {
       return {
         ...this.tournament,
         name: formValues.name,
+        description: formValues.description,
         address: formValues.address,
         parking: formValues.parking,
-        registrationsCount: formValues.registrationsCount,
+        date: formValues.date,
+        startTime: formValues.startTime || '',
         maxPlayers: formValues.maxPlayers,
+        registrationOpen: formValues.registrationOpen,
+        registrationDeadline: formValues.registrationDeadline,
+        registrationsCount: formValues.registrationsCount,
         entryFee: formValues.entryFee,
-        description: formValues.description,
+        includedItems: formValues.includedItems,
         prizes: formValues.prizes,
+        contactEmail: formValues.contactEmail,
+        contactPhone: formValues.contactPhone,
+        status: formValues.status,
         lat: formValues.lat,
         lng: formValues.lng
       };
