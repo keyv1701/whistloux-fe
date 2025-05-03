@@ -26,8 +26,8 @@ import { MigrationComponent } from "./pages/migration/migration.component";
 import { HomeComponent } from "./pages/home/home.component";
 
 export const routes: Routes = [
-  {path: '', redirectTo: 'migration', pathMatch: 'full'},
-  // {path: '', redirectTo: 'home', pathMatch: 'full'},
+  // {path: '', redirectTo: 'migration', pathMatch: 'full'},
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'migration', component: MigrationComponent},
   {path: 'login', component: LoginComponent},
