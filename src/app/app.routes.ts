@@ -29,7 +29,7 @@ export const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   // {path: 'migration', component: MigrationComponent},
-  {path: 'migration', component: HomeComponent},
+  {path: 'migration', redirectTo: 'home', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'players', component: PlayerPageComponent},
   {path: 'contact', component: ContactComponent},
