@@ -22,14 +22,14 @@ import {
 import { RgpdComponent } from "./pages/rgpd/rgpd.component";
 import { RulesComponent } from "./pages/rules/rules.component";
 import { ChangePasswordComponent } from "./pages/change-password/pages/change-password.component";
-import { MigrationComponent } from "./pages/migration/migration.component";
 import { HomeComponent } from "./pages/home/home.component";
 
 export const routes: Routes = [
   // {path: '', redirectTo: 'migration', pathMatch: 'full'},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  {path: 'migration', component: MigrationComponent},
+  // {path: 'migration', component: MigrationComponent},
+  {path: 'migration', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'players', component: PlayerPageComponent},
   {path: 'contact', component: ContactComponent},
