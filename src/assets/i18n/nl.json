@@ -597,5 +597,8 @@
   "tournament.detail.results": "Toernooiresultaten",
   "tournament.detail.downloadResults": "Resultaten downloaden",
   "tournament.detail.noTournament": "Het toernooi bestaat niet",
-  "tournament.detail.selectTournament": "Selecteer een toernooi"
+  "tournament.detail.selectTournament": "Selecteer een toernooi",
+  "home.gallery.title": "Onze fotogalerij",
+  "home.gallery.noPhotos": "Geen foto's beschikbaar",
+  "home.gallery.viewMore": "Bekijk alle foto's"
 }

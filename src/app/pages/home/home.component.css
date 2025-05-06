@@ -109,3 +109,48 @@ a.flex.items-center.bg-blue-600 {
   align-items: center;
   justify-content: center;
 }
+
+/* Styles pour le slider de la galerie */
+.gallery-slider-container {
+  @apply w-full;
+}
+
+.gallery-slider {
+  @apply w-full bg-white;
+}
+
+.gallery-slider-track {
+  @apply w-full flex;
+}
+
+.gallery-slide {
+  @apply flex-shrink-0 transition-all duration-300;
+}
+
+/* Style du header comme dans championship-week-list et gallery */
+.header {
+  @apply flex flex-wrap justify-between items-center mb-8;
+}
+
+.header h2 {
+  @apply text-2xl font-bold text-whist-primary relative pb-3 mb-4;
+}
+
+.header h2::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-16 h-1 bg-whist-primary rounded;
+}
+
+/* Animation des boutons de navigation */
+button.bg-white.bg-opacity-70 {
+  @apply transition-transform duration-300;
+}
+
+button.bg-white.bg-opacity-70:hover {
+  @apply transform scale-110;
+}
+
+/* Animation de l'overlay de description */
+.group:hover .bg-black.bg-opacity-60 {
+  @apply translate-y-0;
+}
