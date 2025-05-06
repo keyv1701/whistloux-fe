@@ -529,3 +529,25 @@ tr.table-light {
     z-index: auto !important;
   }
 }
+
+/* Ajoutez une hauteur max et un défilement vertical au conteneur du tableau */
+.table-responsive {
+  max-height: 70vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3498db #f0f3f7;
+}
+
+/* Pour la première ligne d'en-tête uniquement (reste sticky) */
+.table-responsive .md\:sticky-header {
+  position: sticky !important;
+  top: 0;
+  z-index: 20;
+  background-color: #3498db;
+}
+
+/* Pour désactiver le comportement sticky de la seconde ligne */
+.table-responsive .table-secondary {
+  position: static;
+  background-color: #f0f3f7;
+}
