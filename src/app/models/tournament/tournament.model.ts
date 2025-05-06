@@ -1,3 +1,5 @@
+import { TournamentStatus } from "../enums/tournament-status.enum";
+
 export interface TournamentModel {
   uuid: string;
   name: string;
@@ -17,5 +19,5 @@ export interface TournamentModel {
   prizes: string;
   contactEmail: string;
   contactPhone: string;
-  status: string;
+  status: TournamentStatus;
 }

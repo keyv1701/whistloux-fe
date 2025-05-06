@@ -388,8 +388,7 @@
   "rules.rule11.title": "Chelems",
   "rules.rule11.paragraph": "Als er in hetzelfde spel twee kleine chelems of twee solo-chelems worden aangekondigd, is de kleurvolgorde doorslaggevend en gaat deze voor op het chelem zonder troef.",
   "rules.footer.question": "Vragen over ons reglement?",
-  "rules.footer.cta": "Contacteer ons"
-
+  "rules.footer.cta": "Contacteer ons",
   "success.championship.week.create": "De week {{weekNumber}} is succesvol aangemaakt!",
   "success.championship.week.create.week": "De week is succesvol aangemaakt",
   "success.championship.week.delete": "De week {{weekNumber}} is succesvol verwijderd!",
@@ -462,6 +461,9 @@
   "tournament.form.startTime.ariaLabel": "Selecteer de starttijd",
   "tournament.form.startTime.label": "Starttijd *",
   "tournament.form.status.label": "Status",
+  "tournament.status.planned": "Gepland",
+  "tournament.status.cancelled": "Geannuleerd",
+  "tournament.status.completed": "Voltooid",
   "tournament.form.status.options.CANCELLED": "Geannuleerd",
   "tournament.form.status.options.COMPLETED": "Voltooid",
   "tournament.form.status.options.ONGOING": "Bezig",

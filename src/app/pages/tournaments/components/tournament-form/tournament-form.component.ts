@@ -8,6 +8,7 @@ import { ToastService } from "../../../../shared/services/toast.service";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { map, switchMap, take } from "rxjs/operators";
 import { HttpClient } from '@angular/common/http';
+import { TournamentStatus } from "../../../../models/enums/tournament-status.enum";
 
 interface NominatimResponse {
   display_name: string;
@@ -58,7 +59,7 @@ export class TournamentFormComponent implements OnInit {
       prizes: [''],
       contactEmail: ['', Validators.email],
       contactPhone: [''],
-      status: ['PLANNED'],
+      status: [TournamentStatus.PLANNED],
       lat: [null],
       lng: [null]
     });
@@ -231,6 +232,12 @@ export class TournamentFormComponent implements OnInit {
       )
       .subscribe();
   }
+
+  tournamentStatusOptions = [
+    {value: TournamentStatus.PLANNED, label: this.translateService.instant('tournament.status.planned')},
+    {value: TournamentStatus.CANCELLED, label: this.translateService.instant('tournament.status.cancelled')},
+    {value: TournamentStatus.COMPLETED, label: this.translateService.instant('tournament.status.completed')}
+  ];
 
   onClose(): void {
     this.close.emit();
