@@ -71,10 +71,12 @@ export class PlayerListComponent implements OnInit {
     const firstName = player.firstName?.toLowerCase() || '';
     const lastName = player.lastName?.toLowerCase() || '';
     const email = player.email?.toLowerCase() || '';
+    const pseudo = player.pseudo?.toLowerCase() || '';
 
     return firstName.includes(search) ||
       lastName.includes(search) ||
-      email.includes(search);
+      email.includes(search) ||
+      pseudo.includes(search);
   }
 
   updateDisplayedPlayers(): void {
