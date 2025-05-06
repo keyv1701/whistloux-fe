@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { catchError, finalize, Observable, of, switchMap, tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChampionshipFacade } from '../../facades/championship.facade';
 import { PlayerRanking } from '../../../../models/championship/player-ranking.model';
 import { take } from "rxjs/operators";
@@ -62,7 +62,8 @@ export class ChampionshipResultPageComponent implements OnInit {
     private lotteryWinnerService: LotteryWinnerService,
     public authFacade: AuthFacade,
     private toastService: ToastService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private router: Router,
   ) {
     this.monthlyRankings$ = this.championshipFacade.monthlyRankings$;
     this.loading$ = this.championshipFacade.loading$;
@@ -80,6 +81,10 @@ export class ChampionshipResultPageComponent implements OnInit {
         this.loadLotteryWinners();
       })
     ).subscribe();
+  }
+
+  goBack(): void {
+    this.router.navigate(['/championship']);
   }
 
   loadLotteryWinners(): void {

@@ -212,3 +212,15 @@
 .rankings-table th.cursor-pointer:after {
   @apply absolute inset-0 w-full h-full content-[''] bg-opacity-0 pointer-events-none;
 }
+
+.back {
+  @apply mb-6 flex items-center;
+}
+
+.back-button {
+  @apply inline-flex items-center px-4 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-100 transition duration-150 shadow-sm;
+}
+
+.back-button svg {
+  @apply mr-2 h-5 w-5;
+}
