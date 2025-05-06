@@ -38,4 +38,16 @@ export class TournamentService {
   sendRegistrationMail(registrationData: TournamentRegistrationMail): Observable<TournamentRegistrationMail> {
     return this.http.post<TournamentRegistrationMail>(`${this.apiUrl}/register/mail`, registrationData);
   }
+
+  uploadResultsFile(tournamentId: string, file: File): Observable<TournamentModel> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<TournamentModel>(`${this.apiUrl}/${tournamentId}/results`, formData);
+  }
+
+  downloadTournamentResults(tournamentId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${tournamentId}/results`, {
+      responseType: 'blob'
+    });
+  }
 }

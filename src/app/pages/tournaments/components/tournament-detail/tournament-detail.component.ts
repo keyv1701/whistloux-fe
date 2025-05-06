@@ -6,6 +6,11 @@ import { TranslatePipe } from "@ngx-translate/core";
 import { TournamentRegistrationComponent } from "../tournament-registration/tournament-registration.component";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { NgLetDirective } from "../../../../shared/directives/ng-let.directive";
+import { take } from "rxjs/operators";
+import { TournamentFacade } from "../../facades/tournament.facade";
+import { catchError, finalize, tap, throwError } from "rxjs";
+import * as mime from 'mime-types';
+
 
 @Component({
   selector: 'app-tournament-detail',
@@ -26,8 +31,11 @@ export class TournamentDetailComponent implements OnChanges {
 
   zoom = 15;
 
+  isDownloading = false;
+
   constructor(
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private tournamentFacade: TournamentFacade,
   ) {
   }
 
@@ -140,6 +148,51 @@ export class TournamentDetailComponent implements OnChanges {
 
   cleanPhoneNumber(phone: string): string {
     return phone.replace(/[^0-9+]/g, '');
+  }
+
+  downloadResults(): void {
+    if (!this.tournament || this.isDownloading) return;
+
+    this.isDownloading = true;
+
+    this.tournamentFacade.downloadTournamentResults(this.tournament.uuid)
+      .pipe(
+        tap((blob: Blob) => {
+          // Créer un URL temporaire pour le blob
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+
+          // Essayer d'extraire le nom du fichier depuis les en-têtes HTTP
+          let fileName = `resultats-tournoi-${this.tournament?.name || 'inconnu'}.xlsx`;
+
+          if (blob.type) {
+            const extension = this.getSuggestedFileExtension(blob.type);
+            fileName = fileName.replace(/\.xlsx$/, extension);
+          }
+
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+
+          // Nettoyer
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }),
+        catchError((error) => {
+          return throwError(() => error);
+        }),
+        finalize(() => {
+          this.isDownloading = false;
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  getSuggestedFileExtension(contentType: string): string {
+    const extension = mime.extension(contentType);
+    return extension ? `.${extension}` : '';
   }
 
   protected readonly encodeURIComponent = encodeURIComponent;

@@ -86,4 +86,27 @@ export class TournamentFacade {
       })
     );
   }
+
+  uploadResultsFile(tournamentId: string, file: File): Observable<TournamentModel> {
+    return this.tournamentService.uploadResultsFile(tournamentId, file).pipe(
+      tap(updatedTournament => {
+        this.currentTournamentSubject.next(updatedTournament);
+        this.loadTournaments();
+        this.toastService.success(this.translateService.instant('success.tournament.results.upload'));
+      }),
+      catchError(error => {
+        this.toastService.error(this.translateService.instant('error.tournament.results.upload'));
+        return throwError(() => error);
+      })
+    );
+  }
+
+  downloadTournamentResults(tournamentId: string): Observable<any> {
+    return this.tournamentService.downloadTournamentResults(tournamentId).pipe(
+      catchError(error => {
+        this.toastService.error(this.translateService.instant('error.tournament.results.download'));
+        return throwError(() => error);
+      })
+    );
+  }
 }

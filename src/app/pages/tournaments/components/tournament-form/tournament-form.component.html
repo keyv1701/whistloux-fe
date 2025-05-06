@@ -289,6 +289,48 @@
         </select>
       </div>
 
+      <!-- Section pour télécharger les résultats (visible si status === COMPLETED) -->
+      <div class="form-group" *ngIf="tournamentForm.get('status')?.value === tournamentStatus.COMPLETED">
+        <label for="resultsFile" class="block text-gray-700 text-sm font-bold mb-1">
+          {{ 'tournament.form.resultsFile.label' | translate }}
+        </label>
+        <div class="flex items-center">
+          <input
+            type="file"
+            id="resultsFile"
+            (change)="onFileSelected($event)"
+            class="hidden"
+            accept=".xlsx,.xls,.csv,.pdf,.xlsm"
+            #fileInput
+          />
+          <button
+            type="button"
+            (click)="fileInput.click()"
+            class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors mr-2"
+          >
+            {{ 'tournament.form.resultsFile.selectButton' | translate }}
+          </button>
+          <span *ngIf="selectedFile" class="text-sm text-gray-600">
+      {{ selectedFile.name }} ({{ (selectedFile.size / 1024 / 1024).toFixed(2) }} Mo)
+    </span>
+          <span *ngIf="tournament?.resultsFile && !selectedFile" class="text-sm text-gray-600">
+      {{ getFileNameFromPath(tournament?.resultsFile) }}
+            <a [href]="tournament?.resultsFile" target="_blank" class="text-blue-500 ml-2">
+        {{ 'tournament.form.resultsFile.download' | translate }}
+      </a>
+    </span>
+        </div>
+        <div *ngIf="fileSizeError" class="text-red-500 text-sm mt-1">
+          {{ 'tournament.form.resultsFile.sizeError' | translate }}
+        </div>
+        <div *ngIf="fileTypeError" class="text-red-500 text-sm mt-1">
+          {{ 'tournament.form.resultsFile.typeError' | translate }}
+        </div>
+        <p class="text-xs text-gray-500 mt-1">
+          {{ 'tournament.form.resultsFile.hint' | translate }}
+        </p>
+      </div>
+
       <!-- Boutons -->
       <div class="flex justify-end space-x-2 pt-4 border-t border-gray-200">
         <button

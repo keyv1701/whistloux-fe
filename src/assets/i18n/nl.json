@@ -584,5 +584,17 @@
   "player.score.form.showBids": "Toon biedingen",
   "success.score.round.create": "De ronde en de spelers zijn succesvol aangemaakt.",
   "error.score.round.create": "Er is een fout opgetreden bij het aanmaken van de ronde en de spelers.",
-  "tournament.detail.viewOnMap": "Bekijk op de kaart"
+  "tournament.detail.viewOnMap": "Bekijk op de kaart",
+  "tournament.form.resultsFile.label": "Resultaatbestand",
+  "tournament.form.resultsFile.selectButton": "Selecteer een bestand",
+  "tournament.form.resultsFile.hint": "Toegestane formaten: XLSX, XLS, CSV, PDF, XLSM (max. 20 MB)",
+  "tournament.form.resultsFile.sizeError": "Het bestand mag niet groter zijn dan 50 MB",
+  "tournament.form.resultsFile.typeError": "Niet-ondersteund bestandsformaat. Gebruik XLSX, XLS, CSV, PDF of XLSM",
+  "tournament.form.resultsFile.download": "Downloaden",
+  "success.tournament.results.upload": "Resultaatbestand succesvol geüpload",
+  "error.tournament.results.upload": "Fout bij het uploaden van het resultaatbestand",
+  "tournament.detail.results": "Toernooiresultaten",
+  "tournament.detail.downloadResults": "Resultaten downloaden",
+  "tournament.detail.noTournament": "Het toernooi bestaat niet",
+  "tournament.detail.selectTournament": "Selecteer een toernooi"
 }

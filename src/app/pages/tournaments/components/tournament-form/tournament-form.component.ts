@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TournamentModel } from '../../../../models/tournament/tournament.model';
 import { CommonModule } from '@angular/common';
 import { TournamentFacade } from "../../facades/tournament.facade";
-import { catchError, debounceTime, distinctUntilChanged, of, Subject } from "rxjs";
+import { catchError, debounceTime, distinctUntilChanged, of, Subject, tap } from "rxjs";
 import { ToastService } from "../../../../shared/services/toast.service";
 import { TranslatePipe, TranslateService } from "@ngx-translate/core";
 import { map, switchMap, take } from "rxjs/operators";
@@ -34,6 +34,12 @@ export class TournamentFormComponent implements OnInit {
   selectedAddress: string = '';
   suggestions: NominatimResponse[] = [];
   private searchSubject = new Subject<string>();
+
+  selectedFile: File | null = null;
+  fileSizeError = false;
+  fileTypeError = false;
+  tournamentStatus = TournamentStatus;
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -191,8 +197,46 @@ export class TournamentFormComponent implements OnInit {
     }
   }
 
-  private saveAction(updatedTournament: TournamentModel) {
-    this.isEditMode ? this.updateForm(updatedTournament) : this.createForm(updatedTournament);
+  saveAction(updatedTournament: TournamentModel) {
+    const saveObservable = this.isEditMode ?
+      this.tournamentFacade.updateTournament(updatedTournament) :
+      this.tournamentFacade.createTournament(updatedTournament);
+
+    saveObservable.pipe(
+      map(result => {
+        // Gestion du message de succès
+        const successMessage = this.isEditMode ? 'success.tournament.update' : 'success.tournament.create';
+
+        // Si un fichier est sélectionné et que le statut est COMPLETED, télécharger le fichier séparément
+        if (this.selectedFile && result.status === TournamentStatus.COMPLETED) {
+          this.tournamentFacade.uploadResultsFile(result.uuid, this.selectedFile).pipe(
+            tap((updatedTournament) => {
+              // Le toast de succès est déjà géré dans la façade
+              this.saved.emit(updatedTournament);
+              this.close.emit();
+            }),
+            catchError(error => {
+              // Les erreurs sont déjà gérées dans la façade
+              return of(null);
+            }),
+            take(1)
+          ).subscribe();
+        } else {
+          // Pas de fichier à télécharger, terminer normalement
+          this.toastService.success(this.translateService.instant(successMessage, {name: result.name}));
+          this.saved.emit(result);
+          this.close.emit();
+        }
+        return result;
+      }),
+      catchError(err => {
+        const errorMessage = this.isEditMode ? 'error.tournament.update' : 'error.tournament.create';
+        this.toastService.error(this.translateService.instant(errorMessage,
+          {error: err.message || 'Erreur inconnue'}));
+        return of(null);
+      }),
+      take(1)
+    ).subscribe();
   }
 
   private updateForm(updatedTournament: TournamentModel) {
@@ -242,4 +286,42 @@ export class TournamentFormComponent implements OnInit {
   onClose(): void {
     this.close.emit();
   }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+
+      // Vérifier la taille du fichier (max 20 Mo)
+      if (file.size > 20 * 1024 * 1024) {
+        this.fileSizeError = true;
+        this.fileTypeError = false;
+        this.selectedFile = null;
+        return;
+      }
+
+      // Vérifier le type de fichier
+      const allowedExtensions = ['.xlsx', '.xls', '.csv', '.pdf', '.xlsm'];
+      const fileExt = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+      if (!allowedExtensions.includes(fileExt)) {
+        this.fileTypeError = true;
+        this.fileSizeError = false;
+        this.selectedFile = null;
+        return;
+      }
+
+      // Tout est OK, enregistrer le fichier
+      this.selectedFile = file;
+      this.fileSizeError = false;
+      this.fileTypeError = false;
+    }
+  }
+
+// Méthode pour extraire le nom du fichier de l'URL
+  getFileNameFromPath(path: string | undefined): string {
+    if (!path) return '';
+    const parts = path.split('/');
+    return parts[parts.length - 1];
+  }
+
 }

@@ -20,4 +20,6 @@ export interface TournamentModel {
   contactEmail: string;
   contactPhone: string;
   status: TournamentStatus;
+  resultsFile?: string; // URL du fichier de résultats
+  hasResults?: boolean;
 }
