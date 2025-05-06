@@ -9,7 +9,6 @@ import { NgLetDirective } from "../../../../shared/directives/ng-let.directive";
 import { take } from "rxjs/operators";
 import { TournamentFacade } from "../../facades/tournament.facade";
 import { catchError, finalize, tap, throwError } from "rxjs";
-import * as mime from 'mime-types';
 
 
 @Component({
@@ -191,8 +190,16 @@ export class TournamentDetailComponent implements OnChanges {
   }
 
   getSuggestedFileExtension(contentType: string): string {
-    const extension = mime.extension(contentType);
-    return extension ? `.${extension}` : '';
+    // Correspondances simplifiées pour les types courants
+    const extensionMap: Record<string, string> = {
+      'application/pdf': '.pdf',
+      'application/vnd.ms-excel': '.xls',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+      'application/vnd.ms-excel.sheet.macroEnabled.12': '.xlsm',
+      'text/csv': '.csv'
+    };
+
+    return extensionMap[contentType] || '';
   }
 
   protected readonly encodeURIComponent = encodeURIComponent;
