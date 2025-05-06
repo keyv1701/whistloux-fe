@@ -5,11 +5,12 @@ import { TimeFormatPipe } from "../../../../shared/pipes/time-format.pipe";
 import { TranslatePipe } from "@ngx-translate/core";
 import { TournamentRegistrationComponent } from "../tournament-registration/tournament-registration.component";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { NgLetDirective } from "../../../../shared/directives/ng-let.directive";
 
 @Component({
   selector: 'app-tournament-detail',
   standalone: true,
-  imports: [CommonModule, TimeFormatPipe, TranslatePipe, TournamentRegistrationComponent],
+  imports: [CommonModule, TimeFormatPipe, TranslatePipe, TournamentRegistrationComponent, NgLetDirective],
   templateUrl: './tournament-detail.component.html',
   styleUrls: ['./tournament-detail.component.css']
 })
@@ -99,6 +100,46 @@ export class TournamentDetailComponent implements OnChanges {
 
   onRegistrationSubmitted(formData: any): void {
     this.showRegistrationForm = false;
+  }
+
+  getPhoneNumbersAndInfo(phoneText: string): { phones: string[], additionalInfo: string } {
+    if (!phoneText) return {phones: [], additionalInfo: ''};
+
+    // Recherche des numéros de téléphone dans le texte (formats belges et internationaux)
+    const phoneRegex = /(\+?[0-9][0-9\-\/.() ]{7,}[0-9])/g;
+    const phones: string[] = [];
+    let remainingText = phoneText;
+    let lastIndex = 0;
+
+    // Extraire tous les numéros de téléphone
+    let match;
+    const matches = [...phoneText.matchAll(phoneRegex)];
+
+    if (matches.length > 0) {
+      for (match of matches) {
+        const phoneNumber = match[1].trim();
+        phones.push(phoneNumber);
+
+        // Remplacer le numéro par un marqueur
+        remainingText = remainingText.replace(phoneNumber, '###PHONE###');
+      }
+
+      // Nettoyer le texte restant
+      const additionalInfo = remainingText
+        .replace(/###PHONE###/g, '')  // Supprimer les marqueurs
+        .replace(/\(\s*\)/g, '')      // Supprimer les parenthèses vides
+        .replace(/^[\s,;:\-–—]+|[\s,;:\-–—]+$/g, '') // Supprimer les délimiteurs au début et à la fin
+        .replace(/\s+/g, ' ')         // Normaliser les espaces
+        .trim();
+
+      return {phones, additionalInfo};
+    }
+
+    return {phones: [], additionalInfo: phoneText};
+  }
+
+  cleanPhoneNumber(phone: string): string {
+    return phone.replace(/[^0-9+]/g, '');
   }
 
   protected readonly encodeURIComponent = encodeURIComponent;
