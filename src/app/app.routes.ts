@@ -23,6 +23,7 @@ import { RgpdComponent } from "./pages/rgpd/rgpd.component";
 import { RulesComponent } from "./pages/rules/rules.component";
 import { ChangePasswordComponent } from "./pages/change-password/pages/change-password.component";
 import { HomeComponent } from "./pages/home/home.component";
+import { GalleryComponent } from "./pages/gallery/pages/gallery.component";
 
 export const routes: Routes = [
   // {path: '', redirectTo: 'migration', pathMatch: 'full'},
@@ -36,6 +37,7 @@ export const routes: Routes = [
   {path: 'about', component: AboutComponent},
   {path: 'rgpd', component: RgpdComponent},
   {path: 'rules', component: RulesComponent},
+  {path: 'gallery', component: GalleryComponent},
   {path: 'change-password', component: ChangePasswordComponent},
   {
     path: 'tournaments', children: [

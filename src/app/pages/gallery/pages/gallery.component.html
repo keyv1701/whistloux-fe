@@ -1,0 +1,111 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="header">
+    <h1>{{ 'gallery.title' | translate }}</h1>
+  </div>
+
+  <!-- Chargement -->
+  @if (loading$ | async) {
+    <div class="flex justify-center py-8">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+  }
+
+  <!-- Message d'erreur -->
+  @if (error$ | async; as errorMessage) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+      <span class="block sm:inline">{{ errorMessage }}</span>
+    </div>
+  }
+
+  <!-- Grille de photos -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    @for (photo of getPhotos(); track photo.id) {
+      <div class="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105"
+           (click)="openModal(photo)">
+        <img
+          [src]="getPhotoUrl(photo)"
+          [alt]="photo.name"
+          class="w-full h-64 object-cover"
+          loading="lazy">
+        @if (photo.description) {
+          <div class="p-4">
+            <p class="text-gray-700">{{ photo.description }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Message si aucune photo -->
+  @if (getPhotos().length === 0 && !(loading$ | async)) {
+    <div class="text-center py-8 text-gray-500">
+      Aucune photo disponible
+    </div>
+  }
+
+  <!-- Modal pour afficher la photo agrandie -->
+  @if (showModal) {
+    <div class="fixed inset-0 bg-black bg-opacity-80 z-50 flex justify-center items-center p-4" (click)="closeModal()">
+      <div class="relative max-w-4xl max-h-[90vh] bg-white rounded-lg shadow-xl" (click)="$event.stopPropagation()">
+        <!-- Image agrandie -->
+        @if (selectedPhoto) {
+          <img
+            [src]="getPhotoUrl(selectedPhoto)"
+            [alt]="selectedPhoto.name"
+            class="max-h-[80vh] max-w-full object-contain rounded-t-lg">
+
+          @if (selectedPhoto.description) {
+            <div class="bg-white bg-opacity-70 px-4 py-2 absolute bottom-0 left-0 right-0 text-center">
+              {{ selectedPhoto.description }}
+            </div>
+          }
+        }
+
+        <!-- Boutons de navigation -->
+        @if (getPhotos().length > 1) {
+          <button
+            (click)="navigatePhotos(-1)"
+            class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 hover:bg-opacity-90 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+
+          <button
+            (click)="navigatePhotos(1)"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 hover:bg-opacity-90 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        }
+
+        <!-- Boutons en haut à droite -->
+        <div class="absolute top-2 right-2 flex space-x-2">
+          <!-- Bouton télécharger -->
+          <button
+            (click)="downloadPhoto()"
+            class="text-white bg-gray-800 rounded-full p-1 hover:bg-gray-700 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+          </button>
+
+          <!-- Bouton fermer -->
+          <button
+            (click)="closeModal()"
+            class="text-white bg-gray-800 rounded-full p-1 hover:bg-gray-700 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

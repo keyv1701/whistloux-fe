@@ -149,6 +149,7 @@
   "footer.quicklinks.home": "Accueil",
   "footer.quicklinks.players": "Joueurs",
   "footer.quicklinks.rgpd": "RGPD",
+  "footer.quicklinks.gallery": "Gallerie",
   "footer.quicklinks.title": "Liens rapides",
   "footer.quicklinks.tournaments": "Tournois",
   "footer.social.facebook.aria": "Rejoignez-nous sur Facebook",
@@ -597,5 +598,6 @@
   "tournament.detail.results": "Résultats du tournoi",
   "tournament.detail.downloadResults": "Télécharger les résultats",
   "tournament.detail.noTournament": "Le tournoi n'existe pas",
-  "tournament.detail.selectTournament": "Sélectionner un tournoi"
+  "tournament.detail.selectTournament": "Sélectionner un tournoi",
+  "gallery.title": "Galerie Photos"
 }

@@ -1,0 +1,68 @@
+.header {
+  @apply flex flex-wrap justify-between items-center mb-8;
+}
+
+.header h1 {
+  @apply text-2xl font-bold text-whist-primary relative pb-3 mb-4;
+}
+
+.header h1::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-16 h-1 bg-whist-primary rounded;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Animation de zoom au survol */
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+/* Animation du modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fixed {
+  animation: fadeIn 0.3s ease;
+}
+
+.fixed > div {
+  animation: slideIn 0.3s ease;
+}
+
+/* Pour les boutons de navigation */
+button:focus {
+  outline: none;
+}
+
+.focus\:outline-none:focus {
+  outline: none;
+}
+
+/* Animation pour les boutons lors du survol */
+button.bg-white.bg-opacity-70:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: background-color 0.2s ease;
+}
+
+/* Correction pour Angular 18 (remplacer *ngIf par @if) */
