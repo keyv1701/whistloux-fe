@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject, catchError, combineLatest, EMPTY, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, EMPTY, finalize, Observable, of, tap } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { PlayerWeekScore } from "../../../../models/championship/player-week-score.model";
 import { ChampionshipFacade } from "../../facades/championship.facade";
@@ -32,6 +32,9 @@ type SortDirection = 'asc' | 'desc';
   styleUrls: ['./championship-week-detail-page.component.css']
 })
 export class ChampionshipWeekDetailPageComponent implements OnInit {
+
+  @ViewChild(PlayerScoreRoundCreateComponent) scoreRoundCreateComponent!: PlayerScoreRoundCreateComponent;
+
   selectedWeek$: Observable<ChampionshipWeek | null>;
   loading$: Observable<boolean>;
 
@@ -44,7 +47,9 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   playerScores$: Observable<PlayerWeekScore[]>;
 
   showConfirmation = false;
+  showWarningOnRoundCreation: boolean = false;
   scoreToDelete: any = null;
+  roundToCreate: any = null;
 
   showScoreEditForm = false;
   scoreToEdit: any = null;
@@ -270,7 +275,23 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   }
 
   onScoreRoundCreated(createdScoreRound: any): void {
-    this.createPlayerScoreRound(createdScoreRound);
+    this.championshipFacade.checkNoExistingScoreForCurrentRound(this.weekUuid, createdScoreRound)
+      .pipe(
+        tap(noExistingScore => {
+          if (noExistingScore) {
+            // Aucun score existant, procéder à la création
+            this.createPlayerScoreRound(createdScoreRound);
+          } else {
+            // Des scores existent déjà pour cette ronde, demander confirmation
+            this.showWarningOnRoundCreation = true;
+            this.roundToCreate = createdScoreRound;
+          }
+        })
+      ).subscribe();
+  }
+
+  public confirmRoundCreation(): void {
+    this.createPlayerScoreRound(this.roundToCreate);
   }
 
   private createPlayerScore(createdScore: any) {
@@ -306,9 +327,12 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
             this.toastService.error(this.translateService.instant('error.score.round.create', {error: 'Erreur inconnue'}));
           }
           return of(null);
-        })
-      )
-      .subscribe();
+        }),
+        finalize(() => {
+            this.closeWarningOnRoundCreationConfirmation();
+          }
+        )
+      ).subscribe();
   }
 
   onDeleteClick(score: any): void {
@@ -340,5 +364,13 @@ export class ChampionshipWeekDetailPageComponent implements OnInit {
   closeConfirmation(): void {
     this.showConfirmation = false;
     this.scoreToDelete = null;
+  }
+
+  closeWarningOnRoundCreationConfirmation(): void {
+    this.showWarningOnRoundCreation = false;
+    this.roundToCreate = null;
+    if (this.scoreRoundCreateComponent) {
+      this.scoreRoundCreateComponent.resetFormLoadingState();
+    }
   }
 }

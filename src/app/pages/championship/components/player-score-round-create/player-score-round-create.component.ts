@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { PlayerScoreFormComponent } from "../player-score-form/player-score-form.component";
 import { Observable } from "rxjs";
 import { PlayerLight } from "../../../../models/players/player-light.interface";
@@ -23,6 +23,8 @@ import { RoundPlayersScoreFormComponent } from "../player-score-round-form/playe
 export class PlayerScoreRoundCreateComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<void>();
   @Output() created = new EventEmitter<any>();
+
+  @ViewChild(RoundPlayersScoreFormComponent) formComponent!: RoundPlayersScoreFormComponent;
 
   public pseudos$: Observable<PlayerLight[]>;
 
@@ -50,5 +52,11 @@ export class PlayerScoreRoundCreateComponent implements OnInit, OnDestroy {
 
   onFormSubmit(formData: any): void {
     this.created.emit(formData);
+  }
+
+  resetFormLoadingState(): void {
+    if (this.formComponent) {
+      this.formComponent.resetLoadingState();
+    }
   }
 }

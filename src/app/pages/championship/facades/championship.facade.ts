@@ -311,4 +311,13 @@ export class ChampionshipFacade {
     );
   }
 
+  checkNoExistingScoreForCurrentRound(weekUuid: string, roundDto: PlayerWeekScoreRound): Observable<boolean> {
+    return this.championshipService.hasNoExistingScoreForCurrentRound(weekUuid, roundDto).pipe(
+      catchError(error => {
+        this.toastService.error(this.translateService.instant('error.score.round.check'));
+        return of(false);
+      })
+    );
+  }
+
 }

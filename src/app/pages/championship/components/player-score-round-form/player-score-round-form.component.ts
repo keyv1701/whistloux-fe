@@ -204,4 +204,8 @@ export class RoundPlayersScoreFormComponent implements OnInit, OnDestroy {
   getFormControl(control: AbstractControl, name: string): FormControl {
     return control.get(name) as FormControl;
   }
+
+  resetLoadingState(): void {
+    this.loading = false;
+  }
 }

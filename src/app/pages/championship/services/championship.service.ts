@@ -68,6 +68,10 @@ export class ChampionshipService {
     return this.http.post<PlayerWeekScoreRound>(`${this.apiUrl}/weeks/${weekUuid}/scores/round`, playerWeekScoreRound);
   }
 
+  hasNoExistingScoreForCurrentRound(weekUuid: string, roundDto: PlayerWeekScoreRound): Observable<boolean> {
+    return this.http.post<boolean>(`${this.apiUrl}/weeks/${weekUuid}/scores/round/exist`, roundDto);
+  }
+
   // Récupérer toutes les semaines avec filtre de saison optionnel
   getAllWeeksBySeason(season?: string): Observable<ChampionshipWeek[]> {
     let url = `${this.apiUrl}/weeks`;

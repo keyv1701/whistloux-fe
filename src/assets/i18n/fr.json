@@ -602,5 +602,9 @@
   "gallery.title": "Galerie Photos",
   "home.gallery.title": "Notre galerie photo",
   "home.gallery.noPhotos": "Aucune photo disponible",
-  "home.gallery.viewMore": "Voir toutes les photos"
+  "home.gallery.viewMore": "Voir toutes les photos",
+  "error.score.round.check": "Erreur lors de la vérification du score pour ce tour",
+  "confirmation.already.existing.playerScore.title": "Scores existants",
+  "confirmation.already.existing.playerScore.message": "Au moins un joueur possède déjà des points pour le tour sélectionné. Souhaitez-vous écraser ces valeurs ? Cette action est irréversible.",
+  "confirmation.already.existing.playerScore.confirm": "Écraser les scores"
 }

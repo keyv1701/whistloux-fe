@@ -600,5 +600,9 @@
   "tournament.detail.selectTournament": "Selecteer een toernooi",
   "home.gallery.title": "Onze fotogalerij",
   "home.gallery.noPhotos": "Geen foto's beschikbaar",
-  "home.gallery.viewMore": "Bekijk alle foto's"
+  "home.gallery.viewMore": "Bekijk alle foto's",
+  "error.score.round.check": "Fout bij het controleren van de score voor deze ronde",
+  "confirmation.already.existing.playerScore.title": "Bestaande scores",
+  "confirmation.already.existing.playerScore.message": "Minstens één speler heeft al punten voor de geselecteerde ronde. Wilt u deze waarden overschrijven? Deze actie is onomkeerbaar.",
+  "confirmation.already.existing.playerScore.confirm": "Scores overschrijven"
 }

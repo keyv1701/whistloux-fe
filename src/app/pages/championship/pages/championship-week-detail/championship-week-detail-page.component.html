@@ -213,6 +213,16 @@
   (cancel)="closeConfirmation()">
 </app-confirmation>
 
+<app-confirmation
+  *ngIf="showWarningOnRoundCreation"
+  [title]="'confirmation.already.existing.playerScore.title' | translate"
+  [message]="'confirmation.already.existing.playerScore.message' | translate"
+  [confirmButtonText]="'confirmation.already.existing.playerScore.confirm' | translate"
+  confirmButtonColor="warning"
+  (confirm)="confirmRoundCreation()"
+  (cancel)="closeWarningOnRoundCreationConfirmation()">
+</app-confirmation>
+
 <app-player-score-edit
   *ngIf="showScoreEditForm"
   [playerScore]="scoreToEdit"
