@@ -4,6 +4,7 @@
     type="text"
     [formControl]="inputControl"
     [placeholder]="placeholder"
+    [class.border-red-500]="inputInvalid"
     (input)="onInput($event)"
     (focus)="onFocus()"
     (blur)="onBlur()"

@@ -28,6 +28,9 @@ export class AutocompleteComponent<T> implements OnInit, OnDestroy {
   showDropdown = false;
   filteredItems: T[] = [];
   loading = false;
+  inputInvalid = false;
+
+  private lastSearchTerm: string = '';
 
   private readonly searchTerms = new Subject<string>();
   private readonly destroy$ = new Subject<void>();
@@ -52,7 +55,8 @@ export class AutocompleteComponent<T> implements OnInit, OnDestroy {
 
   onInput(event: Event): void {
     if (this.disabled) return;
-    const value = (event.target as HTMLInputElement).value;
+    const value = (event.target as HTMLInputElement).value.trim();
+    this.lastSearchTerm = value;
     this.searchTerms.next(value);
     this.showDropdown = value.length >= this.minChars;
   }
@@ -67,7 +71,36 @@ export class AutocompleteComponent<T> implements OnInit, OnDestroy {
   }
 
   onBlur(): void {
-    setTimeout(() => this.showDropdown = false, 200);
+    setTimeout(() => {
+      this.validateInputOnBlur();
+      this.showDropdown = false;
+    }, 200);
+  }
+
+  private validateInputOnBlur(): void {
+    const inputValue = (this.inputControl.value || '').trim().toLowerCase();
+
+    if (!inputValue || !this.filteredItems.length) {
+      this.clearInput(true);
+      return;
+    }
+
+    const matchedItem = this.filteredItems.find(item =>
+      this.displayFn(item).trim().toLowerCase() === inputValue
+    );
+
+    if (matchedItem) {
+      this.selectItem(matchedItem);
+      this.inputInvalid = false;
+    } else {
+      this.clearInput(true);
+    }
+  }
+
+  private clearInput(setInvalid: boolean = false): void {
+    this.inputControl.setValue('');
+    this.itemSelected.emit(null as any);
+    this.inputInvalid = setInvalid;
   }
 
   selectItem(item: T): void {
