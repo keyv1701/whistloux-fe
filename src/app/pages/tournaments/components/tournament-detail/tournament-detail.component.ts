@@ -9,6 +9,7 @@ import { NgLetDirective } from "../../../../shared/directives/ng-let.directive";
 import { take } from "rxjs/operators";
 import { TournamentFacade } from "../../facades/tournament.facade";
 import { catchError, finalize, tap, throwError } from "rxjs";
+import { TournamentStatus } from "../../../../models/enums/tournament-status.enum";
 
 
 @Component({
@@ -72,7 +73,7 @@ export class TournamentDetailComponent implements OnChanges {
   }
 
   isRegistrationAvailable(): boolean {
-    if (!this.tournament) return false;
+    if (!this.tournament || !this.tournament.registrationOpen || this.isFinishedOrCancelled()) return false;
 
     // Vérifier si les inscriptions sont ouvertes
     const today = new Date();
@@ -86,6 +87,10 @@ export class TournamentDetailComponent implements OnChanges {
 
     // Les inscriptions sont possibles si la deadline est valide ET qu'il reste des places
     return isDeadlineValid && hasAvailableSpots;
+  }
+
+  private isFinishedOrCancelled() {
+    return this.tournament!.status === TournamentStatus.CANCELLED || this.tournament!.status === TournamentStatus.COMPLETED;
   }
 
   getAvailableSpotsText(): string {
