@@ -162,26 +162,17 @@ export class TournamentDetailComponent implements OnChanges {
     this.tournamentFacade.downloadTournamentResults(this.tournament.uuid)
       .pipe(
         tap((blob: Blob) => {
-          // Créer un URL temporaire pour le blob
           const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
 
-          // Essayer d'extraire le nom du fichier depuis les en-têtes HTTP
-          let fileName = `resultats-tournoi-${this.tournament?.name || 'inconnu'}.xlsx`;
-
-          if (blob.type) {
-            const extension = this.getSuggestedFileExtension(blob.type);
-            fileName = fileName.replace(/\.xlsx$/, extension);
+          if (blob.type === 'application/pdf') {
+            // Ouvrir le PDF dans un nouvel onglet
+            window.open(url, '_blank');
+          } else {
+            this.downloadFile(url, blob);
           }
 
-          a.download = fileName;
-          document.body.appendChild(a);
-          a.click();
-
-          // Nettoyer
+          // Révoquer l'URL temporaire
           window.URL.revokeObjectURL(url);
-          document.body.removeChild(a);
         }),
         catchError((error) => {
           return throwError(() => error);
@@ -192,6 +183,26 @@ export class TournamentDetailComponent implements OnChanges {
         take(1)
       )
       .subscribe();
+  }
+
+  private downloadFile(url: string, blob: Blob) {
+    // Télécharger le fichier
+    const a = document.createElement('a');
+    a.href = url;
+
+    let fileName = `resultats-tournoi-${this.tournament?.name || 'inconnu'}.xlsx`;
+
+    if (blob.type) {
+      const extension = this.getSuggestedFileExtension(blob.type);
+      fileName = fileName.replace(/\.xlsx$/, extension);
+    }
+
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+
+    // Nettoyer
+    document.body.removeChild(a);
   }
 
   getSuggestedFileExtension(contentType: string): string {
